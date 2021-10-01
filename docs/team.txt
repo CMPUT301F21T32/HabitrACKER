@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-hvanderl HunterVanderLinden
-=======
 crsteven colerjs
 jazarcon jacquelinedenise
 anahita3 anahita-gupta
 joshua7 josh7UofA
 mamillap DeepakR-Sastry
->>>>>>> 3a946df31878e490b97d356a291f69bc361915cf
 hvanderl HunterVanderLinden
