@@ -1,5 +1,6 @@
 package com.example.ht;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -88,7 +89,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                 if (document.exists()) {
                                     Log.d(TAG, "Document exists!");
                                     usernameError.setVisibility(View.VISIBLE);
-                                    usernameError.setText("Username is already take");
+                                    usernameError.setText("Username is already taken");
                                     valid[0] = false;
                                 } else if(valid[0]) {
                                     HashMap<String, String> user = new HashMap<>();
@@ -116,6 +117,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                 }
                                             });
                                     //MOVE TO NEXT ACTIVITY
+                                    goToAccount();
                                 }
                             } else {
                                 Log.d(TAG, "Failed with: ", task.getException());
@@ -129,8 +131,15 @@ public class CreateAccountActivity extends AppCompatActivity {
                     usernameError.setText("Username cannot be empty");
                     usernameError.setVisibility(View.VISIBLE);
                 }
-                
+
             }
         });
+    }
+
+    //starts the next activity
+    // currently set to return to start, will be changed when activity is added
+    private void goToAccount(){
+        Intent intent = new Intent(this, StartActivity.class);
+        startActivity(intent);
     }
 }
