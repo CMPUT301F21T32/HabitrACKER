@@ -48,7 +48,7 @@ public class Profile {
     /**
      * Checks a string, p, to see if it equals the password stored in this profile
      *
-     * @param p a string that will be check against the profiles password
+     * @param p a string that will be checked against the profiles password
      * @return true if the profiles password equals p, otherwise it returns false
      */
     public boolean checkPassword(String p){
