@@ -27,13 +27,25 @@
                 android:value=".StartActivity" />
         </activity>
         <activity
-            android:name=".StartActivity"
+            android:name=".AddActivity"
+            android:exported="true"
+            android:parentActivityName=".ViewOwnProfilePlaceholder" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ViewOwnProfilePlaceholder" />
+        </activity>
+        <activity
+            android:name=".ViewOwnProfilePlaceholder"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".StartActivity"
+            android:exported="true" >
         </activity>
     </application>
 
