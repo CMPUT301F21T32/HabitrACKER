@@ -43,7 +43,7 @@ public class ViewOwnProfilePlaceholder extends AppCompatActivity {
             }
         });
 
-        // Create arraylist of users habits
+        // Create arraylist of all habits
         ArrayList<Habit> habits = new ArrayList<Habit>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Habits")
@@ -52,19 +52,19 @@ public class ViewOwnProfilePlaceholder extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
-                        // get day of the week
-                        int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
                         for (QueryDocumentSnapshot doc : task.getResult()) {
                             Log.d(TAG, doc.getId() + " => " + doc.getData());
                             String name = (String) doc.get("name");
                             String desc = (String) doc.get("description");
-                            String date = (String) doc.getData().get("date");
-                            String minute = (String) doc.getData().get("minute");
-                            String hour = (String) doc.getData().get("hour");
-                            String selectedDays = (String) doc.getData().get("selectedDays");
-                            String username = (String) doc.getData().get("username");
+                            String date = (String) doc.get("date");
+                            String minute = (String) doc.get("minute");
+                            String hour = (String) doc.get("hour");
+                            String selectedDays = (String) doc.get("selectedDays");
+                            String username = (String) doc.get("username");
                             Habit habit = new Habit(name, desc, selectedDays, hour, minute, date, username);
                             habits.add(habit);
+                            System.out.println(habit.getName());
+                            System.out.println(habit.getDate());
                         }
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
