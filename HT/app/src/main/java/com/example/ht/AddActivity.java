@@ -13,13 +13,19 @@ import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -91,7 +97,7 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         habitDesc.getText().clear();
         int hour = time.getCurrentHour();
         int minute = time.getCurrentMinute();
-        Habit habit = new Habit(name, desc, selectedDays, hour, minute, date);
+        Habit habit = new Habit(name, desc, selectedDays, hour, minute, date, "Hunter");
         HashMap<String, Habit> data = new HashMap<>();
         data.put("Habit", habit);
 
