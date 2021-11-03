@@ -13,20 +13,23 @@ public class Habit {
     private int hour;
     private int minute;
     private String date;
+    private String username;
 
-    public Habit(String name, String description, List<Boolean> selectedDays, int hour, int minute, String date) {
+    public Habit(String name, String description, List<Boolean> selectedDays, int hour, int minute, String date, String username) {
         this.name = name;
         this.description = description;
         this.selectedDays = selectedDays;
         this.hour = hour;
         this.minute = minute;
         this.date = date;
+        this.username = username;
     }
 
-    public Habit(String name, String description, String selectedDays, String hour, String minute, String date) {
+    public Habit(String name, String description, String selectedDays, String hour, String minute, String date, String username) {
         this.name = name;
         this.description = description;
         this.date = date;
+        this.username = username;
         this.hour = Integer.parseInt(hour);
         this.minute = Integer.parseInt((minute));
         selectedDays = selectedDays.substring(1, selectedDays.length()-1);
@@ -55,6 +58,8 @@ public class Habit {
 
     public String getDate() { return date;}
 
+    public String getUsername() { return username; }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -72,5 +77,7 @@ public class Habit {
     public void setMinute(int minute) { this.minute = minute; }
 
     public void setDate(String date) { this.date = date; }
+
+    public void setUsername(String username) { this.username = username; }
 
 }

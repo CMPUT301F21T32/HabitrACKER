@@ -28,7 +28,7 @@ import java.util.List;
 
 public class ViewOwnProfilePlaceholder extends AppCompatActivity {
 
-    private static final String TAG = "Read a users habits";
+    private static final String TAG = "Read a habit";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +43,10 @@ public class ViewOwnProfilePlaceholder extends AppCompatActivity {
             }
         });
 
+        // Create arraylist of users habits
         ArrayList<Habit> habits = new ArrayList<Habit>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users").document("Hunter2").collection("Habits")
+        db.collection("Habits")
             .get()
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -61,7 +62,8 @@ public class ViewOwnProfilePlaceholder extends AppCompatActivity {
                             String minute = (String) doc.getData().get("minute");
                             String hour = (String) doc.getData().get("hour");
                             String selectedDays = (String) doc.getData().get("selectedDays");
-                            Habit habit = new Habit(name, desc, selectedDays, hour, minute, date);
+                            String username = (String) doc.getData().get("username");
+                            Habit habit = new Habit(name, desc, selectedDays, hour, minute, date, username);
                             habits.add(habit);
                         }
                     } else {

@@ -38,7 +38,7 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
     // List of 7 booleans, storing whether a habit occurs on that day
     List<Boolean> selectedDays = new ArrayList<>(Collections.nCopies(7, false));
     TimePicker time;
-    String date;
+    String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,13 +100,11 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         data.put("minute", minute);
         data.put("date", date);
         data.put("selectedDays", selectedDays.toString());
+        data.put("username", "Hunter3");
 
         // Put the data into the database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
-                // "Hunter" is a hardcoded username. Will change in the future
-                .document("Hunter2")
-                .collection("Habits")
+        db.collection("Habits")
                 .document(name)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
