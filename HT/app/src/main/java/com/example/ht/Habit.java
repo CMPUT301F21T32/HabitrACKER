@@ -1,7 +1,12 @@
 package com.example.ht;
 
+import android.annotation.SuppressLint;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -12,10 +17,10 @@ public class Habit {
     private List<Boolean> selectedDays;
     private int hour;
     private int minute;
-    private String date;
+    private Date date;
     private String username;
 
-    public Habit(String name, String description, List<Boolean> selectedDays, int hour, int minute, String date, String username) {
+    public Habit(String name, String description, List<Boolean> selectedDays, int hour, int minute, Date date, String username) {
         this.name = name;
         this.description = description;
         this.selectedDays = selectedDays;
@@ -25,13 +30,18 @@ public class Habit {
         this.username = username;
     }
 
+    @SuppressLint("SimpleDateFormat")
     public Habit(String name, String description, String selectedDays, String hour, String minute, String date, String username) {
         this.name = name;
         this.description = description;
-        this.date = date;
         this.username = username;
         this.hour = Integer.parseInt(hour);
         this.minute = Integer.parseInt((minute));
+        try {
+            this.date = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         selectedDays = selectedDays.substring(1, selectedDays.length()-1);
         List<String> daysString = new ArrayList<String>(Arrays.asList(selectedDays.split(",")));
         this.selectedDays = new ArrayList<Boolean>();
@@ -56,7 +66,7 @@ public class Habit {
 
     public int getMinute() { return minute; }
 
-    public String getDate() { return date;}
+    public Date getDate() { return date;}
 
     public String getUsername() { return username; }
 
@@ -76,8 +86,14 @@ public class Habit {
 
     public void setMinute(int minute) { this.minute = minute; }
 
-    public void setDate(String date) { this.date = date; }
+    public void setDate(Date date) { this.date = date; }
 
     public void setUsername(String username) { this.username = username; }
+
+    public boolean isToday() {
+        Date today = new Date();
+        int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        return (this.date.after(today) && this.selectedDays.get(dayOfWeek));
+    }
 
 }
