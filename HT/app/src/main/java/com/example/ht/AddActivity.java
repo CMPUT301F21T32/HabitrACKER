@@ -13,19 +13,14 @@ import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,14 +31,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class AddActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class AddActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     EditText habitName;
     EditText habitDesc;
     // List of 7 booleans, storing whether a habit occurs on that day
     List<Boolean> selectedDays = new ArrayList<>(Collections.nCopies(7, false));
     TimePicker time;
-    String date; // Doesnt work
+    String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +52,7 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
 
         // Ids for the 7 toggle buttons for each day
         int[] dayButtonIds = {R.id.toggleSun, R.id.toggleMon, R.id.toggleTue, R.id.toggleWed,
-                              R.id.toggleThu, R.id.toggleFri, R.id.toggleSat};
+                R.id.toggleThu, R.id.toggleFri, R.id.toggleSat};
         for (int i = 0; i < 7; i++) {
             ToggleButton toggle = (ToggleButton) findViewById(dayButtonIds[i]);
             int finalI = i;
@@ -85,28 +80,33 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) { // what should be done when a date is selected
-        date = year + "/" + monthOfYear + "/" + dayOfMonth;
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        //do some stuff for example write on log and update TextField on activity
+        date = year + "/" + month + "/" + day;
     }
 
     public void finishAddActivity() {
         // Create a habit with the data collected
         String name = habitName.getText().toString();
         String desc = habitDesc.getText().toString();
+        if (name.length() > 20) return;
+        if (desc.length() > 30) return;
         habitName.getText().clear();
         habitDesc.getText().clear();
-        int hour = time.getCurrentHour();
-        int minute = time.getCurrentMinute();
-        Habit habit = new Habit(name, desc, selectedDays, hour, minute, date, "Hunter");
-        HashMap<String, Habit> data = new HashMap<>();
-        data.put("Habit", habit);
+        String hour = Integer.toString(time.getCurrentHour());
+        String minute = Integer.toString(time.getCurrentMinute());
+        HashMap<String, String> data = new HashMap<>();
+        data.put("name", name);
+        data.put("description", desc);
+        data.put("hour", hour);
+        data.put("minute", minute);
+        data.put("date", date);
+        data.put("selectedDays", selectedDays.toString());
+        data.put("username", "Hunter3");
 
         // Put the data into the database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
-                // "Hunter" is a hardcoded username. Will change in the future
-                .document("Hunter")
-                .collection("Habits")
+        db.collection("Habits")
                 .document(name)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

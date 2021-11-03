@@ -32,6 +32,15 @@ public class SelfProfile extends AppCompatActivity {
         populateList();
     }
 
+    public void addHabit(Habit habit) {
+        habitList.add(habit);
+        Log.d("LIST CHECK", habitList.get(0).getName());
+        mainList = findViewById(R.id.habit_list);
+        habitAdapter = new CustomList(this, habitList);
+        mainList.setAdapter(habitAdapter);
+        habitAdapter.notifyDataSetChanged();
+    }
+
     public void populateList() {
         final String TAG = "\nADDED:";
 
@@ -43,6 +52,7 @@ public class SelfProfile extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             Log.d("HERE", "TESSTTTTT");
+                            habitList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String title = document.getData().get("name").toString();
                                 String description = document.getData().get("description").toString();
@@ -54,18 +64,12 @@ public class SelfProfile extends AppCompatActivity {
 
                                 Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username);
                                 addHabit(newHabit);
-                                Log.d("ADDED TITLE", title);
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
-        //Log.d("LIST:", habitList.get(0).getName());
-        mainList = findViewById(R.id.habit_list);
-        habitAdapter = new CustomList(this, habitList);
-        mainList.setAdapter(habitAdapter);
-        habitAdapter.notifyDataSetChanged();
     }
 
     public void addHabit(View view) {
@@ -84,6 +88,7 @@ public class SelfProfile extends AppCompatActivity {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        habitList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String title = document.getData().get("name").toString();
                             String description = document.getData().get("description").toString();
@@ -94,19 +99,11 @@ public class SelfProfile extends AppCompatActivity {
                             String username = document.getData().get("username").toString();
 
                             Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username);
-                            habitList.add(newHabit);
-                            //Log.d(TAG, newHabit.getName());
-                            Log.d(TAG, title);
+                            addHabit(newHabit);
                         }
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 });
-        Log.d("\nLIST:", habitList.get(0).getName());
-        habitAdapter.notifyDataSetChanged();
-    }
-
-    public void addHabit(Habit habit) {
-        habitList.add(habit);
     }
 }
