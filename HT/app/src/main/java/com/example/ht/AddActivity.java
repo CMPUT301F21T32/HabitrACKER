@@ -89,6 +89,8 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         // Create a habit with the data collected
         String name = habitName.getText().toString();
         String desc = habitDesc.getText().toString();
+        if (name.length() > 20) return;
+        if (desc.length() > 30) return;
         habitName.getText().clear();
         habitDesc.getText().clear();
         String hour = Integer.toString(time.getCurrentHour());
