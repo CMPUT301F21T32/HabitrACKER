@@ -59,14 +59,33 @@ public class Profile {
         }
     }
 
+
+    /**
+     * sets the user name of the profile to be equal to the
+     * string stored in username.
+     *
+     * @param username the string which the the profiles username will be set to
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * sets the password of the profile to be equal to the
+     * string stored in password
+     *
+     * @param password the string which the the profiles password will be set to
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * sets the name of the profile to be equal to the
+     * string stored in name.
+     *
+     * @param name the string which the the profiles name will be set to
+     */
     public void setName(String name) {
         this.name = name;
     }
