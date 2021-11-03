@@ -63,8 +63,6 @@ public class ViewOwnProfilePlaceholder extends AppCompatActivity {
                             String username = (String) doc.get("username");
                             Habit habit = new Habit(name, desc, selectedDays, hour, minute, date, username);
                             habits.add(habit);
-                            System.out.println(habit.getName());
-                            System.out.println(habit.getDate());
                         }
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());

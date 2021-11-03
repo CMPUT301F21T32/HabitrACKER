@@ -38,12 +38,12 @@ public class Habit {
         this.hour = Integer.parseInt(hour);
         this.minute = Integer.parseInt((minute));
         try {
-            this.date = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+            this.date = new SimpleDateFormat("yyyy/MM/dd").parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         selectedDays = selectedDays.substring(1, selectedDays.length()-1);
-        List<String> daysString = new ArrayList<String>(Arrays.asList(selectedDays.split(",")));
+        List<String> daysString = new ArrayList<String>(Arrays.asList(selectedDays.split(", ")));
         this.selectedDays = new ArrayList<Boolean>();
         for (String s : daysString) {
             this.selectedDays.add(Boolean.parseBoolean(s));
@@ -93,7 +93,7 @@ public class Habit {
     public boolean isToday() {
         Date today = new Date();
         int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-        return (this.date.after(today) && this.selectedDays.get(dayOfWeek));
+        dayOfWeek = (dayOfWeek-1)%7; // Set it so sunday is 0
+        return (this.date.before(today) && this.selectedDays.get(dayOfWeek));
     }
-
 }
