@@ -1,3 +1,12 @@
+/**
+ * LOG IN ACTIVITY
+ * @author cole
+ *
+ * This is a control class which creates a screen from
+ * which users can log in to their account.
+ *
+ */
+
 package com.example.ht;
 
 import androidx.annotation.NonNull;
