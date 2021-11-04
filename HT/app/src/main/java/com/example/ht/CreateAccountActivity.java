@@ -138,7 +138,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                 }
                                             });
                                     //MOVE TO NEXT ACTIVITY
-                                    goToAccount();
+                                    goToAccount(usernameText);
                                 }
                             } else {
                                 Log.d(TAG, "Failed with: ", task.getException());
@@ -159,8 +159,11 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     //starts the next activity
     // currently set to return to start, will be changed when activity is added
-    private void goToAccount(){
+
+    private void goToAccount(String un){
         Intent intent = new Intent(this, FeedActivity.class);
+        intent.putExtra("USERNAME", un);
+
         startActivity(intent);
     }
 }
