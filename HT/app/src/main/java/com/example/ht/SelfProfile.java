@@ -34,6 +34,7 @@ public class SelfProfile extends AppCompatActivity {
     Button deleteHabitButton;
     FirebaseFirestore db;
     final String TAG = "Sample";
+    Button editHabitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,22 +45,33 @@ public class SelfProfile extends AppCompatActivity {
         v_habitList = findViewById(R.id.habit_list);
         deleteHabitButton=findViewById(R.id.deleteHabitButton);
         db = FirebaseFirestore.getInstance();
+        editHabitButton=findViewById(R.id.edit_btn);
+
+
 
 
 
         v_habitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
+
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d(TAG,"onclicklistener1");
                 position = i;
+
+                Log.d(TAG, "position" + position);
 
 
             }
         });
 
+
+
+        //keeps deleting first item ......worked on with ta to try to fix
         deleteHabitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+               // System.out.print("position"+position);
+                Log.d(TAG, "position on click delete" + position);
                 String v_deletehabit = habitList.get(position).getName();
 
                 //db.collection("Cities").document()
@@ -71,7 +83,7 @@ public class SelfProfile extends AppCompatActivity {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "DocumentSnapshot successfully deleted!" + v_deletehabit);
+                                Log.d(TAG, "DocumentSnapshot successfully deleted!" + v_deletehabit + position);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -80,7 +92,9 @@ public class SelfProfile extends AppCompatActivity {
                                 Log.w(TAG, "Error deleting document", e);
                             }
                         });
-populateList();
+//populateList();
+habitList.remove(position);
+                habitAdapter.notifyDataSetChanged();
             }
         });
     } //moved it to here
@@ -126,6 +140,10 @@ populateList();
                 });
     }
 
+    public void editHabit(View view){
+        Intent intent = new Intent(this, EditActivity.class);
+        startActivity(intent);
+    }
     public void addHabit(View view) {
         Intent intent = new Intent(this, AddActivity.class);
         startActivity(intent);

@@ -74,23 +74,31 @@
 
             <Button
                 android:id="@+id/followers_button"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3870FF"
-                android:layout_weight="1"
-                android:text="Followers"
                 android:layout_marginRight="10dp"
-                app:cornerRadius="10dp"/>
+                android:layout_weight="1"
+                android:backgroundTint="#3870FF"
+                android:text="Followers"
+                app:cornerRadius="10dp" />
 
             <Button
                 android:id="@+id/following_button"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3870FF"
-                android:layout_weight="1"
-                android:text="Following"
                 android:layout_marginLeft="10dp"
-                app:cornerRadius="10dp"/>
+                android:layout_weight="1"
+                android:backgroundTint="#3870FF"
+                android:text="Following"
+                app:cornerRadius="10dp" />
+
+            <Button
+                android:id="@+id/edit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="editHabit"
+                android:text="Edit Button" />
         </LinearLayout>
 
         <LinearLayout
@@ -135,7 +143,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/cell_content"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            android:clickable="true"/>
 
     </LinearLayout>
 
