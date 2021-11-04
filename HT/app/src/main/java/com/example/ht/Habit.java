@@ -87,4 +87,5 @@ public class Habit implements Serializable {
     public void setDate(String date) { this.date = date; }
 
     public void setUsername(String username) { this.username = username; }
+
 }

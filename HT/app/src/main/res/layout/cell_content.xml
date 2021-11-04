@@ -4,32 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="135dp"
+
     android:orientation="horizontal"
     android:descendantFocusability = "blocksDescendants">
 
+
     <LinearLayout
-        android:paddingLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_weight="1">
+        android:paddingLeft="10dp">
 
         <TextView
             android:id="@+id/habit_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Habit Title"
             android:fontFamily="sans-serif-black"
-            android:textStyle="bold"
+            android:text="Habit Title"
             android:textColor="@color/black"
-            android:textSize="14pt"/>
+            android:textSize="14pt"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/habit_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Habit Description"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <LinearLayout
 
@@ -46,9 +48,9 @@
 
             <TextView
                 android:id="@+id/username"
-                android:paddingTop="40px"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="40px"
                 android:text="Username" />
 
         </LinearLayout>
@@ -60,11 +62,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:layout_marginRight="10dp"
         android:backgroundTint="#00FFFFFF"
         android:rotation="180"
         android:src="@drawable/abc_vector_test"
         android:text="Button"
-        android:tint="#000000"
-        android:layout_marginRight="10dp"/>
+        android:tint="#000000" />
 
 </LinearLayout>
