@@ -1,3 +1,12 @@
+/**
+ * CREATE ACCOUNT ACTIVITY
+ * @AUTHOR Cole
+ *
+ * this is a controller class that creates a screen
+ * where users can create a new account from
+ */
+
+
 package com.example.ht;
 
 import android.content.Intent;
@@ -38,6 +47,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         TextView usernameError;
         EditText password;
         TextView passwordError;
+        EditText confirmPassword;
+        TextView confirmPasswordError;
 
 
         name = findViewById(R.id.name_editText);
@@ -46,6 +57,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         usernameError = findViewById(R.id.username_error);
         password = findViewById(R.id.password_editText);
         passwordError = findViewById(R.id.password_error);
+        confirmPassword = findViewById(R.id.confirmPassword_editText);
+        confirmPasswordError = findViewById(R.id.confirmPassword_error);
 
 
 
@@ -56,6 +69,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 String nameText = name.getText().toString();
                 String usernameText = username.getText().toString();
                 String passwordText = password.getText().toString();
+                String confirmPassText = confirmPassword.getText().toString();
 
 
                 // turns off errors
@@ -63,6 +77,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 nameError.setVisibility(View.INVISIBLE);
                 usernameError.setText("");
                 passwordError.setVisibility(View.INVISIBLE);
+                confirmPasswordError.setVisibility(View.INVISIBLE);
 
                 //check if name has non zero length
                 if(nameText.length() == 0){
@@ -74,6 +89,12 @@ public class CreateAccountActivity extends AppCompatActivity {
                 if(passwordText.length() < 8 || passwordText.length() >21){
                     valid[0] = false;
                     passwordError.setVisibility(View.VISIBLE);
+                }
+
+                //check if password match confirm password
+                if(!passwordText.equals(confirmPassText)){
+                    confirmPasswordError.setVisibility(View.VISIBLE);
+                    valid[0] = false;
                 }
 
                 //check if username is unique and longer than 0
@@ -139,7 +160,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     //starts the next activity
     // currently set to return to start, will be changed when activity is added
     private void goToAccount(){
-        Intent intent = new Intent(this, StartActivity.class);
+        Intent intent = new Intent(this, FeedActivity.class);
         startActivity(intent);
     }
 }

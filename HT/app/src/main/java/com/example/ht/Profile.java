@@ -15,8 +15,8 @@ public class Profile {
     //to be added when habit class is implemented
     //protected ArrayList<Habit> habits;
 
-    protected ArrayList<Profile> followers;
-    protected ArrayList<Profile> following;
+    protected ArrayList<String> followers;
+    protected ArrayList<String> following;
 
 
     public Profile(String username, String password, String name) {
@@ -26,6 +26,7 @@ public class Profile {
         this.followers = new ArrayList<>();
         this.following = new ArrayList<>();
     }
+
 
     /**
      * Returns that profiles username
@@ -45,6 +46,7 @@ public class Profile {
         return name;
     }
 
+
     /**
      * Checks a string, p, to see if it equals the password stored in this profile
      *
@@ -59,15 +61,41 @@ public class Profile {
         }
     }
 
+
+    /**
+     * sets the user name of the profile to be equal to the
+     * string stored in username.
+     *
+     * @param username the string which the the profiles username will be set to
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+
+    /**
+     * sets the password of the profile to be equal to the
+     * string stored in password
+     *
+     * @param password the string which the the profiles password will be set to
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+
+    /**
+     * sets the name of the profile to be equal to the
+     * string stored in name.
+     *
+     * @param name the string which the the profiles name will be set to
+     */
     public void setName(String name) {
         this.name = name;
     }
+
+
+    //functions to deal with following and followers to be add when related features are added
+
+
 }
