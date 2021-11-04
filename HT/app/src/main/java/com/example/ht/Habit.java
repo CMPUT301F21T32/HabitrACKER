@@ -1,11 +1,12 @@
 package com.example.ht;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class Habit {
+public class Habit implements Serializable {
 
     private String name;
     private String description;
@@ -86,7 +87,5 @@ public class Habit {
     public void setDate(String date) { this.date = date; }
 
     public void setUsername(String username) { this.username = username; }
-
-
 
 }
