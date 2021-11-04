@@ -6,10 +6,10 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/edit_button"
+        android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="EDIT"
+        android:text="SAVE"
         android:textSize="14sp"
         tools:layout_editor_absoluteX="76dp"
         tools:layout_editor_absoluteY="542dp"
