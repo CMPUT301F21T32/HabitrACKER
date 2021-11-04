@@ -3,6 +3,7 @@ package com.example.ht;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SelfProfile extends AppCompatActivity {
@@ -89,7 +91,7 @@ public class SelfProfile extends AppCompatActivity {
                     habitAdapter.notifyDataSetChanged();
                 }
                 else {
-
+                    editHabit(habitList.get(i));
                 }
             }
         });
@@ -184,6 +186,12 @@ public class SelfProfile extends AppCompatActivity {
         startActivity(intent);
 
         Log.d("POPULATING:", "\n");
+    }
+
+    public void editHabit(Habit habit) {
+        Intent intent = new Intent(this, AddActivity.class);
+        intent.putExtra("data", (Serializable) habit);
+        startActivity(intent);
     }
 
     /**

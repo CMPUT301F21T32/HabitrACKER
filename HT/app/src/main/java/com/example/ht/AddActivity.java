@@ -1,6 +1,7 @@
 package com.example.ht;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -72,6 +73,14 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
                 finishAddActivity();
             }
         });
+
+        Intent intent = getIntent();
+        if(intent.getSerializableExtra("data") != null) {
+            Habit habit = (Habit) intent.getSerializableExtra("data");
+            habitName.setText(habit.getName());
+            habitDesc.setText(habit.getDescription());
+            Log.d("NOT NULL!", habit.getName());
+        }
     }
 
     public void showDatePickerDialog(View v) {
