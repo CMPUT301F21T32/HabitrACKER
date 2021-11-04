@@ -102,7 +102,7 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         data.put("minute", minute);
         data.put("date", date);
         data.put("selectedDays", selectedDays.toString());
-        data.put("username", "Hunter3");
+        data.put("username", "Hunter3"); // HARD CODED USERNAME
 
         // Put the data into the database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
