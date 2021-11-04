@@ -5,11 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -20,6 +26,7 @@ public class SelfProfile extends AppCompatActivity {
     ListView mainList;
     ArrayList<Habit> habitList = new ArrayList<>();
     ArrayAdapter<Habit> habitAdapter;
+    boolean isDeleting = false;
     // Declarations for the xml list, list that contains habit items, and the adapter for the array
 
     /**
@@ -37,6 +44,69 @@ public class SelfProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.self_profile);
         populateList();
+
+        Button deleteButton = findViewById(R.id.finished_habit_button);
+
+        // Setting up list item click
+        mainList = findViewById(R.id.habit_list);
+        mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /**
+             * This function sets an onItemClickAdapter for the listview
+             * NOTE: THIS ONLY WORKS WHEN THE LINERAR LAYOUT OF THE CELL
+             * CONTENT HAS android:descendantFocusability = "blocksDescendants"
+             * After the button (FOLLOW REQUESTS FOR NOW) is clicked, you
+             * are in deletion mode. You can now click on any list item to
+             * delete it. After it is deleted from the database, it is removed
+             * from the list, and we update the adapter accordingly.
+             * This is all inside a condition
+             * @param adapterView
+             * @param view
+             * @param i
+             * @param l
+             */
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(isDeleting) {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    String v_deletehabit = habitList.get(i).getHabitID();
+                    Log.d("TEST!", v_deletehabit);
+                    db.collection("Habits")
+                            .document(v_deletehabit)
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("TAG", "City successfully deleted!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("TAG", "Error deleting document", e);
+                                }
+                            });
+                    habitList.remove(i);
+                    habitAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        /**
+         * This sets up the button click listener.
+         * When the button is clicked, it switches the
+         * boolean delete mode (T=Deleting, F=Not Deleting)
+         * and switches the button text accordingly.
+         */
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isDeleting = !isDeleting;
+                if(isDeleting)
+                    deleteButton.setText("Deleting");
+                else
+                    deleteButton.setText("not delete");
+            }
+        });
     }
 
     /**
@@ -84,9 +154,10 @@ public class SelfProfile extends AppCompatActivity {
                             String date = document.getData().get("date").toString();
                             String selectedDays = document.getData().get("selectedDays").toString();
                             String username = document.getData().get("username").toString();
+                            String id = document.getId();
 
                             // Create new habit and add to the list!
-                            Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username);
+                            Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username, id);
                             addHabitToList(newHabit);
 
                             Log.d("HABIT:", title);
