@@ -45,7 +45,7 @@ public class SelfProfile extends AppCompatActivity {
         setContentView(R.layout.self_profile);
         populateList();
 
-        Button deleteButton = findViewById(R.id.finished_habit_button);
+        Button deleteButton = findViewById(R.id.delete_button);
 
         // Setting up list item click
         mainList = findViewById(R.id.habit_list);
@@ -88,6 +88,9 @@ public class SelfProfile extends AppCompatActivity {
                     habitList.remove(i);
                     habitAdapter.notifyDataSetChanged();
                 }
+                else {
+
+                }
             }
         });
 
@@ -104,7 +107,7 @@ public class SelfProfile extends AppCompatActivity {
                 if(isDeleting)
                     deleteButton.setText("Deleting");
                 else
-                    deleteButton.setText("not delete");
+                    deleteButton.setText("Delete habit");
             }
         });
     }

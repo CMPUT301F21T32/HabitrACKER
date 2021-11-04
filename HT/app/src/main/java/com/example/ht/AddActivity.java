@@ -126,5 +126,4 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         // Go to the previous activity
         finish();
     }
-
 }
