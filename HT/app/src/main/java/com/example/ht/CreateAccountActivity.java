@@ -159,9 +159,11 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     //starts the next activity
     // currently set to return to start, will be changed when activity is added
+
     private void goToAccount(String un){
         Intent intent = new Intent(this, FeedActivity.class);
         intent.putExtra("USERNAME", un);
+
         startActivity(intent);
     }
 }
