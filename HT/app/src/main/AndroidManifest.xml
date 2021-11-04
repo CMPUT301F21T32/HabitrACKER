@@ -8,14 +8,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HT" >
+        android:theme="@style/Theme.HT">
         <activity
             android:name=".LoginActivity"
             android:exported="true"
             android:parentActivityName=".StartActivity" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".StartActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StartActivity" />
         </activity>
 
         <activity
@@ -34,6 +34,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".FeedActivity"
+            android:exported="true">
+
         </activity>
     </application>
 
