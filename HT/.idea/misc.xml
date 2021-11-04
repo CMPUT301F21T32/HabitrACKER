@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Deepak/Desktop/HabiTRACKER/HabitrACKER/HT/app/src/main/res/layout/add_habit_event.xml" value="0.5" />
         <entry key="..\:/Users/coler/HabitTracker/HabitrACKER/HT/app/src/main/res/layout/activity_create_account.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/coler/HabitTracker/HabitrACKER/HT/app/src/main/res/layout/activity_feed.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/coler/HabitTracker/HabitrACKER/HT/app/src/main/res/layout/activity_feed2.xml" value="0.22" />
@@ -10,9 +11,7 @@
         <entry key="..\:/Users/coler/HabitTracker/HabitrACKER/HT/app/src/main/res/layout/activity_search.xml" value="0.3392029657089898" />
         <entry key="..\:/Users/coler/HabitTracker/HabitrACKER/HT/app/src/main/res/layout/activity_start.xml" value="0.10729166666666666" />
         <entry key="..\:/Users/coler/HabitTracker/HabitrACKER/HT/app/src/main/res/layout/search_list_content.xml" value="0.1796875" />
-
         <entry key="..\:/Users/coler/HabitTracker/HabitrACKER/HT/app/src/main/res/layout/self_profile.xml" value="0.16666666666666666" />
-
         <entry key="..\:/Users/coler/HabitTracker/HabitrACKER/HT/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.19583333333333333" />
       </map>
     </option>
@@ -22,7 +21,7 @@
     <option name="OPTION_SCOPE" value="private" />
     <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
