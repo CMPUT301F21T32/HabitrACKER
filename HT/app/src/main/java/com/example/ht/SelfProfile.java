@@ -11,11 +11,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -34,6 +37,9 @@ public class SelfProfile extends AppCompatActivity {
     Button deleteHabitButton;
     FirebaseFirestore db;
     final String TAG = "Sample";
+    String username;
+    TextView nameLabel;
+    TextView usernameLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,31 @@ public class SelfProfile extends AppCompatActivity {
         v_habitList = findViewById(R.id.habit_list);
         deleteHabitButton=findViewById(R.id.deleteHabitButton);
         db = FirebaseFirestore.getInstance();
+
+        usernameLabel = findViewById(R.id.username);
+        nameLabel = findViewById(R.id.full_name);
+
+        Intent intent = getIntent();
+        username = intent.getStringExtra("USERNAME");
+
+        DocumentReference ref = db.collection("users").document(username);
+        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d( TAG, "Document exists!");
+                        usernameLabel.setText("@" + username);
+                        nameLabel.setText(document.get("name").toString());
+
+
+                    } else {
+
+                    }
+                }
+            }
+        });
 
 
 
@@ -80,7 +111,7 @@ public class SelfProfile extends AppCompatActivity {
                                 Log.w(TAG, "Error deleting document", e);
                             }
                         });
-populateList();
+                populateList();
             }
         });
     } //moved it to here
