@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
     //starts the next activity
     // currently set to return to start, will be changed when activity is added
     private void goToAccount(){
-        Intent intent = new Intent(this, StartActivity.class);
+        Intent intent = new Intent(this, FeedActivity.class);
         startActivity(intent);
     }
 }
