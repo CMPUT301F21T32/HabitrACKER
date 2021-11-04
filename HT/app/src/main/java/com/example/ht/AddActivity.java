@@ -1,6 +1,7 @@
 package com.example.ht;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -38,6 +39,7 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
     // List of 7 booleans, storing whether a habit occurs on that day
     List<Boolean> selectedDays = new ArrayList<>(Collections.nCopies(7, false));
     TimePicker time;
+    Intent intent;
     String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
 
     @Override
@@ -49,6 +51,9 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         habitName = findViewById(R.id.editText_name);
         habitDesc = findViewById(R.id.editText_desc);
         time = (TimePicker) findViewById(R.id.timePicker);
+
+        intent = getIntent();
+
 
         // Ids for the 7 toggle buttons for each day
         int[] dayButtonIds = {R.id.toggleSun, R.id.toggleMon, R.id.toggleTue, R.id.toggleWed,
@@ -102,12 +107,12 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         data.put("minute", minute);
         data.put("date", date);
         data.put("selectedDays", selectedDays.toString());
-        data.put("username", "Hunter3");
+        data.put("username", intent.getStringExtra("USERNAME"));
 
         // Put the data into the database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Habits")
-                .document(name)
+                .document()
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

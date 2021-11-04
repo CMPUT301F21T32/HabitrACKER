@@ -14,8 +14,9 @@ public class Habit {
     private int minute;
     private String date;
     private String username;
+    private String habitID;
 
-    public Habit(String name, String description, List<Boolean> selectedDays, int hour, int minute, String date, String username) {
+    public Habit(String name, String description, List<Boolean> selectedDays, int hour, int minute, String date, String username, String habitID) {
         this.name = name;
         this.description = description;
         this.selectedDays = selectedDays;
@@ -23,9 +24,10 @@ public class Habit {
         this.minute = minute;
         this.date = date;
         this.username = username;
+        this.habitID = habitID;
     }
 
-    public Habit(String name, String description, String selectedDays, String hour, String minute, String date, String username) {
+    public Habit(String name, String description, String selectedDays, String hour, String minute, String date, String username, String habitID) {
         this.name = name;
         this.description = description;
         this.date = date;
@@ -38,6 +40,7 @@ public class Habit {
         for (String s : daysString) {
             this.selectedDays.add(Boolean.parseBoolean(s));
         }
+        this.habitID = habitID;
     }
 
     public String getName() {
@@ -60,6 +63,10 @@ public class Habit {
 
     public String getUsername() { return username; }
 
+    public String getHabitID() {
+        return habitID;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -79,5 +86,7 @@ public class Habit {
     public void setDate(String date) { this.date = date; }
 
     public void setUsername(String username) { this.username = username; }
+
+
 
 }
