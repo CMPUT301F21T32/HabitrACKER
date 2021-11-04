@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class SelfProfile extends AppCompatActivity {
     String username;
     TextView nameLabel;
     TextView usernameLabel;
+    ImageButton detailsButton = findViewById(R.id.details_button);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +80,13 @@ public class SelfProfile extends AppCompatActivity {
 
 
 
+
         v_habitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 position = i;
+
+
 
 
             }
@@ -146,8 +151,9 @@ public class SelfProfile extends AppCompatActivity {
                                 String date = document.getData().get("date").toString();
                                 String selectedDays = document.getData().get("selectedDays").toString();
                                 String username = document.getData().get("username").toString();
+                                String habitID = document.getId();
 
-                                Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username);
+                                Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username, habitID);
                                 addHabit(newHabit);
                             }
                         } else {
@@ -159,6 +165,7 @@ public class SelfProfile extends AppCompatActivity {
 
     public void addHabit(View view) {
         Intent intent = new Intent(this, AddActivity.class);
+        intent.putExtra("USERNAME", username);
         startActivity(intent);
 
         mainList = findViewById(R.id.habit_list);
@@ -182,13 +189,24 @@ public class SelfProfile extends AppCompatActivity {
                             String date = document.getData().get("date").toString();
                             String selectedDays = document.getData().get("selectedDays").toString();
                             String username = document.getData().get("username").toString();
+                            String habitID = document.getId();
 
-                            Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username);
+                            Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username, habitID);
                             addHabit(newHabit);
                         }
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 });
+    }
+
+    // open up habit view activity for the habit at position i
+    // in the habit list
+    public void viewHabit(int i){
+        Intent intent = new Intent(this, ViewHabitActivity.class);
+        intent.putExtra("HABITID", habitList.get(i).getHabitID());
+
+        startActivity(intent);
+
     }
 }
