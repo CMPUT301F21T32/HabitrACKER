@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -87,8 +88,7 @@ public class SelfProfile extends AppCompatActivity {
                                     Log.w("TAG", "Error deleting document", e);
                                 }
                             });
-                    habitList.remove(i);
-                    habitAdapter.notifyDataSetChanged();
+                    removeItemInList(i);
                 }
                 else {
                     editHabit(habitList.get(i));
@@ -188,10 +188,30 @@ public class SelfProfile extends AppCompatActivity {
         Log.d("POPULATING:", "\n");
     }
 
+    /**
+     * This function takes a habit, and puts
+     * it into a bundle, and passes into the
+     * AddActivity intent. The code there checks
+     * if the title is the same, and if it is
+     * it will apply the changes.
+     * @param habit
+     */
     public void editHabit(Habit habit) {
         Intent intent = new Intent(this, AddActivity.class);
-        intent.putExtra("data", (Serializable) habit);
+        intent.putExtra("data", habit);
         startActivity(intent);
+    }
+
+    /**
+     * Given an index, will remove that item
+     * from the list, and update the adapter
+     * @param index
+     */
+    public void removeItemInList(int index) {
+        if (index >= 0) {
+            habitList.remove(index);
+            habitAdapter.notifyDataSetChanged();
+        }
     }
 
     /**

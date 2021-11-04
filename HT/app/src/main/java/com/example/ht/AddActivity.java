@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,6 +96,8 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
     }
 
     public void finishAddActivity() {
+        Intent intent = getIntent();
+
         // Create a habit with the data collected
         String name = habitName.getText().toString();
         String desc = habitDesc.getText().toString();
@@ -133,6 +136,8 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
                     }
                 });
         // Go to the previous activity
+//        SelfProfile sp = new SelfProfile();
+//        sp.removeItemInList(intent.getIntExtra("index", -1));
         finish();
     }
 }
