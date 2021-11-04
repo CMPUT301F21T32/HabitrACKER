@@ -102,24 +102,31 @@
 
             <Button
                 android:id="@+id/finished_habit_button"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3870FF"
-                android:layout_weight="1"
-                android:text="Finished Habits"
                 android:layout_marginRight="10dp"
-                app:cornerRadius="10dp"/>
+                android:layout_weight="1"
+                android:backgroundTint="#3870FF"
+                android:text="Finished Habits"
+                app:cornerRadius="10dp" />
 
             <Button
                 android:id="@+id/add_button"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3870FF"
-                android:layout_weight="1"
-                android:text="Add Habit"
                 android:layout_marginLeft="10dp"
-                app:cornerRadius="10dp"
-                android:onClick="addHabit"/>
+                android:layout_weight="1"
+                android:backgroundTint="#3870FF"
+                android:onClick="addHabit"
+                android:text="Add Habit"
+                app:cornerRadius="10dp" />
+
+            <Button
+                android:id="@+id/deleteHabitButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Delete Habit" />
 
         </LinearLayout>
 

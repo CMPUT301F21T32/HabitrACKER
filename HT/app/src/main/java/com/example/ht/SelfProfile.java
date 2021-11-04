@@ -7,10 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -24,13 +28,63 @@ public class SelfProfile extends AppCompatActivity {
     ListView mainList;
     ArrayList<Habit> habitList = new ArrayList<>();
     ArrayAdapter<Habit> habitAdapter;
+    //initialize position
+    int position;
+    ListView v_habitList;
+    Button deleteHabitButton;
+    FirebaseFirestore db;
+    final String TAG = "Sample";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.self_profile);
         populateList();
-    }
+        //initialize list of habits view
+        v_habitList = findViewById(R.id.habit_list);
+        deleteHabitButton=findViewById(R.id.deleteHabitButton);
+        db = FirebaseFirestore.getInstance();
+
+
+
+        v_habitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                position = i;
+
+
+            }
+        });
+
+        deleteHabitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String v_deletehabit = habitList.get(position).getName();
+
+                //db.collection("Cities").document()
+                db.collection("Habits")
+
+                        .document(v_deletehabit)
+                        .delete()
+
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully deleted!" + v_deletehabit);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error deleting document", e);
+                            }
+                        });
+populateList();
+            }
+        });
+    } //moved it to here
+
 
     public void addHabit(Habit habit) {
         habitList.add(habit);
@@ -43,7 +97,7 @@ public class SelfProfile extends AppCompatActivity {
 
     public void populateList() {
         final String TAG = "\nADDED:";
-
+//moved this
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Habits")
                 .get()
