@@ -74,6 +74,8 @@ public class Habit implements Serializable {
 
     public Date getDate() { return date;}
 
+    public String getDateString() { return date.toString(); }
+
     public String getUsername() { return username; }
 
     public String getHabitID() {

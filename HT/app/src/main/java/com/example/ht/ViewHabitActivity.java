@@ -71,7 +71,7 @@ public class ViewHabitActivity extends AppCompatActivity {
 
         // set screen text to detail of given habit
         name.setText(habit.getName());
-        date.setText(habit.getDate());
+        date.setText(habit.getDateString());
         description.setText(habit.getDescription());
         days.setText("Scheduled Days: ");
 
