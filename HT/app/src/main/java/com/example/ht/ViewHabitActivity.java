@@ -17,22 +17,35 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
 
 public class ViewHabitActivity extends AppCompatActivity {
     Intent intent;
-    String habitID;
+    Habit habit;
 
     TextView name;
     TextView date;
     TextView description;
     TextView days;
+    ListView mainList;
+    Button editButton;
+
+    ArrayList<Habit> eventList = new ArrayList<>();
+    ArrayAdapter<Habit> eventAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +54,7 @@ public class ViewHabitActivity extends AppCompatActivity {
 
         // get habit ID
         intent = getIntent();
-        habitID = intent.getStringExtra("HABIT_ID");
+        habit = (Habit)intent.getSerializableExtra("habit");
 
 
         // get view objects
@@ -50,39 +63,71 @@ public class ViewHabitActivity extends AppCompatActivity {
         description = findViewById(R.id.habitViewDescripton);
         days = findViewById(R.id.habitViewDescripton);
 
+        mainList = findViewById(R.id.event_list);
+        editButton = findViewById(R.id.edit_button);
 
-        // set screen text to detail of given habit from database
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference ref = db.collection("users").document(habitID);
-        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        // set screen text to detail of given habit
+        name.setText(habit.getName());
+        date.setText(habit.getDate());
+        description.setText(habit.getDescription());
+        days.setText("Scheduled Days: ");
 
+        editButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d("HABIT VIEW: ", "Document exists!");
-                        name.setText(document.get("name").toString());
-                        date.setText("Date Started: " + document.get("date").toString());
-                        description.setText("Description:\n" + document.get("description").toString());
-                        days.setText(document.get("selectedDays").toString());
-
-//                        String daysText = "";
-//
-//                        boolean[] daysArray = document.get("selectedDays").toString().arr;
+            public void onClick(View view) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    String v_deletehabit = habit.getHabitID();
 
 
 
+                    Log.d("TEST!", v_deletehabit);
+                    db.collection("Habits")
+                            .document(v_deletehabit)
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("TAG", "City successfully deleted!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("TAG", "Error deleting document", e);
+                                }
+                            });
 
 
-                    } else {
-                        Log.d("HABIT VIEW:", "Habit ID not found");
-                    }
-                }
+                    editHabit(habit);
             }
         });
 
 
+
+
+
     }
+
+
+    /**
+     * This function takes a habit, and puts
+     * it into a bundle, and passes into the
+     * AddActivity intent. The code there checks
+     * if the title is the same, and if it is
+     * it will apply the changes.
+     * @param habit
+     */
+    public void editHabit(Habit habit) {
+        Intent intent = new Intent(this, AddActivity.class);
+        intent.putExtra("USERNAME", habit.getUsername());
+        intent.putExtra("data", habit);
+        startActivity(intent);
+        finish();
+    }
+
+
+
+
+
 }
