@@ -3,6 +3,7 @@ package com.example.ht;
 import static org.junit.Assert.*;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.widget.EditText;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -17,12 +18,26 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public class ViewHabitTest {
     private Solo solo;
 
     @Rule
     public ActivityTestRule<ViewHabitActivity> rule =
-            new ActivityTestRule<>(ViewHabitActivity.class, true, true);
+            new ActivityTestRule<ViewHabitActivity>(ViewHabitActivity.class, true, true) {
+
+                @Override
+                protected Intent getActivityIntent() {
+                    Intent intent = new Intent();
+                    List<Boolean> temp = new ArrayList<Boolean>();
+                    Date d = new Date();
+                    intent.putExtra("habit", new Habit("test", "test", temp, 4, 4, d, "test", "test"));
+                    return intent;
+                }
+            };
 
     /**
      * Runs before all tests and creates solo instance.
@@ -47,7 +62,7 @@ public class ViewHabitTest {
     @Test
     public void testAddButton() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", ViewHabitActivity.class);
-        solo.clickOnButton("Add Event");
+        solo.clickOnView(solo.getView(R.id.addEvent_button));
         solo.wait(3000);
         solo.assertCurrentActivity("Wrong Activity", AddEventActivity.class);
 
@@ -60,7 +75,7 @@ public class ViewHabitTest {
     @Test
     public void testEditButton() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", ViewHabitActivity.class);
-        solo.clickOnButton("Edit Habit");
+        solo.clickOnView(solo.getView(R.id.edit_button));
         solo.wait(3000);
         solo.assertCurrentActivity("Wrong Activity", AddActivity.class);
 

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.EditText;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -17,6 +18,7 @@ import org.junit.Test;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.robotium.solo.Solo;
 
 public class TestEditDeleteHabit {
@@ -87,6 +89,16 @@ public class TestEditDeleteHabit {
         solo.clickOnView(solo.getView(R.id.finishAddActivityButton));
         assertTrue(solo.waitForText("editnew1", 1, 2000));
 
+
+    }
+
+    /**
+     * Closes the activity after each test
+     * @throws Exception
+     */
+    @After
+    public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
 
     }
 
