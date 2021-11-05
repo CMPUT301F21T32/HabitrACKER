@@ -74,7 +74,7 @@ public class EditDeleteEvent extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d("DeleteActivity", "Document successfully deleted");
+                        Log.d("DeleteActivity", "Habit Event has been deleted");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -83,7 +83,6 @@ public class EditDeleteEvent extends AppCompatActivity {
                         Log.d("DeleteActivity", "Error deleting Document");
                     }
                 });
-
     }
 
     private void saveEvent() {
@@ -102,11 +101,7 @@ public class EditDeleteEvent extends AppCompatActivity {
         data.put("Comment", textComment);
 
         // Get description from Habits collection
-
-
-
-
-        DocumentReference fromHabits = db.collection("Habits").document(description);
+        DocumentReference fromHabits = db.collection("Habits").document();
         String description= fromHabits.get().toString();
 
         // Put into Firestore
@@ -117,14 +112,14 @@ public class EditDeleteEvent extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         // These are a method which gets executed when the task is succeeded
-                        Log.d("AddActivitySample", "Habit Event has been added successfully!");
+                        Log.d("AddActivitySample", "Habit Event has been saved");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         // These are a method which gets executed if there’s any problem
-                        Log.d("AddActivitySample", "Habit Event could not be added!" + e.toString());
+                        Log.d("AddActivitySample", "Error saving Habit Event" + e.toString());
                     }
                 });
     }
