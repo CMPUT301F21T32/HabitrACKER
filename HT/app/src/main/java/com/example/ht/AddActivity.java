@@ -23,7 +23,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,14 +77,6 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
                 finishAddActivity();
             }
         });
-
-        Intent intent = getIntent();
-        if(intent.getSerializableExtra("data") != null) {
-            Habit habit = (Habit) intent.getSerializableExtra("data");
-            habitName.setText(habit.getName());
-            habitDesc.setText(habit.getDescription());
-            Log.d("NOT NULL!", habit.getName());
-        }
     }
 
     public void showDatePickerDialog(View v) {
@@ -100,8 +91,6 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
     }
 
     public void finishAddActivity() {
-        Intent intent = getIntent();
-
         // Create a habit with the data collected
         String name = habitName.getText().toString();
         String desc = habitDesc.getText().toString();
@@ -119,7 +108,6 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         data.put("date", date);
         data.put("selectedDays", selectedDays.toString());
         data.put("username", intent.getStringExtra("USERNAME"));
-
 
         // Put the data into the database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -141,8 +129,7 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
                     }
                 });
         // Go to the previous activity
-//        SelfProfile sp = new SelfProfile();
-//        sp.removeItemInList(intent.getIntExtra("index", -1));
         finish();
     }
+
 }
