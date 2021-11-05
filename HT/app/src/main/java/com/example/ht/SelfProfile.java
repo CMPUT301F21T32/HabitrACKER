@@ -41,7 +41,7 @@ public class SelfProfile extends AppCompatActivity {
     String username;
     TextView nameLabel;
     TextView usernameLabel;
-    ImageButton detailsButton = findViewById(R.id.details_button);
+    ImageButton detailsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,7 @@ public class SelfProfile extends AppCompatActivity {
 
         usernameLabel = findViewById(R.id.username);
         nameLabel = findViewById(R.id.full_name);
+        detailsButton = findViewById(R.id.details_button);
 
         Intent intent = getIntent();
         username = intent.getStringExtra("USERNAME");
