@@ -12,7 +12,11 @@
         android:theme="@style/Theme.HT">
         <activity
             android:name=".ViewHabitActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".SelfProfile"/>
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".SelfProfile" />/>
         <activity
             android:name=".LoginActivity"
             android:exported="true"
@@ -43,25 +47,16 @@
             android:exported="true" />
         <activity
             android:name=".AddActivity"
-            android:exported="true"
-            android:parentActivityName=".SelfProfile">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SelfProfile" />
-        </activity>
+            android:exported="true"/>
+
         <activity
             android:name=".SelfProfile"
-            android:exported="true"
-            android:parentActivityName=".FeedActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FeedActivity" />
+            android:exported="true">
+
         </activity>
         <activity
             android:name=".FeedActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
-
-
 
 </manifest>

@@ -52,11 +52,13 @@ public class StartActivity extends AppCompatActivity {
     private void goToCreate(){
         Intent intent = new Intent(this, CreateAccountActivity.class);
         startActivity(intent);
+        finish();
     }
 
     //starts the login activity
     private void goToLogin(){
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 }

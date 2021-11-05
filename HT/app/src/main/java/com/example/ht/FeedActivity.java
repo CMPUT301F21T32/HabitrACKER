@@ -35,11 +35,11 @@ public class FeedActivity extends AppCompatActivity {
 
     }
 
-    //starts the login activity
+    //starts the profile activity
     private void goToProfile(String un){
         Intent intent = new Intent(this, SelfProfile.class);
         intent.putExtra("USERNAME", un);
         startActivity(intent);
-
+        finish();
     }
 }

@@ -165,5 +165,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         intent.putExtra("USERNAME", un);
 
         startActivity(intent);
+        finish();
     }
 }

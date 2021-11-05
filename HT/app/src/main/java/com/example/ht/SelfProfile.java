@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,9 +20,13 @@ import com.example.ht.AddActivity;
 import com.example.ht.CustomList;
 import com.example.ht.Habit;
 import com.example.ht.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -30,10 +35,14 @@ import java.util.ArrayList;
 
 public class SelfProfile extends AppCompatActivity {
 
+    TextView usernameLabel;
+    TextView nameLabel;
     ListView mainList;
     ArrayList<Habit> habitList = new ArrayList<>();
     ArrayAdapter<Habit> habitAdapter;
     boolean isDeleting = false;
+    String username;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     // Declarations for the xml list, list that contains habit items, and the adapter for the array
 
     /**
@@ -53,6 +62,42 @@ public class SelfProfile extends AppCompatActivity {
         populateList();
 
         Button deleteButton = findViewById(R.id.delete_button);
+        usernameLabel = findViewById(R.id.username);
+        nameLabel = findViewById(R.id.full_name);
+
+
+        // set Username and name to that of current user
+        Intent intent = getIntent();
+        username = intent.getStringExtra("USERNAME");
+
+        usernameLabel.setText("@"+username);
+
+        DocumentReference ref = db.collection("users").document(username);
+        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("sample: ", "Document exists!");
+                        // GO TO NEXT ACTIVITY
+
+                        nameLabel.setText(document.get("name").toString());
+
+                    }
+                }
+            }
+        });
+
+        Button homeButton = findViewById(R.id.ProfileHome_button);
+
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToHome(username);
+            }
+        });
+
 
         // Setting up list item click
         mainList = findViewById(R.id.habit_list);
@@ -95,7 +140,8 @@ public class SelfProfile extends AppCompatActivity {
                     removeItemInList(i);
                 }
                 else {
-                    editHabit(habitList.get(i));
+//
+                    viewHabit(habitList.get(i));
                 }
             }
         });
@@ -154,27 +200,30 @@ public class SelfProfile extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         habitList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
+                            if(document.get("username").toString().equals(username)) {
+                                // Get the attributes from each habit in the database
+                                String title = document.getData().get("name").toString();
+                                String description = document.getData().get("description").toString();
+                                String hour = document.getData().get("hour").toString();
+                                String minute = document.getData().get("minute").toString();
+                                String date = document.getData().get("date").toString();
+                                String selectedDays = document.getData().get("selectedDays").toString();
+                                String username = document.getData().get("username").toString();
+                                String id = document.getId();
 
-                            // Get the attributes from each habit in the database
-                            String title = document.getData().get("name").toString();
-                            String description = document.getData().get("description").toString();
-                            String hour = document.getData().get("hour").toString();
-                            String minute = document.getData().get("minute").toString();
-                            String date = document.getData().get("date").toString();
-                            String selectedDays = document.getData().get("selectedDays").toString();
-                            String username = document.getData().get("username").toString();
-                            String id = document.getId();
+                                // Create new habit and add to the list!
+                                Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username, id);
+                                addHabitToList(newHabit);
 
-                            // Create new habit and add to the list!
-                            Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username, id);
-                            addHabitToList(newHabit);
-
-                            Log.d("HABIT:", title);
+                                Log.d("HABIT:", title);
+                            }
                         }
                     } else {
                         Log.d("ERROR:", "Error getting documents: ", task.getException());
                     }
                 });
+
+
     }
 
     /**
@@ -186,25 +235,15 @@ public class SelfProfile extends AppCompatActivity {
      */
     public void addHabit(View view) {
         // Start AddActivity Page
+
         Intent intent = new Intent(this, AddActivity.class);
+        intent.putExtra("USERNAME", username);
         startActivity(intent);
 
         Log.d("POPULATING:", "\n");
     }
 
-    /**
-     * This function takes a habit, and puts
-     * it into a bundle, and passes into the
-     * AddActivity intent. The code there checks
-     * if the title is the same, and if it is
-     * it will apply the changes.
-     * @param habit
-     */
-    public void editHabit(Habit habit) {
-        Intent intent = new Intent(this, AddActivity.class);
-        intent.putExtra("data", habit);
-        startActivity(intent);
-    }
+
 
     /**
      * Given an index, will remove that item
@@ -225,5 +264,22 @@ public class SelfProfile extends AppCompatActivity {
     @Override public void onResume() {
         super.onResume();
         populateList();
+    }
+
+
+    //starts the profile activity
+    private void goToHome(String un){
+        Intent intent = new Intent(this, FeedActivity.class);
+        intent.putExtra("USERNAME", un);
+        startActivity(intent);
+        finish();
+
+    }
+
+    private void viewHabit(Habit habit){
+        Intent intent = new Intent(this, ViewHabitActivity.class);
+        intent.putExtra("habit", habit);
+        startActivity(intent);
+        finish();
     }
 }

@@ -45,6 +45,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TextView" />
+
+                <Button
+                    android:id="@+id/edit_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Edit Habit" />
             </LinearLayout>
 
             <ImageView
@@ -64,6 +70,7 @@
             android:textColor="@color/white"/>
 
         <ListView
+            android:id="@+id/event_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
