@@ -2,33 +2,36 @@ package com.example.ht;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class TestEditDeleteEvent {
+    //Create HabitEvent objects that will be tested
+    // Note: when editing Event, in the AddEvent, the description is the comment
+    @Before
+    public HabitEvent passedTest(){
+        return new HabitEvent("habitID", "description that's also comments must be under 20, is not", "hour", "minute", "name", "username");
+    }
+    @Before
+    public HabitEvent failedTest(){
 
-    /**
-    HabitEvent testHabit1= new HabitEvent("habitID", "description that's also comments must be under 20, is not",
-            "hour", "minute", "name", "username");
-    HabitEvent testEvent2= new HabitEvent("habitID", "is under 20",
-            "hour", "minute", "name", "username");
+        return new HabitEvent("habitID", "is under 20", "hour", "minute", "name", "username");
+    }
 
-    //Need to merge with Deepak
+    // Tests for HabitEvent Objects
+    // Check if there are 20 characters in comment
     @Test
     public void testComments1(){
-        // Check if there are 20 characters in comment after edit
         // Should pass
-        int commentLength= testEvent1.comment.length();
+        int commentLength= passedTest().description.length();
         assertEquals(commentLength, commentLength<20);
     }
-
     @Test
     public void testComments2(){
-        // Check if there are 20 characters in comments after edit
         //Should fail
-        int commentLength= testHabit2.comment.length();
+        int commentLength= failedTest().description.length();
         assertEquals(commentLength, commentLength>20);
-
     }
-    **/
+
 
 }
