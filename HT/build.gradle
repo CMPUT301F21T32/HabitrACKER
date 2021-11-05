@@ -15,6 +15,11 @@ buildscript {
     }
 }
 
+tasks.register("runOnGitHub") { // 1
+    dependsOn(":app:lint", ":app:testDebugUnitTest")  // 2 ==> CUSTOMIZE THIS LINE
+    group = "custom"      // 3
+    description = "./gradlew runOnGitHub" //3
+}
 
 
 task clean(type: Delete) {
