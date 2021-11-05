@@ -1,6 +1,7 @@
 package com.example.ht;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,6 +40,10 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
     // List of 7 booleans, storing whether a habit occurs on that day
     List<Boolean> selectedDays = new ArrayList<>(Collections.nCopies(7, false));
     TimePicker time;
+<<<<<<< HEAD
+=======
+    Intent intent;
+>>>>>>> 8dcc06a73480e04ac4ef4e6af516b05743fce95c
     String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
 
     @Override
@@ -50,9 +56,12 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         habitDesc = findViewById(R.id.editText_desc);
         time = (TimePicker) findViewById(R.id.timePicker);
 
+        intent = getIntent();
+
+
         // Ids for the 7 toggle buttons for each day
         int[] dayButtonIds = {R.id.toggleSun, R.id.toggleMon, R.id.toggleTue, R.id.toggleWed,
-                              R.id.toggleThu, R.id.toggleFri, R.id.toggleSat};
+                R.id.toggleThu, R.id.toggleFri, R.id.toggleSat};
         for (int i = 0; i < 7; i++) {
             ToggleButton toggle = (ToggleButton) findViewById(dayButtonIds[i]);
             int finalI = i;
@@ -72,6 +81,14 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
                 finishAddActivity();
             }
         });
+
+        Intent intent = getIntent();
+        if(intent.getSerializableExtra("data") != null) {
+            Habit habit = (Habit) intent.getSerializableExtra("data");
+            habitName.setText(habit.getName());
+            habitDesc.setText(habit.getDescription());
+            Log.d("NOT NULL!", habit.getName());
+        }
     }
 
     public void showDatePickerDialog(View v) {
@@ -86,6 +103,8 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
     }
 
     public void finishAddActivity() {
+        Intent intent = getIntent();
+
         // Create a habit with the data collected
         String name = habitName.getText().toString();
         String desc = habitDesc.getText().toString();
@@ -102,12 +121,21 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         data.put("minute", minute);
         data.put("date", date);
         data.put("selectedDays", selectedDays.toString());
+<<<<<<< HEAD
         data.put("username", "Hunter3"); // HARD CODED USERNAME
+=======
+        data.put("username", intent.getStringExtra("USERNAME"));
+
+>>>>>>> 8dcc06a73480e04ac4ef4e6af516b05743fce95c
 
         // Put the data into the database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Habits")
+<<<<<<< HEAD
                 .document(name)
+=======
+                .document()
+>>>>>>> 8dcc06a73480e04ac4ef4e6af516b05743fce95c
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -124,7 +152,11 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
                     }
                 });
         // Go to the previous activity
+//        SelfProfile sp = new SelfProfile();
+//        sp.removeItemInList(intent.getIntExtra("index", -1));
+        Intent i = new Intent(this, SelfProfile.class);
+        i.putExtra("USERNAME", intent.getStringExtra("USERNAME"));
+        startActivity(i);
         finish();
     }
-
 }

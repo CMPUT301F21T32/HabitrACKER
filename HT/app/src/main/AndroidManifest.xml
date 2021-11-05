@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ht" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.ht">
 
     <application
         android:allowBackup="true"
@@ -8,35 +9,30 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HT" >
+        android:theme="@style/Theme.HT">
+        <activity
+            android:name=".AddEventActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewHabitActivity"
+            android:exported="false"
+            android:parentActivityName=".SelfProfile" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".SelfProfile" />
+
         <activity
             android:name=".LoginActivity"
             android:exported="true"
-            android:parentActivityName=".StartActivity" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".StartActivity" />
-        </activity>
-
-        <activity
-            android:name=".CreateAccountActivity"
-            android:exported="true"
-            android:parentActivityName=".StartActivity" >
+            android:parentActivityName=".StartActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StartActivity" />
         </activity>
         <activity
-            android:name=".AddActivity"
-            android:exported="true"
-            android:parentActivityName=".ViewOwnProfilePlaceholder" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ViewOwnProfilePlaceholder" />
-        </activity>
-        <activity
-            android:name=".ViewOwnProfilePlaceholder"
-            android:exported="true" >
+            android:name=".StartActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,9 +40,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".StartActivity"
-            android:exported="true" >
+            android:name=".CreateAccountActivity"
+            android:exported="true"
+            android:parentActivityName=".StartActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StartActivity" />
         </activity>
+        <activity
+            android:name=".ViewOwnProfilePlaceholder"
+            android:exported="true" />
+        <activity
+            android:name=".AddActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SelfProfile"
+            android:exported="true"></activity>
+        <activity
+            android:name=".FeedActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

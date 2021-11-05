@@ -1,3 +1,14 @@
+/**
+ * START ACTIVITY
+ * @author cole
+ *
+ * This is a control class that creates a screen
+ * that will be initially seen when users first open the app
+ * They can then choose to either create an account or
+ * log in to an existing one
+ */
+
+
 package com.example.ht;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,13 +52,13 @@ public class StartActivity extends AppCompatActivity {
     private void goToCreate(){
         Intent intent = new Intent(this, CreateAccountActivity.class);
         startActivity(intent);
+        finish();
     }
 
     //starts the login activity
     private void goToLogin(){
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
-
-
 }
