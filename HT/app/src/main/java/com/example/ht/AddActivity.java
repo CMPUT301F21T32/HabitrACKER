@@ -41,6 +41,7 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
     List<Boolean> selectedDays = new ArrayList<>(Collections.nCopies(7, false));
     TimePicker time;
     Intent intent;
+    // Set the default date to today's date
     String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
 
     @Override
@@ -54,7 +55,6 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         time = (TimePicker) findViewById(R.id.timePicker);
 
         intent = getIntent();
-
 
         // Ids for the 7 toggle buttons for each day
         int[] dayButtonIds = {R.id.toggleSun, R.id.toggleMon, R.id.toggleTue, R.id.toggleWed,
@@ -88,14 +88,25 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         }
     }
 
+    /**
+     * Used for creating the date picker fragment
+     * @param v
+     */
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    /**
+     * Sets the date to a string representing the date selected in the date picker fragment
+     * represented in yyyy/MM/dd
+     * @param view
+     * @param year
+     * @param month
+     * @param day
+     */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        //do some stuff for example write on log and update TextField on activity
         date = year + "/" + month + "/" + day;
     }
 
@@ -105,12 +116,15 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         // Create a habit with the data collected
         String name = habitName.getText().toString();
         String desc = habitDesc.getText().toString();
+        // Do not continue if the title is over 20 characters or the descriptions is over 30 characters
         if (name.length() > 20) return;
         if (desc.length() > 30) return;
         habitName.getText().clear();
         habitDesc.getText().clear();
+        // Convert the integers and minutes to strings so they can be stored in the firebase
         String hour = Integer.toString(time.getCurrentHour());
         String minute = Integer.toString(time.getCurrentMinute());
+        // Put the data into a hashmap
         HashMap<String, String> data = new HashMap<>();
         data.put("name", name);
         data.put("description", desc);
@@ -118,6 +132,7 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         data.put("minute", minute);
         data.put("date", date);
         data.put("selectedDays", selectedDays.toString());
+        // Gets the username of the current user
         data.put("username", intent.getStringExtra("USERNAME"));
 
 
