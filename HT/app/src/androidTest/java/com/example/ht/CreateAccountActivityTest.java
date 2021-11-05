@@ -98,7 +98,7 @@ public class CreateAccountActivityTest {
         solo.finishOpenedActivities();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference ref = db.collection("Habits").document("testtest");
+        DocumentReference ref = db.collection("users").document("testtest");
 
         ref.delete();
 
