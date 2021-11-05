@@ -43,6 +43,7 @@ public class ViewHabitActivity extends AppCompatActivity {
     TextView days;
     ListView mainList;
     Button editButton;
+    Button addButton;
 
     ArrayList<Habit> eventList = new ArrayList<>();
     ArrayAdapter<Habit> eventAdapter;
@@ -65,6 +66,7 @@ public class ViewHabitActivity extends AppCompatActivity {
 
         mainList = findViewById(R.id.event_list);
         editButton = findViewById(R.id.edit_button);
+        addButton = findViewById(R.id.addEvent_button);
 
 
         // set screen text to detail of given habit
@@ -103,6 +105,14 @@ public class ViewHabitActivity extends AppCompatActivity {
             }
         });
 
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addHabitEvent(habit);
+
+            }
+        });
+
 
 
 
@@ -125,6 +135,20 @@ public class ViewHabitActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    /**
+     * launches the add habit event activity
+     *
+     * @param habit the habit which the event will be added to
+     */
+    public void addHabitEvent(Habit habit) {
+        Intent intent = new Intent(this, AddEventActivity.class);
+        intent.putExtra("HABITID", habit.getHabitID());
+        startActivity(intent);
+        finish();
+    }
+
+
 
 
 
