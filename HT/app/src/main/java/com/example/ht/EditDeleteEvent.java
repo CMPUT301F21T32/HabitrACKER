@@ -91,6 +91,10 @@ public class EditDeleteEvent extends AppCompatActivity {
         String textReason= habitReason.getText().toString();
         String textComment= seeComments.getText().toString();
 
+        if (seeComments.length() > 20){
+            return;
+        }
+
         // Add to Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -101,7 +105,7 @@ public class EditDeleteEvent extends AppCompatActivity {
         data.put("Comment", textComment);
 
         // Get description from Habits collection
-        DocumentReference fromHabits = db.collection("Habits").document();
+        DocumentReference fromHabits = db.collection("Habits").document(HabitEventID);
         String description= fromHabits.get().toString();
 
         // Put into Firestore
