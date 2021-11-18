@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:paddingTop="10dp"
         android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,26 +32,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
-                android:paddingHorizontal="20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp">
 
                 <TextView
-                    android:paddingTop="20dp"
-                    android:textSize="10pt"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif-black"
-                    android:textColor="@color/black"
                     android:id="@+id/full_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Full Name" />
+                    android:fontFamily="sans-serif-black"
+                    android:paddingTop="20dp"
+                    android:text="Full Name"
+                    android:textColor="@color/black"
+                    android:textSize="10pt"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/username"
-                    android:textSize="8pt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="-@username" />
+                    android:text="-@username"
+                    android:textSize="8pt" />
 
                 <Button
                     android:id="@+id/button"
@@ -67,65 +67,65 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:paddingHorizontal="20dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp">
 
             <Button
                 android:id="@+id/followers_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3870FF"
-                android:layout_weight="1"
-                android:text="Followers"
                 android:layout_marginRight="10dp"
-                app:cornerRadius="10dp"/>
+                android:layout_weight="1"
+                android:backgroundTint="#3870FF"
+                android:text="Followers"
+                app:cornerRadius="10dp" />
 
             <Button
                 android:id="@+id/following_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3870FF"
-                android:layout_weight="1"
-                android:text="Following"
                 android:layout_marginLeft="10dp"
-                app:cornerRadius="10dp"/>
+                android:layout_weight="1"
+                android:backgroundTint="#3870FF"
+                android:text="Following"
+                app:cornerRadius="10dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:paddingHorizontal="20dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp">
 
             <Button
                 android:id="@+id/delete_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3870FF"
-                android:layout_weight="1"
-                android:text="Delete Habit"
                 android:layout_marginRight="10dp"
-                app:cornerRadius="10dp"/>
+                android:layout_weight="1"
+                android:backgroundTint="#3870FF"
+                android:text="Delete Habit"
+                app:cornerRadius="10dp" />
 
             <Button
                 android:id="@+id/add_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#3870FF"
-                android:layout_weight="1"
-                android:text="Add Habit"
                 android:layout_marginLeft="10dp"
-                app:cornerRadius="10dp"
-                android:onClick="addHabit"/>
+                android:layout_weight="1"
+                android:backgroundTint="#3870FF"
+                android:onClick="addHabit"
+                android:text="Add Habit"
+                app:cornerRadius="10dp" />
 
         </LinearLayout>
 
         <ListView
             android:id="@id/habit_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/cell_content"
-            android:layout_weight="1"/>
+            android:layout_height="404dp"
+            android:layout_weight="1"
+            tools:listitem="@layout/cell_content" />
 
         <LinearLayout
             android:layout_width="match_parent"

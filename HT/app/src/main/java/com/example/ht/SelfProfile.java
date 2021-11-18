@@ -98,6 +98,15 @@ public class SelfProfile extends AppCompatActivity {
             }
         });
 
+        Button searchButton = findViewById(R.id.profileSearch_button);
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSearch(username);
+            }
+        });
+
 
         // Setting up list item click
         mainList = findViewById(R.id.habit_list);
@@ -141,7 +150,7 @@ public class SelfProfile extends AppCompatActivity {
                 }
                 else {
 //
-                    viewHabit(habitList.get(i));
+                    viewHabit(habitList.get(i), username);
                 }
             }
         });
@@ -239,6 +248,7 @@ public class SelfProfile extends AppCompatActivity {
         Intent intent = new Intent(this, AddActivity.class);
         intent.putExtra("USERNAME", username);
         startActivity(intent);
+        finish();
 
         Log.d("POPULATING:", "\n");
     }
@@ -276,9 +286,20 @@ public class SelfProfile extends AppCompatActivity {
 
     }
 
-    private void viewHabit(Habit habit){
+    //starts the profile activity
+    private void goToSearch(String un){
+        Intent intent = new Intent(this, Search.class);
+        intent.putExtra("USERNAME", un);
+        startActivity(intent);
+        finish();
+
+    }
+
+    private void viewHabit(Habit habit, String un){
         Intent intent = new Intent(this, ViewHabitActivity.class);
         intent.putExtra("habit", habit);
+        intent.putExtra("USERNAME", un);
+
         startActivity(intent);
         finish();
     }

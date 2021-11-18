@@ -11,16 +11,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HT">
         <activity
-            android:name=".AddEventActivity"
+            android:name=".Search"
             android:exported="false" />
         <activity
+            android:name=".AddEventActivity"
+            android:exported="true" />
+        <activity
             android:name=".ViewHabitActivity"
-            android:exported="false"
-            android:parentActivityName=".SelfProfile" />
+            android:exported="true"/>
 
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".SelfProfile" />
 
         <activity
             android:name=".LoginActivity"
@@ -47,15 +46,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StartActivity" />
         </activity>
-        <activity
-            android:name=".ViewOwnProfilePlaceholder"
-            android:exported="true" />
+
         <activity
             android:name=".AddActivity"
             android:exported="true" />
         <activity
             android:name=".SelfProfile"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".FeedActivity"
             android:exported="true" />
