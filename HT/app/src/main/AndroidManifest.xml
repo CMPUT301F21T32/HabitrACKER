@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.ht">
+    package="com.example.ht" >
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HT">
+        android:theme="@style/Theme.HT" >
+        <activity
+            android:name=".OtherUserProfile"
+            android:exported="false" />
         <activity
             android:name=".Search"
             android:exported="false" />
@@ -18,20 +21,14 @@
             android:exported="true" />
         <activity
             android:name=".ViewHabitActivity"
-            android:exported="true"/>
-
-
+            android:exported="true" />
         <activity
             android:name=".LoginActivity"
             android:exported="true"
-            android:parentActivityName=".StartActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StartActivity" />
-        </activity>
+            android:parentActivityName=".StartActivity" />
         <activity
             android:name=".StartActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,12 +38,7 @@
         <activity
             android:name=".CreateAccountActivity"
             android:exported="true"
-            android:parentActivityName=".StartActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StartActivity" />
-        </activity>
-
+            android:parentActivityName=".StartActivity" />
         <activity
             android:name=".AddActivity"
             android:exported="true" />

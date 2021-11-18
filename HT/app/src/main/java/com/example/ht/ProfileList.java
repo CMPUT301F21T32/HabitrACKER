@@ -1,5 +1,7 @@
 package com.example.ht;
 
+
+
 import android.content.Context;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -12,19 +14,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.example.ht.Habit;
+import com.example.ht.R;
+
 import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
 
-public class CustomList extends ArrayAdapter<Habit> {
+public class ProfileList extends ArrayAdapter<Profile> {
     private ConstraintLayout layout;
-    private ArrayList<Habit> habitList;
+    private ArrayList<Profile> profileList;
     private Context context;
     private int content;
 
-    public CustomList(Context context, ArrayList habitList) {
+    public ProfileList(Context context, ArrayList habitList) {
         super(context, 0, habitList);
-        this.habitList = habitList;
+        this.profileList = habitList;
         this.context = context;
 
     }
@@ -35,19 +40,16 @@ public class CustomList extends ArrayAdapter<Habit> {
         //return super.getView(position, convertView, parent);
         View view = convertView;
         if(view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.cell_content, parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.profile_cell, parent,false);
         }
 
-        Habit habit = habitList.get(position);
+        Profile profile = profileList.get(position);
 
-        TextView habitTitle = view.findViewById(R.id.habit_title);
-        TextView habitDescription = view.findViewById(R.id.habit_description);
-        TextView username = view.findViewById(R.id.username);
-        habitTitle.setText(habit.getName());
-        habitDescription.setText(habit.getDescription());
-        username.setText("defaultUser");
+        TextView name = view.findViewById(R.id.profileCell_name);
+        TextView username = view.findViewById(R.id.profileCell_username);
 
+        name.setText(profile.getName());
+        username.setText("@"+ profile.getUsername());
         return view;
     }
 }
-

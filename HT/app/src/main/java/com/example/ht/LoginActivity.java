@@ -12,9 +12,11 @@ package com.example.ht;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -60,6 +64,10 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("sample: ", "Document exists!");
                                 // GO TO NEXT ACTIVITY
 
+                                Profile temp = new Profile(usernameText, passwordText, document.get("name").toString());
+
+                                MainUser.setProfile(temp);
+
                                 goToAccount(usernameText);
 
                             } else {
@@ -79,9 +87,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void goToAccount(String un){
         Intent intent = new Intent(this, FeedActivity.class);
-        intent.putExtra("USERNAME", un);
+
 
         startActivity(intent);
         finish();
     }
+
 }
