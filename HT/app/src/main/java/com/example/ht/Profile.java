@@ -1,6 +1,17 @@
 package com.example.ht;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author cole
@@ -12,9 +23,6 @@ public class Profile {
     protected String password;
     protected String name;
 
-    //to be added when habit class is implemented
-    //protected ArrayList<Habit> habits;
-
     protected ArrayList<String> followers;
     protected ArrayList<String> following;
 
@@ -25,6 +33,32 @@ public class Profile {
         this.name = name;
         this.followers = new ArrayList<>();
         this.following = new ArrayList<>();
+    }
+
+    public Profile(String username, String password, String name, String following, String followers) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+
+
+        // Convert the following string into a list
+        following = following.substring(1, following.length()-1);
+
+        if(following.length() > 0){
+            this.following = new ArrayList<String>(Arrays.asList(following.split(",")));
+        }else{
+            this.following = new ArrayList<>();
+        }
+
+
+        // Convert the following string into a list
+        followers = followers.substring(1, followers.length()-1);
+        if(followers.length() > 0) {
+            this.followers = new ArrayList<String>(Arrays.asList(followers.split(",")));
+        }else{
+            this.followers = new ArrayList<>();
+        }
+
     }
 
 
@@ -95,7 +129,57 @@ public class Profile {
     }
 
 
-    //functions to deal with following and followers to be add when related features are added
+    public Boolean isFollowing(String check){
+        if(following.contains(check)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public void addFollower(String user){
+        followers.add(user);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference ref = db.collection("users").document(username);
+
+
+        ref.update("followers", followers.toString())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("ADD FOLLOWER", "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("ADD FOLLOWER", "Error updating document", e);
+                    }
+                });
+    }
+
+    public void addFollowing(String user){
+        following.add(user);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference ref = db.collection("users").document(username);
+
+
+        ref.update("following", following.toString())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("ADD FOLLOWER", "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("ADD FOLLOWER", "Error updating document", e);
+                    }
+                });
+    }
 
 
 }

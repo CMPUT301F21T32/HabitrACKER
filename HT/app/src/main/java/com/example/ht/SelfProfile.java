@@ -42,6 +42,7 @@ public class SelfProfile extends AppCompatActivity {
     ArrayAdapter<Habit> habitAdapter;
     boolean isDeleting = false;
     String username;
+    Profile currentUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     // Declarations for the xml list, list that contains habit items, and the adapter for the array
 
@@ -59,6 +60,11 @@ public class SelfProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.self_profile);
+
+        currentUser = MainUser.getProfile();
+        username = currentUser.getUsername();
+
+
         populateList();
 
         Button deleteButton = findViewById(R.id.delete_button);
@@ -67,27 +73,27 @@ public class SelfProfile extends AppCompatActivity {
 
 
         // set Username and name to that of current user
-        Intent intent = getIntent();
-        username = intent.getStringExtra("USERNAME");
+
 
         usernameLabel.setText("@"+username);
+        nameLabel.setText(currentUser.getName());
 
-        DocumentReference ref = db.collection("users").document(username);
-        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d("sample: ", "Document exists!");
-                        // GO TO NEXT ACTIVITY
-
-                        nameLabel.setText(document.get("name").toString());
-
-                    }
-                }
-            }
-        });
+//        DocumentReference ref = db.collection("users").document(username);
+//        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        Log.d("sample: ", "Document exists!");
+//                        // GO TO NEXT ACTIVITY
+//
+//                        nameLabel.setText(document.get("name").toString());
+//
+//                    }
+//                }
+//            }
+//        });
 
         Button homeButton = findViewById(R.id.ProfileHome_button);
 
@@ -209,7 +215,7 @@ public class SelfProfile extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         habitList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            if(document.get("username").toString().equals(username)) {
+                            if(document.get("username").toString().equals(currentUser.getUsername())) {
                                 // Get the attributes from each habit in the database
                                 String title = document.getData().get("name").toString();
                                 String description = document.getData().get("description").toString();
@@ -280,7 +286,7 @@ public class SelfProfile extends AppCompatActivity {
     //starts the profile activity
     private void goToHome(String un){
         Intent intent = new Intent(this, FeedActivity.class);
-        intent.putExtra("USERNAME", un);
+
         startActivity(intent);
         finish();
 
@@ -289,7 +295,6 @@ public class SelfProfile extends AppCompatActivity {
     //starts the profile activity
     private void goToSearch(String un){
         Intent intent = new Intent(this, Search.class);
-        intent.putExtra("USERNAME", un);
         startActivity(intent);
         finish();
 
@@ -298,7 +303,7 @@ public class SelfProfile extends AppCompatActivity {
     private void viewHabit(Habit habit, String un){
         Intent intent = new Intent(this, ViewHabitActivity.class);
         intent.putExtra("habit", habit);
-        intent.putExtra("USERNAME", un);
+
 
         startActivity(intent);
         finish();
