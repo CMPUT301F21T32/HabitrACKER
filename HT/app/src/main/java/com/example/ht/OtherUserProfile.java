@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,16 +40,19 @@ public class OtherUserProfile extends AppCompatActivity {
     final int FOLLOWING = 1;
     final int REQUESTED = 2;
 
+    String parent;
+
     Intent intent;
     TextView usernameLabel;
     TextView nameLabel;
     ListView mainList;
     Button request;
+    ImageButton back;
     ArrayList<Habit> habitList = new ArrayList<>();
     ArrayAdapter<Habit> habitAdapter;
     boolean isDeleting = false;
     String username;
-    Profile currentUser;
+    Profile otherUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     int followState;
     // Declarations for the xml list, list that contains habit items, and the adapter for the array
@@ -69,8 +73,10 @@ public class OtherUserProfile extends AppCompatActivity {
         setContentView(R.layout.activity_other_user_profile);
 
         intent = getIntent();
-        currentUser = (Profile) intent.getSerializableExtra("USER");
-        username = currentUser.getUsername();
+        otherUser = (Profile) intent.getSerializableExtra("USER");
+        username = otherUser.getUsername();
+
+        parent = intent.getStringExtra("PARENT");
 
 
         populateList();
@@ -84,11 +90,11 @@ public class OtherUserProfile extends AppCompatActivity {
 
 
         usernameLabel.setText("@" + username);
-        nameLabel.setText(currentUser.getName());
+        nameLabel.setText(otherUser.getName());
 
 
         request = findViewById(R.id.requestButton);
-        if(currentUser.getUsername().equals(MainUser.getProfile().getUsername())){
+        if(otherUser.getUsername().equals(MainUser.getProfile().getUsername())){
             // if this is the main users profile
             request.setVisibility(View.GONE);
 
@@ -166,8 +172,8 @@ public class OtherUserProfile extends AppCompatActivity {
                 }else if(followState == FOLLOWING){
                     request.setText("Request Follow");
                     request.setBackgroundColor(getResources().getColor(R.color.blue));
-                    currentUser.removeFollower(MainUser.getProfile().getUsername());
-                    MainUser.getProfile().removerFollowing(currentUser.getUsername());
+                    otherUser.removeFollower(MainUser.getProfile().getUsername());
+                    MainUser.getProfile().removerFollowing(otherUser.getUsername());
                     followState = NOT_FOLLOWING;
                 }else{
                     request.setText("Request Follow");
@@ -182,21 +188,18 @@ public class OtherUserProfile extends AppCompatActivity {
         });
 
 
-        Button homeButton = findViewById(R.id.ProfileHome_button);
+        back = findViewById(R.id.other_back);
 
-        homeButton.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToHome(username);
-            }
-        });
-
-        Button searchButton = findViewById(R.id.profileSearch_button);
-
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToSearch(username);
+                if(parent.equals("following")){
+                    viewFollowing();
+                }else if (parent.equals("followers")){
+                    viewFollowers();
+                }else{
+                    goToSearch();
+                }
             }
         });
 
@@ -220,31 +223,8 @@ public class OtherUserProfile extends AppCompatActivity {
              */
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(isDeleting) {
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    String v_deletehabit = habitList.get(i).getHabitID();
-                    Log.d("TEST!", v_deletehabit);
-                    db.collection("Habits")
-                            .document(v_deletehabit)
-                            .delete()
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("TAG", "City successfully deleted!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("TAG", "Error deleting document", e);
-                                }
-                            });
-                    removeItemInList(i);
-                }
-                else {
-//
-                    viewHabit(habitList.get(i), username);
-                }
+                viewHabit(habitList.get(i), username);
+
             }
         });
 
@@ -288,7 +268,7 @@ public class OtherUserProfile extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         habitList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            if(document.get("username").toString().equals(currentUser.getUsername())) {
+                            if(document.get("username").toString().equals(otherUser.getUsername())) {
                                 // Get the attributes from each habit in the database
                                 String title = document.getData().get("name").toString();
                                 String description = document.getData().get("description").toString();
@@ -314,37 +294,6 @@ public class OtherUserProfile extends AppCompatActivity {
 
     }
 
-    /**
-     * This function starts an intent (AddActivity)
-     * and adds the habit to the database. This
-     * is called when "Add Habit" Button is
-     * tapped.
-     * @param view
-     */
-    public void addHabit(View view) {
-        // Start AddActivity Page
-
-        Intent intent = new Intent(this, AddActivity.class);
-        intent.putExtra("USERNAME", username);
-        startActivity(intent);
-        finish();
-
-        Log.d("POPULATING:", "\n");
-    }
-
-
-
-    /**
-     * Given an index, will remove that item
-     * from the list, and update the adapter
-     * @param index
-     */
-    public void removeItemInList(int index) {
-        if (index >= 0) {
-            habitList.remove(index);
-            habitAdapter.notifyDataSetChanged();
-        }
-    }
 
     /**
      * Overrides onResume to update the list
@@ -356,17 +305,25 @@ public class OtherUserProfile extends AppCompatActivity {
     }
 
 
-    //starts the profile activity
-    private void goToHome(String un){
-        Intent intent = new Intent(this, FeedActivity.class);
-
+    // starts view follow activity for following
+    private void viewFollowing(){
+        Intent intent = new Intent(this, ViewFollowActivity.class);
+        intent.putExtra("MODE", "following");
         startActivity(intent);
         finish();
+    }
 
+
+    // starts view follow activity for followers
+    private void viewFollowers(){
+        Intent intent = new Intent(this, ViewFollowActivity.class);
+        intent.putExtra("MODE", "followers");
+        startActivity(intent);
+        finish();
     }
 
     //starts the profile activity
-    private void goToSearch(String un){
+    private void goToSearch(){
         Intent intent = new Intent(this, Search.class);
         startActivity(intent);
         finish();

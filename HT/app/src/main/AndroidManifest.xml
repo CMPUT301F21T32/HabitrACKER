@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HT">
         <activity
+            android:name=".ViewFollowActivity"
+            android:exported="false" />
+        <activity
             android:name=".FollowRequestActivity"
             android:exported="false" />
         <activity
