@@ -3,7 +3,6 @@ package com.example.ht;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,25 +12,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.ht.AddActivity;
-import com.example.ht.CustomList;
-import com.example.ht.Habit;
-import com.example.ht.R;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SelfProfile extends AppCompatActivity {
 
@@ -80,6 +69,10 @@ public class SelfProfile extends AppCompatActivity {
 
 
         Button request = findViewById(R.id.viewRequests);
+
+        if(!areThereRequests()){
+            request.setCompoundDrawables(null, null, null, null);
+        }
 
         request.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -308,6 +301,33 @@ public class SelfProfile extends AppCompatActivity {
         Intent intent = new Intent(this, FollowRequestActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    /**Checks to see is user has any follow requests
+     *
+     * @return true if the user has follow requests, false otherwise
+     */
+    private Boolean areThereRequests(){
+        AtomicInteger num = new AtomicInteger();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Follow Requests")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        habitList.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if(document.get("to").toString().equals(username)) {
+                                num.getAndIncrement();
+
+                            }
+                        }
+                    } else {
+                        Log.d("ERROR:", "Error getting documents: ", task.getException());
+                    }
+                });
+        return (num.intValue() > 0);
+
     }
 
 
