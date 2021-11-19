@@ -37,7 +37,7 @@
                 android:paddingHorizontal="20dp">
 
                 <TextView
-                    android:id="@+id/full_name"
+                    android:id="@+id/other_full_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-black"
@@ -48,13 +48,14 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/username"
+                    android:id="@+id/other_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="-@username"
                     android:textSize="8pt" />
 
                 <Button
+                    android:id="@+id/requestButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#3870FF"
@@ -65,7 +66,7 @@
         </LinearLayout>
 
         <ListView
-            android:id="@id/habit_list"
+            android:id="@+id/other_list"
             android:layout_width="match_parent"
             android:layout_height="507dp"
             android:layout_weight="1"
