@@ -78,22 +78,15 @@ public class SelfProfile extends AppCompatActivity {
         usernameLabel.setText("@"+username);
         nameLabel.setText(currentUser.getName());
 
-//        DocumentReference ref = db.collection("users").document(username);
-//        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        Log.d("sample: ", "Document exists!");
-//                        // GO TO NEXT ACTIVITY
-//
-//                        nameLabel.setText(document.get("name").toString());
-//
-//                    }
-//                }
-//            }
-//        });
+
+        Button request = findViewById(R.id.viewRequests);
+
+        request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewRequests();
+            }
+        });
 
         Button homeButton = findViewById(R.id.ProfileHome_button);
 
@@ -300,6 +293,7 @@ public class SelfProfile extends AppCompatActivity {
 
     }
 
+    // starts ViewHabit activity for habit
     private void viewHabit(Habit habit, String un){
         Intent intent = new Intent(this, ViewHabitActivity.class);
         intent.putExtra("habit", habit);
@@ -308,4 +302,13 @@ public class SelfProfile extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    // starts ViewHabit activity for habit
+    private void viewRequests(){
+        Intent intent = new Intent(this, FollowRequestActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+
 }

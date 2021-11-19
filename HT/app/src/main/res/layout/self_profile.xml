@@ -54,11 +54,11 @@
                     android:textSize="8pt" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/viewRequests"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#3870FF"
-                    android:text="Edit Profile"
+                    android:text="Follow Requests"
                     app:cornerRadius="10dp" />
 
             </LinearLayout>

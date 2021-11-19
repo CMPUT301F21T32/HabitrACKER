@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,6 +54,14 @@ public class Search extends AppCompatActivity {
 
         list = findViewById(R.id.searchList);
 
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                goToUser(searchList.get(i));
+
+            }
+        });
+
 
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +89,7 @@ public class Search extends AppCompatActivity {
     }
 
     /**
-     * This function takes a habit, and adds it
+     * This function takes a Profile, and adds it
      * to the list, updating the adapter.
      * Unfortunately I could not just add the item in
      * populateList() because it wont work.
@@ -99,11 +108,10 @@ public class Search extends AppCompatActivity {
 
     /**
      * This function looks inside the database,
-     * and gets the title, description, hour,
-     * minute, date, selected days, and username
-     * from the habit in the database, and
-     * stores those values into a habit object
-     * which then adds to the habitList
+     * and gets the data related to users that match
+     * the current search and then
+     * stores those values into a Profile object
+     * which then adds to the searchList
      * REUSED FROM SELF PROFILE
      */
     public void populateList() {
@@ -120,10 +128,12 @@ public class Search extends AppCompatActivity {
                                 String name = document.get("name").toString();
                                 String username = document.getData().get("username").toString();
                                 String password = "*********";
+                                String following = document.get("following").toString();
+                                String followers = document.get("followers").toString();
 
 
                                 // Create new habit and add to the list!
-                                Profile newProfile = new Profile(username, password, name);
+                                Profile newProfile = new Profile(username, password, name,following, followers);
                                 addProfileToList(newProfile);
 
                                 Log.d("Profile:", name);
@@ -146,8 +156,19 @@ public class Search extends AppCompatActivity {
         finish();
     }
 
+    // starts the main feed activity
     private void goToFeed(){
         Intent intent = new Intent(this, FeedActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    //opens user profile
+    private void goToUser(Profile user){
+        Intent intent = new Intent(this, OtherUserProfile.class);
+        intent.putExtra("USER", user);
+
+
         startActivity(intent);
         finish();
     }
