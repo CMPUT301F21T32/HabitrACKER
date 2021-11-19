@@ -53,6 +53,10 @@ public class SelfProfile extends AppCompatActivity {
         currentUser = MainUser.getProfile();
         username = currentUser.getUsername();
 
+        habitList = new ArrayList<Habit>();
+        mainList = findViewById(R.id.habit_list);
+        habitAdapter = new CustomList(this, habitList);
+        mainList.setAdapter(habitAdapter);
 
         populateList();
 
@@ -70,6 +74,8 @@ public class SelfProfile extends AppCompatActivity {
 
         Button request = findViewById(R.id.viewRequests);
 
+        // checks to see if user has un resolved follow requests
+        // if so puts up notification
         if(!areThereRequests()){
             request.setCompoundDrawables(null, null, null, null);
         }
@@ -80,6 +86,27 @@ public class SelfProfile extends AppCompatActivity {
                 viewRequests();
             }
         });
+
+        Button following = findViewById(R.id.following_button);
+
+        following.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewFollowing();
+            }
+        });
+
+        Button followers = findViewById(R.id.followers_button);
+
+        followers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewFollowers();
+            }
+        });
+
+
+
 
         Button homeButton = findViewById(R.id.ProfileHome_button);
 
@@ -174,14 +201,9 @@ public class SelfProfile extends AppCompatActivity {
      */
     public void addHabitToList(Habit habit) {
         habitList.add(habit);
+        habitAdapter.notifyDataSetChanged();
         Log.d("LIST CHECK", habitList.get(0).getName());
 
-        mainList = findViewById(R.id.habit_list);
-        //xml list reference
-
-        habitAdapter = new CustomList(this, habitList);
-        mainList.setAdapter(habitAdapter);
-        habitAdapter.notifyDataSetChanged();
         // update list
     }
 
@@ -200,6 +222,7 @@ public class SelfProfile extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         habitList.clear();
+                        habitAdapter.notifyDataSetChanged();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             if(document.get("username").toString().equals(currentUser.getUsername())) {
                                 // Get the attributes from each habit in the database
@@ -244,6 +267,7 @@ public class SelfProfile extends AppCompatActivity {
 
         Log.d("POPULATING:", "\n");
     }
+
 
 
 
@@ -303,6 +327,25 @@ public class SelfProfile extends AppCompatActivity {
         finish();
     }
 
+    // starts view follow activity for following
+    private void viewFollowing(){
+        Intent intent = new Intent(this, ViewFollowActivity.class);
+        intent.putExtra("MODE", "following");
+        startActivity(intent);
+        finish();
+    }
+
+
+    // starts view follow activity for followers
+    private void viewFollowers(){
+        Intent intent = new Intent(this, ViewFollowActivity.class);
+        intent.putExtra("MODE", "followers");
+        startActivity(intent);
+        finish();
+    }
+
+
+
     /**Checks to see is user has any follow requests
      *
      * @return true if the user has follow requests, false otherwise
@@ -315,7 +358,7 @@ public class SelfProfile extends AppCompatActivity {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        habitList.clear();
+
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             if(document.get("to").toString().equals(username)) {
                                 num.getAndIncrement();

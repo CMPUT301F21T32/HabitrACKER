@@ -64,6 +64,8 @@ public class Profile implements Serializable {
             this.followers = new ArrayList<>();
         }
 
+        Log.d("FOLLOWING: ", this.following.toString());
+
     }
 
 
@@ -149,6 +151,24 @@ public class Profile implements Serializable {
             return false;
         }
     }
+
+
+    /**
+     * checks is this profile is followed by a profile with the username
+     * stored in check
+     *
+     * @param check username to check
+     * @return true is profile is followed, false otherwise
+     */
+    public Boolean isFollower(String check){
+        if(followers.contains(check)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
 
     public void setFollowers(ArrayList<String> followers) {
         this.followers = followers;

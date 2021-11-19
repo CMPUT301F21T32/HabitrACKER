@@ -25,6 +25,7 @@ public class Search extends AppCompatActivity {
     Button profileButton;
     Button homeButton;
 
+
     ImageButton goButton;
     EditText searchBar;
     String searchText;
@@ -167,9 +168,10 @@ public class Search extends AppCompatActivity {
     private void goToUser(Profile user){
         Intent intent = new Intent(this, OtherUserProfile.class);
         intent.putExtra("USER", user);
+        intent.putExtra("PARENT", "search");
 
 
         startActivity(intent);
-        finish();
+
     }
 }

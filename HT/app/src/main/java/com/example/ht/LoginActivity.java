@@ -63,12 +63,15 @@ public class LoginActivity extends AppCompatActivity {
                             if (document.exists() && document.get("password").equals(passwordText)) {
                                 Log.d("sample: ", "Document exists!");
                                 // GO TO NEXT ACTIVITY
+                                String name = document.get("name").toString();
+                                String following = document.get("following").toString();
+                                String followers = document.get("followers").toString();
 
-                                Profile temp = new Profile(usernameText, passwordText, document.get("name").toString());
+                                Profile temp = new Profile(usernameText, passwordText, name, following, followers);
 
                                 MainUser.setProfile(temp);
 
-                                goToAccount(usernameText);
+                                goToAccount();
 
                             } else {
                                 username.setText("");
@@ -85,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
     //starts the next activity
     // currently set to return to start, will be changed when activity is added
 
-    private void goToAccount(String un){
+    private void goToAccount(){
         Intent intent = new Intent(this, FeedActivity.class);
 
 
