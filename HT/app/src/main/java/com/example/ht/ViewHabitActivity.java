@@ -35,6 +35,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * this creates the page that allows you to view the details of a habit
+ */
+
 public class ViewHabitActivity extends AppCompatActivity {
     Intent intent;
     Habit habit;
@@ -208,7 +212,10 @@ public class ViewHabitActivity extends AppCompatActivity {
     }
 
 
-    //starts the profile activity
+    /**
+     * starts profile activity
+     * @param un
+     */
     private void goToProfile(String un){
         Intent intent = new Intent(this, SelfProfile.class);
 
@@ -216,6 +223,10 @@ public class ViewHabitActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * starts search activity
+     * @param un u
+     */
     private void goToSearch(String un){
         Intent intent = new Intent(this, Search.class);
 
@@ -223,6 +234,10 @@ public class ViewHabitActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * starts home feed activity
+     * @param un
+     */
     private void goToHome(String un){
         Intent intent = new Intent(this, FeedActivity.class);
         startActivity(intent);;
