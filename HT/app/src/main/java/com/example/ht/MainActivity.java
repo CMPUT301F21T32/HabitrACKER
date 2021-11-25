@@ -78,9 +78,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
     public void addHabitToList(Habit habit) {
+        //habitList.add(habit);
+        //habitAdapter.notifyDataSetChanged();
+        //Log.d("LIST CHECK", habitList.get(0).getName());
+
         habitList.add(habit);
-        habitAdapter.notifyDataSetChanged();
         Log.d("LIST CHECK", habitList.get(0).getName());
+
+        mainList = findViewById(R.id.habit_list);
+        //xml list reference
+
+        habitAdapter = new CustomList(this, habitList);
+        mainList.setAdapter(habitAdapter);
+        habitAdapter.notifyDataSetChanged();
 
         // update list
     }
