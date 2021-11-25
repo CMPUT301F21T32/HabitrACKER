@@ -48,7 +48,7 @@ public class Habit implements Serializable {
         }
         // Convert the selectedDays string into a list
         selectedDays = selectedDays.substring(1, selectedDays.length()-1);
-        List<String> daysString = new ArrayList<String>(Arrays.asList(selectedDays.split(",")));
+        List<String> daysString = new ArrayList<String>(Arrays.asList(selectedDays.split(", ")));
         this.selectedDays = new ArrayList<Boolean>();
         for (String s : daysString) {
             this.selectedDays.add(Boolean.parseBoolean(s));
