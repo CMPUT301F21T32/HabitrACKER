@@ -268,7 +268,7 @@ public class OtherUserProfile extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         habitList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            if(document.get("username").toString().equals(otherUser.getUsername())) {
+                            if(document.get("username") != null && document.get("username").toString().equals(otherUser.getUsername())) {
                                 // Get the attributes from each habit in the database
                                 String title = document.getData().get("name").toString();
                                 String description = document.getData().get("description").toString();
