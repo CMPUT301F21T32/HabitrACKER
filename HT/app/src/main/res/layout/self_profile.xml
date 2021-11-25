@@ -121,8 +121,26 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Today's Habits:"
+            android:paddingTop="10dp"
+            android:textStyle="bold"/>
         <ListView
-            android:id="@id/habit_list"
+            android:id="@+id/todays_habits"
+            android:layout_width="match_parent"
+            android:layout_height="404dp"
+            android:layout_weight="1"
+            tools:listitem="@layout/cell_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Habits Later this Week:"
+            android:paddingTop="10dp"
+            android:textStyle="bold"/>
+        <ListView
+            android:id="@+id/other_habits"
             android:layout_width="match_parent"
             android:layout_height="404dp"
             android:layout_weight="1"

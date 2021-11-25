@@ -1,6 +1,7 @@
 package com.example.ht;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Habit implements Serializable {
 
@@ -48,11 +50,12 @@ public class Habit implements Serializable {
         }
         // Convert the selectedDays string into a list
         selectedDays = selectedDays.substring(1, selectedDays.length()-1);
-        List<String> daysString = new ArrayList<String>(Arrays.asList(selectedDays.split(",")));
+        List<String> daysString = new ArrayList<String>(Arrays.asList(selectedDays.split(", ")));
         this.selectedDays = new ArrayList<Boolean>();
         for (String s : daysString) {
             this.selectedDays.add(Boolean.parseBoolean(s));
         }
+        Log.d("PARSING:", this.selectedDays.toString());
         this.habitID = habitID;
     }
 
@@ -115,4 +118,18 @@ public class Habit implements Serializable {
                 this.selectedDays.get(dayOfWeek)); // Checks that the habit occurs today
     }
 
+    public int getTimesPassed() {
+        int total = 0;
+        Date today = new Date(); // 1637305200000 1637797212967
+        Log.d("DATE CHECK", String.valueOf(today.getTime()));
+        for (int i = 0; i < 7; i++) {
+            if(selectedDays.get(i) == true) {
+                long diffInMills = today.getTime() - date.getTime();
+                int daysTotal = (int) (diffInMills/86400000)/7; // THIS IS MILLISECONDS TO DAYS
+                total += daysTotal;
+            }
+        }
+        Log.d("DATE FINAL", String.valueOf(total));
+        return total;
+    }
 }

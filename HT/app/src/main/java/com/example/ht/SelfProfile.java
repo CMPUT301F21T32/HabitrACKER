@@ -14,21 +14,34 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SelfProfile extends AppCompatActivity {
 
     TextView usernameLabel;
     TextView nameLabel;
+
     ListView mainList;
+    ListView otherList;
+
     ArrayList<Habit> habitList = new ArrayList<>();
+    ArrayList<Habit> otherHabitList = new ArrayList<>();
+
     ArrayAdapter<Habit> habitAdapter;
+    ArrayAdapter<Habit> otherAdapter;
+
     boolean isDeleting = false;
     String username;
     Profile currentUser;
@@ -54,9 +67,16 @@ public class SelfProfile extends AppCompatActivity {
         username = currentUser.getUsername();
 
         habitList = new ArrayList<Habit>();
-        mainList = findViewById(R.id.habit_list);
+        otherHabitList = new ArrayList<Habit>();
+
+        mainList = findViewById(R.id.todays_habits);
+        otherList = findViewById(R.id.other_habits);
+
         habitAdapter = new CustomList(this, habitList);
+        otherAdapter = new CustomList(this, otherHabitList);
+
         mainList.setAdapter(habitAdapter);
+        otherList.setAdapter(otherAdapter);
 
         populateList();
 
@@ -128,7 +148,7 @@ public class SelfProfile extends AppCompatActivity {
 
 
         // Setting up list item click
-        mainList = findViewById(R.id.habit_list);
+        mainList = findViewById(R.id.todays_habits);
         mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             /**
              * This function sets an onItemClickAdapter for the listview
@@ -149,7 +169,7 @@ public class SelfProfile extends AppCompatActivity {
                 if(isDeleting) {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     String v_deletehabit = habitList.get(i).getHabitID();
-                    Log.d("TEST!", v_deletehabit);
+//                    Log.d("TEST!", v_deletehabit);
                     db.collection("Habits")
                             .document(v_deletehabit)
                             .delete()
@@ -165,11 +185,57 @@ public class SelfProfile extends AppCompatActivity {
                                     Log.w("TAG", "Error deleting document", e);
                                 }
                             });
-                    removeItemInList(i);
+                    removeItemInList(i, "habitList");
                 }
                 else {
-//
                     viewHabit(habitList.get(i), username);
+                }
+            }
+        });
+
+        // Setting up list item click
+        otherList = findViewById(R.id.other_habits);
+        otherList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /**
+             * This function sets an onItemClickAdapter for the listview
+             * NOTE: THIS ONLY WORKS WHEN THE LINERAR LAYOUT OF THE CELL
+             * CONTENT HAS android:descendantFocusability = "blocksDescendants"
+             * After the button (FOLLOW REQUESTS FOR NOW) is clicked, you
+             * are in deletion mode. You can now click on any list item to
+             * delete it. After it is deleted from the database, it is removed
+             * from the list, and we update the adapter accordingly.
+             * This is all inside a condition
+             * @param adapterView
+             * @param view
+             * @param i
+             * @param l
+             */
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(isDeleting) {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    String v_deletehabit = otherHabitList.get(i).getHabitID();
+//                    Log.d("TEST!", v_deletehabit);
+                    db.collection("Habits")
+                            .document(v_deletehabit)
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("TAG", "City successfully deleted!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("TAG", "Error deleting document", e);
+                                }
+                            });
+                    removeItemInList(i, "otherList");
+                }
+                else {
+                    Log.d("ITEM SCHEDULE", otherHabitList.get(i).getSelectedDays().toString());
+                    viewHabit(otherHabitList.get(i), username);
                 }
             }
         });
@@ -200,9 +266,16 @@ public class SelfProfile extends AppCompatActivity {
      * @param habit
      */
     public void addHabitToList(Habit habit) {
-        habitList.add(habit);
-        habitAdapter.notifyDataSetChanged();
-        Log.d("LIST CHECK", habitList.get(0).getName());
+        if (habit.isToday()) {
+            habitList.add(habit);
+            habitAdapter.notifyDataSetChanged();
+            Log.d("HABIT CHECK", habitList.get(0).getName());
+        }
+        else {
+            otherHabitList.add(habit);
+            otherAdapter.notifyDataSetChanged();
+//            Log.d("OTHER CHECK", otherHabitList.get(0).getName());
+        }
 
         // update list
     }
@@ -216,30 +289,35 @@ public class SelfProfile extends AppCompatActivity {
      * which then adds to the habitList
      */
     public void populateList() {
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Habits")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         habitList.clear();
+                        otherHabitList.clear();
+
                         habitAdapter.notifyDataSetChanged();
+                        otherAdapter.notifyDataSetChanged();
+
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            if(document.get("username").toString().equals(currentUser.getUsername())) {
-                                // Get the attributes from each habit in the database
-                                String title = document.getData().get("name").toString();
-                                String description = document.getData().get("description").toString();
-                                String hour = document.getData().get("hour").toString();
-                                String minute = document.getData().get("minute").toString();
-                                String date = document.getData().get("date").toString();
-                                String selectedDays = document.getData().get("selectedDays").toString();
-                                String username = document.getData().get("username").toString();
-                                String id = document.getId();
+                            if (document.get("username") != null) {
+                                if (document.get("username").toString().equals(currentUser.getUsername())) {
+                                    // Get the attributes from each habit in the database
+                                    String title = document.getData().get("name").toString();
+                                    String description = document.getData().get("description").toString();
+                                    String hour = document.getData().get("hour").toString();
+                                    String minute = document.getData().get("minute").toString();
+                                    String date = document.getData().get("date").toString();
+                                    String selectedDays = document.getData().get("selectedDays").toString();
+                                    String username = document.getData().get("username").toString();
+                                    String id = document.getId();
 
-                                // Create new habit and add to the list!
-                                Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username, id);
-                                addHabitToList(newHabit);
-
-                                Log.d("HABIT:", title);
+                                    // Create new habit and add to the list!
+                                    Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username, id);
+                                    addHabitToList(newHabit);
+                                }
                             }
                         }
                     } else {
@@ -264,22 +342,25 @@ public class SelfProfile extends AppCompatActivity {
         intent.putExtra("USERNAME", username);
         startActivity(intent);
         finish();
-
-        Log.d("POPULATING:", "\n");
     }
-
-
-
 
     /**
      * Given an index, will remove that item
      * from the list, and update the adapter
      * @param index
      */
-    public void removeItemInList(int index) {
-        if (index >= 0) {
-            habitList.remove(index);
-            habitAdapter.notifyDataSetChanged();
+    public void removeItemInList(int index, String listName) {
+        if(listName == "habitList") {
+            if (index >= 0) {
+                habitList.remove(index);
+                habitAdapter.notifyDataSetChanged();
+            }
+        }
+        else {
+            if (index >= 0) {
+                otherHabitList.remove(index);
+                otherAdapter.notifyDataSetChanged();
+            }
         }
     }
 

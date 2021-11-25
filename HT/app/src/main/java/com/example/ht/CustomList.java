@@ -12,15 +12,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+
 import org.xmlpull.v1.XmlPullParser;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomList extends ArrayAdapter<Habit> {
     private ConstraintLayout layout;
     private ArrayList<Habit> habitList;
     private Context context;
     private int content;
+
+    PieChart pieChart;
+    ArrayList<PieEntry> pieEntryList = new ArrayList<>();
 
     public CustomList(Context context, ArrayList habitList) {
         super(context, 0, habitList);
@@ -45,7 +55,19 @@ public class CustomList extends ArrayAdapter<Habit> {
         TextView username = view.findViewById(R.id.username);
         habitTitle.setText(habit.getName());
         habitDescription.setText(habit.getDescription());
-        username.setText("defaultUser");
+        username.setText(habit.getUsername());
+
+        TextView consistencyTitle = view.findViewById(R.id.consistency_text);
+        consistencyTitle.setText(String.format("\nConsistency:\n %d/%d",0,habit.getTimesPassed()));
+//        pieChart = view.findViewById(R.id.pie_chart);
+//        pieChart.setUsePercentValues(true);
+//        pieEntryList.add(new PieEntry(10,"Completed"));
+//        pieEntryList.add(new PieEntry(10,"a"));
+//        pieEntryList.add(new PieEntry(10,"b"));
+//        pieEntryList.add(new PieEntry(10,"c"));
+//        PieDataSet pieDataSet = new PieDataSet(pieEntryList,"Consistency");
+//        PieData pieData = new PieData(pieDataSet);
+//        pieChart.setData(pieData);
 
         return view;
     }

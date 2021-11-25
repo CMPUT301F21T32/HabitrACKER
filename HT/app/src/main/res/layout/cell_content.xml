@@ -55,16 +55,19 @@
 
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/details_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:backgroundTint="#00FFFFFF"
-        android:rotation="180"
-        android:src="@drawable/abc_vector_test"
-        android:text="Button"
-
-        android:layout_marginRight="10dp"/>
+<!--    <com.github.mikephil.charting.charts.PieChart-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:id="@+id/pie_chart"-->
+<!--        android:layout_gravity="center"/>-->
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/consistency_text"
+        android:text="\nConsistency:\n0/0"
+        android:textAlignment="center"
+        android:textSize="10pt"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
 
 </LinearLayout>
