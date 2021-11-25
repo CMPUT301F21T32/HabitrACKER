@@ -133,7 +133,7 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         data.put("date", date);
         data.put("selectedDays", selectedDays.toString());
         // Gets the username of the current user
-        data.put("username", intent.getStringExtra("USERNAME"));
+        data.put("username", MainUser.getProfile().getUsername());
 
 
         // Put the data into the database

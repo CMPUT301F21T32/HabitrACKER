@@ -17,6 +17,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * This created the page that allows users to see a list of all
+ * the users they follow/are following
+ */
+
 public class ViewFollowActivity extends AppCompatActivity {
     String mode;
 
