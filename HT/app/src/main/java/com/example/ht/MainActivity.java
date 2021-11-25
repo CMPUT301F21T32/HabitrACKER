@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         habitList = new ArrayList<Habit>();
         mainList = findViewById(R.id.habit_list);
-        habitAdapter = new CustomList(this, habitList);
+        habitAdapter = new CustomListMain(this, habitList);
         mainList.setAdapter(habitAdapter);
 
         populateList();
