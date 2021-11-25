@@ -224,7 +224,7 @@ public class SelfProfile extends AppCompatActivity {
                         habitList.clear();
                         habitAdapter.notifyDataSetChanged();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            if(document.get("username").toString().equals(currentUser.getUsername())) {
+                            if(document.get("username") != null && document.get("username").toString().equals(currentUser.getUsername())) {
                                 // Get the attributes from each habit in the database
                                 String title = document.getData().get("name").toString();
                                 String description = document.getData().get("description").toString();
