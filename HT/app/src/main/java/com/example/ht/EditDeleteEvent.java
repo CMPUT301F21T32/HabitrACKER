@@ -3,12 +3,19 @@ package com.example.ht;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -18,16 +25,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Document;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class EditDeleteEvent extends AppCompatActivity {
     String HabitEventID;
     Button deleteButton;
     Button saveButton;
+    Button editPhoto;
     EditText habitName;
     EditText habitReason;
     EditText seeComments;
     EditText location;
+    ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +49,12 @@ public class EditDeleteEvent extends AppCompatActivity {
 
         saveButton= findViewById(R.id.save_button);
         deleteButton= findViewById(R.id.delete_button);
+        editPhoto= findViewById(R.id.editPhoto);
         habitName= (EditText) findViewById(R.id.habit_name);
         habitReason= (EditText) findViewById(R.id.habit_reason);
         seeComments= (EditText) findViewById(R.id.habit_comment);
         location= (EditText) findViewById(R.id.event_location);
+        image= (ImageView) findViewById(R.id.imageView);
 
         // delete button
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +69,33 @@ public class EditDeleteEvent extends AppCompatActivity {
                 saveEvent();
             }
         });
+
+        //Edit Image for Habit Event
+        final int REQUEST_IMAGE_CAPTURE= 1;
+        editPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //selectImage();
+                /**
+                 // Get camera
+                 Intent camera= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                 startActivityForResult(camera, REQUEST_IMAGE_CAPTURE);
+                 try {
+                 startActivityForResult(camera, REQUEST_IMAGE_CAPTURE);
+                 } catch (ActivityNotFoundException e) {
+                 // display error state to the user
+                 // Just don't do anything
+                 }
+
+                 // Set photo in event
+                 // editPhoto.setBackgroundResource(R.drawable.ic_launcher_background);
+                 **/
+            }
+
+
+
+        });
+
     }
 
     private void deleteEvent() {
@@ -127,4 +166,39 @@ public class EditDeleteEvent extends AppCompatActivity {
                     }
                 });
     }
+
+    /**
+     private void selectImage(){
+     CharSequence[] options = {"Take Photo", "Select existing photo"};
+
+     Intent camera= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+     File image= new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+     camera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
+     startActivityForResult(camera, 1);
+     }
+
+     @Override
+     protected void onActivityResult(int requestCode, int requestCode, Intent data) {
+     super.onActivityResult(requestCode, requestCode, data);
+
+     File camera= new File(Environment.getExternalStorageState().toString());
+     for (File temp : camera.listFiles()){
+     if (temp.getName().equals("temp.jpg")){
+     camera= temp;
+     File photo= new File(Environment.getExternalStorageDirectory(), "temp.jpg");
+     break;
+     }
+     }
+
+     Bitmap bitmap;
+     BitmapFactory.Options bitmapOptions= new BitmapFactory.Options();
+     bitmap= BitmapFactory.decodeFile(camera.getAbsolutePath(), bitmapOptions);
+
+     image.setImageBitmap(bitmap);
+
+     }
+     **/
+
 }
+
+

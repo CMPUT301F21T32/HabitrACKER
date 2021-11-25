@@ -11,6 +11,7 @@ import android.widget.Button;
 public class FeedActivity extends AppCompatActivity {
 
     Button profileButton;
+    Button searchButton;
 
     String username;
 
@@ -22,9 +23,9 @@ public class FeedActivity extends AppCompatActivity {
 
 
         profileButton = findViewById(R.id.profile_button);
+        searchButton = findViewById(R.id.search_button);
 
-        Intent intent = getIntent();
-        username = intent.getStringExtra("USERNAME");
+
 
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,13 +34,28 @@ public class FeedActivity extends AppCompatActivity {
             }
         });
 
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSearch(username);
+            }
+        });
+
     }
 
-    //starts the login activity
+    //starts the profile activity
     private void goToProfile(String un){
         Intent intent = new Intent(this, SelfProfile.class);
-        intent.putExtra("USERNAME", un);
-        startActivity(intent);
 
+        startActivity(intent);
+        finish();
+    }
+
+    //starts the profile activity
+    private void goToSearch(String un){
+        Intent intent = new Intent(this, Search.class);
+
+        startActivity(intent);
+        finish();
     }
 }

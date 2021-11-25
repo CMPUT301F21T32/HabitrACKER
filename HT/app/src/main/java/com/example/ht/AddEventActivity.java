@@ -1,14 +1,14 @@
 package com.example.ht;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -20,7 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
-public class AddHabitEventActivity extends AppCompatActivity {
+public class AddEventActivity extends AppCompatActivity {
     EditText habitEventDescription;
     Button addHabitEventButton;
     String comment;
@@ -35,7 +35,7 @@ public class AddHabitEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_habit_event);
+        setContentView(R.layout.activity_add_event);
 
         habitEventDescription = findViewById(R.id.comment);
         addHabitEventButton = findViewById(R.id.add_habit_event);
@@ -74,12 +74,14 @@ public class AddHabitEventActivity extends AppCompatActivity {
                 data.put("comment", comment);
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 db.collection("HabitEvents")
-                        .document(name)
+                        .document()
                         .set(data)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void avoid){
                                 Log.d("AddHabitEvent", "HabitEventAddedSuccessfully");
+                                goToProfile();
+
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -93,7 +95,16 @@ public class AddHabitEventActivity extends AppCompatActivity {
         });
     }
 
-    public void finishAddHabitEvent(){
+    /**
+     * returns app to profile activity
+     */
+    public void goToProfile(){
+        Intent intent = new Intent(this, SelfProfile.class);
+        intent.putExtra("USERNAME", username);
 
+        startActivity(intent);
+        finish();
     }
+
+
 }

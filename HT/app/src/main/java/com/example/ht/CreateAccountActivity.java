@@ -28,6 +28,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CreateAccountActivity extends AppCompatActivity {
@@ -118,6 +119,10 @@ public class CreateAccountActivity extends AppCompatActivity {
                                     user.put("username", usernameText);
                                     user.put("password", passwordText);
 
+                                    ArrayList<String> temp = new ArrayList();
+                                    user.put("following", temp.toString());
+                                    user.put("followers", temp.toString());
+
 
                                     // add a new document
                                     db.collection("users")
@@ -137,8 +142,10 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                     Log.d(TAG, "Data could not be added!" + e.toString());
                                                 }
                                             });
+
+                                    MainUser.setProfile(new Profile(usernameText, passwordText, nameText));
                                     //MOVE TO NEXT ACTIVITY
-                                    goToAccount(usernameText);
+                                    goToAccount();
                                 }
                             } else {
                                 Log.d(TAG, "Failed with: ", task.getException());
@@ -160,10 +167,11 @@ public class CreateAccountActivity extends AppCompatActivity {
     //starts the next activity
     // currently set to return to start, will be changed when activity is added
 
-    private void goToAccount(String un){
+    private void goToAccount(){
         Intent intent = new Intent(this, FeedActivity.class);
-        intent.putExtra("USERNAME", un);
+
 
         startActivity(intent);
+        finish();
     }
 }

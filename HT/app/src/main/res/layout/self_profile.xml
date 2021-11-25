@@ -2,15 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="409dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="4dp"
         android:orientation="vertical"
+        android:paddingTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,22 +17,21 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_weight="0.3"
-                android:paddingLeft="10dp"
-                tools:srcCompat="@drawable/logo" />
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_weight="1"
+                android:paddingHorizontal="5dp"
+                tools:srcCompat="@tools:sample/avatars" />
 
             <LinearLayout
-                android:layout_width="285dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
                 android:orientation="vertical"
                 android:paddingHorizontal="20dp">
 
@@ -41,7 +39,6 @@
                     android:id="@+id/full_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
                     android:fontFamily="sans-serif-black"
                     android:paddingTop="20dp"
                     android:text="Full Name"
@@ -53,17 +50,16 @@
                     android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
                     android:text="-@username"
                     android:textSize="8pt" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/viewRequests"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
                     android:backgroundTint="#3870FF"
-                    android:text="Edit Profile"
+                    android:drawableRight="@android:drawable/ic_notification_overlay"
+                    android:text="Follow Requests"
                     app:cornerRadius="10dp" />
 
             </LinearLayout>
@@ -71,7 +67,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:orientation="horizontal"
             android:paddingHorizontal="20dp">
 
@@ -80,8 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:backgroundTint="#3870FF"
                 android:text="Followers"
                 app:cornerRadius="10dp" />
@@ -91,8 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:backgroundTint="#3870FF"
                 android:text="Following"
                 app:cornerRadius="10dp" />
@@ -100,48 +94,66 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:orientation="horizontal"
             android:paddingHorizontal="20dp">
 
             <Button
-                android:id="@+id/finished_habit_button"
-                android:layout_width="wrap_content"
+                android:id="@+id/delete_button"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-
-                android:layout_weight="0.3"
+                android:layout_weight="1"
                 android:backgroundTint="#3870FF"
-                android:text="Finished Habits"
+                android:text="Delete Habit"
                 app:cornerRadius="10dp" />
 
             <Button
                 android:id="@+id/add_button"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="0.3"
+                android:layout_weight="1"
                 android:backgroundTint="#3870FF"
                 android:onClick="addHabit"
                 android:text="Add Habit"
                 app:cornerRadius="10dp" />
-
-            <Button
-                android:id="@+id/deleteHabitButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_weight="0.3"
-                android:text="Delete Habit" />
 
         </LinearLayout>
 
         <ListView
             android:id="@id/habit_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_height="404dp"
+            android:layout_weight="1"
             tools:listitem="@layout/cell_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/profileSearch_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Search" />
+
+            <Button
+                android:id="@+id/ProfileHome_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Home" />
+
+            <Button
+                android:id="@+id/profileProfile_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Profile" />
+        </LinearLayout>
 
     </LinearLayout>
 

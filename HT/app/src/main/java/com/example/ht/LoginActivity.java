@@ -12,9 +12,11 @@ package com.example.ht;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -59,8 +63,15 @@ public class LoginActivity extends AppCompatActivity {
                             if (document.exists() && document.get("password").equals(passwordText)) {
                                 Log.d("sample: ", "Document exists!");
                                 // GO TO NEXT ACTIVITY
+                                String name = document.get("name").toString();
+                                String following = document.get("following").toString();
+                                String followers = document.get("followers").toString();
 
-                                goToAccount(usernameText);
+                                Profile temp = new Profile(usernameText, passwordText, name, following, followers);
+
+                                MainUser.setProfile(temp);
+
+                                goToAccount();
 
                             } else {
                                 username.setText("");
@@ -77,10 +88,12 @@ public class LoginActivity extends AppCompatActivity {
     //starts the next activity
     // currently set to return to start, will be changed when activity is added
 
-    private void goToAccount(String un){
+    private void goToAccount(){
         Intent intent = new Intent(this, FeedActivity.class);
-        intent.putExtra("USERNAME", un);
+
 
         startActivity(intent);
+        finish();
     }
+
 }
