@@ -101,8 +101,7 @@ public class FeedActivity extends AppCompatActivity {
                                 // Get the attributes from each habit in the database
                                 String title = document.getData().get("name").toString();
                                 String description = document.getData().get("description").toString();
-                                String hour = document.getData().get("hour").toString();
-                                String minute = document.getData().get("minute").toString();
+
                                 String date = document.getData().get("date").toString();
                                 String selectedDays = document.getData().get("selectedDays").toString();
                                 String username = document.getData().get("username").toString();
@@ -110,9 +109,11 @@ public class FeedActivity extends AppCompatActivity {
                                 String openHabit=document.getData().get("open").toString();
 
                                 // Create new habit and add to the list!
-                                if(openHabit=="true"){
+
                                 Habit newHabit = new Habit(title, description, selectedDays, date, username, openHabit, id);
-                                addHabitToList(newHabit);
+                                if(newHabit.getOpenHabit()==true) {
+                                    addHabitToList(newHabit);
+                                }
 
                                 Log.d("HABIT:", title);}
                             }
