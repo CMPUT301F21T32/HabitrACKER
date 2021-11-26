@@ -118,7 +118,7 @@ public class FeedActivity extends AppCompatActivity {
                                 Log.d("HABIT:", title);}
                             }
                         }
-                    } else {
+                     else {
                         Log.d("ERROR:", "Error getting documents: ", task.getException());
                     }
                 });
