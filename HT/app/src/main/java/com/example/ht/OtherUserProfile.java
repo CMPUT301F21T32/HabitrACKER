@@ -273,15 +273,14 @@ public class OtherUserProfile extends AppCompatActivity {
                                 // Get the attributes from each habit in the database
                                 String title = document.getData().get("name").toString();
                                 String description = document.getData().get("description").toString();
-                                String hour = document.getData().get("hour").toString();
-                                String minute = document.getData().get("minute").toString();
                                 String date = document.getData().get("date").toString();
                                 String selectedDays = document.getData().get("selectedDays").toString();
                                 String username = document.getData().get("username").toString();
+                                String open = document.getData().get("open").toString();
                                 String id = document.getId();
 
                                 // Create new habit and add to the list!
-                                Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username, id);
+                                Habit newHabit = new Habit(title, description, selectedDays, date, username, open, id);
                                 addHabitToList(newHabit);
 
                                 Log.d("HABIT:", title);

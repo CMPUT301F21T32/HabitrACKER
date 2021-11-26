@@ -1,7 +1,9 @@
 package com.example.ht;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -10,11 +12,14 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -39,11 +44,14 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
     EditText habitDesc;
     // List of 7 booleans, storing whether a habit occurs on that day
     List<Boolean> selectedDays = new ArrayList<>(Collections.nCopies(7, false));
-    TimePicker time;
     Intent intent;
     // Set the default date to today's date
     String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+    boolean openHabit = false;
 
+    /**
+     * Creates the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -52,9 +60,6 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
 
         habitName = findViewById(R.id.editText_name);
         habitDesc = findViewById(R.id.editText_desc);
-        time = (TimePicker) findViewById(R.id.timePicker);
-
-        intent = getIntent();
 
         // Ids for the 7 toggle buttons for each day
         int[] dayButtonIds = {R.id.toggleSun, R.id.toggleMon, R.id.toggleTue, R.id.toggleWed,
@@ -69,6 +74,16 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
                 }
             });
         }
+
+        // Private/public button
+        ToggleButton openSwitch = findViewById(R.id.openSwitch);
+        openSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Change whether the habit is open to the public or not
+                openHabit = isChecked;
+            }
+        });
+
 
         // Button for finishing
         Button finish = findViewById(R.id.finishAddActivityButton);
@@ -101,39 +116,56 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
      * Sets the date to a string representing the date selected in the date picker fragment
      * represented in yyyy/MM/dd
      * @param view
-     * @param year
-     * @param month
-     * @param day
+     * @param year year of the date chosen
+     * @param month month of the date chosen (starts at 0)
+     * @param day day of the date chosen
      */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        date = year + "/" + month + "/" + day;
+        // Months start at january = 0 so add 1 to get the right month number
+        date = year + "/" + (month+1) + "/" + day;
     }
 
+    /**
+     * This is run when the user presses the finish button
+     * This will end the activity if all the selected data meets the requirements
+     */
     public void finishAddActivity() {
         Intent intent = getIntent();
 
         // Create a habit with the data collected
         String name = habitName.getText().toString();
         String desc = habitDesc.getText().toString();
-        // Do not continue if the title is over 20 characters or the descriptions is over 30 characters
-        if (name.length() > 20) return;
-        if (desc.length() > 30) return;
+        // Only continue if title and description match character requirements
+        boolean isRequirementsMet = true;
+        TextView nameRequirementsTextView = ((TextView) findViewById(R.id.textView4));
+        TextView descRequirementsTextView = ((TextView) findViewById(R.id.textView5));
+        if ((name.length() > 20) || (name.length() < 1)) {
+            nameRequirementsTextView.setTextColor(Color.RED);
+            isRequirementsMet = false;
+        }
+        else {
+            nameRequirementsTextView.setTextColor(Color.GRAY);
+        }
+        if ((desc.length() > 30) || (desc.length() < 1)) {
+            ((TextView) findViewById(R.id.textView5)).setTextColor(Color.RED);
+            isRequirementsMet = false;
+        }
+        else {
+            descRequirementsTextView.setTextColor(Color.GRAY);
+        }
+        if (!isRequirementsMet) return;
         habitName.getText().clear();
         habitDesc.getText().clear();
-        // Convert the integers and minutes to strings so they can be stored in the firebase
-        String hour = Integer.toString(time.getCurrentHour());
-        String minute = Integer.toString(time.getCurrentMinute());
         // Put the data into a hashmap
         HashMap<String, String> data = new HashMap<>();
         data.put("name", name);
         data.put("description", desc);
-        data.put("hour", hour);
-        data.put("minute", minute);
         data.put("date", date);
         data.put("selectedDays", selectedDays.toString());
         // Gets the username of the current user
         data.put("username", MainUser.getProfile().getUsername());
+        data.put("open", Boolean.toString(openHabit));
 
 
         // Put the data into the database
