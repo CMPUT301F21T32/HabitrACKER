@@ -27,6 +27,7 @@ public class ViewHabitEvent extends AppCompatActivity {
 
         Intent intent= getIntent();
 
+        //
         sendComment= findViewById(R.id.addComment);
         eventPhoto= (ImageView) findViewById(R.id.eventImage);
         eventDescription= (TextView) findViewById(R.id.eventDescription);

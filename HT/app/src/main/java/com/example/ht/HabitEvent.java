@@ -20,32 +20,9 @@ public class HabitEvent {
     String username;
 
 
-    public HabitEvent(String habitID, String description, String hour, String minute, String name, String username) {
+    public HabitEvent(String habitID) {
         this.habitID= habitID;
-        this.description= description;
-        this.hour= hour;
-        this.minute= minute;
-        this.name= name;
-        this.username= username;
     }
-
-    public String getHabitID(){ return habitID; }
-    public void setHabitID(String habitID) { this.habitID= habitID; }
-
-    public String getHabitDescription() { return description; }
-    public void setHabitDescription(String description) { this.description= description; }
-
-    public String getHour() { return hour; }
-    public void setHour(String hour) { this.hour= hour; }
-
-    public String getMinute() { return minute; }
-    public void setMinute(String minute) { this.minute= minute; }
-
-    public String getEventName() { return name; }
-    public void setEventName(String name) { this.name= name;}
-
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username= username; }
 
     public void fetchEventDetails(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
