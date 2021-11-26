@@ -15,6 +15,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * this is an activity which creates the page where users
+ * can go to accept or deny follow requests for other users
+ *
+ * @Author cole
+ */
+
 public class FollowRequestActivity extends AppCompatActivity {
     ListView list;
     ImageButton back;

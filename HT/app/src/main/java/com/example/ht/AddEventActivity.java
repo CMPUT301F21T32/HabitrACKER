@@ -56,8 +56,6 @@ public class AddEventActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if(document.exists()){
                         description = document.get("description").toString();
-                        hour = document.get("hour").toString();
-                        minute = document.get("minute").toString();
                         name = document.get("name").toString();
                         username = document.get("username").toString();
                     }
