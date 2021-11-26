@@ -1,7 +1,6 @@
 package com.example.ht;
 
-import android.util.Log;
-import android.view.View;
+
 
 import androidx.annotation.NonNull;
 
