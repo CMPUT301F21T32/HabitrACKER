@@ -1,6 +1,6 @@
 package com.example.ht;
 
-import android.annotation.SuppressLint;
+//import android.annotation.SuppressLint;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -33,7 +33,7 @@ public class Habit implements Serializable {
         this.habitID = habitID;
     }
 
-    @SuppressLint("SimpleDateFormat")
+    //@SuppressLint("SimpleDateFormat")
     public Habit(String name, String description, String selectedDays, String hour, String minute, String date, String username, String habitID) {
         this.name = name;
         this.description = description;
