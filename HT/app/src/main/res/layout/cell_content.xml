@@ -55,19 +55,10 @@
 
     </LinearLayout>
 
-<!--    <com.github.mikephil.charting.charts.PieChart-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="100dp"-->
-<!--        android:id="@+id/pie_chart"-->
-<!--        android:layout_gravity="center"/>-->
-    <TextView
+    <ProgressBar
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:id="@+id/consistency_text"
-        android:text="\nConsistency:\n0/0"
-        android:textAlignment="center"
-        android:textSize="10pt"
-        android:textStyle="bold"
-        android:textColor="@color/black"/>
+        android:layout_gravity="center"
+        android:id="@+id/progress_bar"/>
 
 </LinearLayout>

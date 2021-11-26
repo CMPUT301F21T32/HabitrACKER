@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,17 +58,8 @@ public class CustomList extends ArrayAdapter<Habit> {
         habitDescription.setText(habit.getDescription());
         username.setText(habit.getUsername());
 
-        TextView consistencyTitle = view.findViewById(R.id.consistency_text);
-        consistencyTitle.setText(String.format("\nConsistency:\n %d/%d",0,habit.getTimesPassed()));
-//        pieChart = view.findViewById(R.id.pie_chart);
-//        pieChart.setUsePercentValues(true);
-//        pieEntryList.add(new PieEntry(10,"Completed"));
-//        pieEntryList.add(new PieEntry(10,"a"));
-//        pieEntryList.add(new PieEntry(10,"b"));
-//        pieEntryList.add(new PieEntry(10,"c"));
-//        PieDataSet pieDataSet = new PieDataSet(pieEntryList,"Consistency");
-//        PieData pieData = new PieData(pieDataSet);
-//        pieChart.setData(pieData);
+        ProgressBar progressBar = view.findViewById(R.id.progress_bar);
+        progressBar.setProgress();
 
         return view;
     }
