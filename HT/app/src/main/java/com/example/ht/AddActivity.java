@@ -2,6 +2,7 @@ package com.example.ht;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
@@ -120,9 +122,25 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         // Create a habit with the data collected
         String name = habitName.getText().toString();
         String desc = habitDesc.getText().toString();
-        // Do not continue if the title is over 20 characters or the descriptions is over 30 characters
-        if (name.length() > 20) return;
-        if (desc.length() > 30) return;
+        // Only continue if title and description match character requirements
+        boolean isRequirementsMet = true;
+        TextView nameRequirementsTextView = ((TextView) findViewById(R.id.textView4));
+        TextView descRequirementsTextView = ((TextView) findViewById(R.id.textView5));
+        if ((name.length() > 20) || (name.length() < 1)) {
+            nameRequirementsTextView.setTextColor(Color.RED);
+            isRequirementsMet = false;
+        }
+        else {
+            nameRequirementsTextView.setTextColor(Color.GRAY);
+        }
+        if ((desc.length() > 30) || (desc.length() < 1)) {
+            ((TextView) findViewById(R.id.textView5)).setTextColor(Color.RED);
+            isRequirementsMet = false;
+        }
+        else {
+            descRequirementsTextView.setTextColor(Color.GRAY);
+        }
+        if (!isRequirementsMet) return;
         habitName.getText().clear();
         habitDesc.getText().clear();
         // Put the data into a hashmap
