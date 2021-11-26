@@ -101,12 +101,13 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
      * represented in yyyy/MM/dd
      * @param view
      * @param year year of the date chosen
-     * @param month month of the date chosen
+     * @param month month of the date chosen (starts at 0)
      * @param day day of the date chosen
      */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        date = year + "/" + month + "/" + day;
+        // Months start at january = 0 so add 1 to get the right month number
+        date = year + "/" + (month+1) + "/" + day;
     }
 
     /**
