@@ -27,6 +27,13 @@ public class DatePickerFragment extends DialogFragment
         return new DatePickerDialog(getActivity(), (AddActivity)getActivity(), year, month, day);
     }
 
+    /**
+     * This will be overwritten in the AddAcitivty where habits are created
+     * @param view
+     * @param year year of the date chosen
+     * @param month month of the date chosen
+     * @param day day of the date chosen
+     */
     public void onDateSet(DatePicker view, int year, int month, int day) {
 
     }

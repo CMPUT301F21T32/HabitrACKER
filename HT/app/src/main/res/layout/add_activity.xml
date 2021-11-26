@@ -218,16 +218,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView11"
         tools:ignore="MissingConstraints" />
 
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="309dp"
-        android:layout_height="155dp"
-        android:layout_marginTop="32dp"
-        android:timePickerMode="spinner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toggleMon"
-        tools:ignore="MissingConstraints" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"

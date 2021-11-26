@@ -1,3 +1,11 @@
+/**
+ * Test for adding Habit
+ * @author Hunter
+ *
+ * This is for testing code related to adding a new habit and adding
+ * it to the firebase
+ */
+
 package com.example.ht;
 
 import android.app.Activity;
