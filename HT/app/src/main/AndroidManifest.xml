@@ -11,6 +11,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HT">
         <activity
+            android:name=".ViewFollowActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FollowRequestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OtherUserProfile"
+            android:exported="false" />
+        <activity
             android:name=".Search"
             android:exported="false" />
         <activity
@@ -18,17 +27,11 @@
             android:exported="true" />
         <activity
             android:name=".ViewHabitActivity"
-            android:exported="true"/>
-
-
+            android:exported="true" />
         <activity
             android:name=".LoginActivity"
             android:exported="true"
-            android:parentActivityName=".StartActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StartActivity" />
-        </activity>
+            android:parentActivityName=".StartActivity" />
         <activity
             android:name=".StartActivity"
             android:exported="true">
@@ -41,12 +44,7 @@
         <activity
             android:name=".CreateAccountActivity"
             android:exported="true"
-            android:parentActivityName=".StartActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StartActivity" />
-        </activity>
-
+            android:parentActivityName=".StartActivity" />
         <activity
             android:name=".AddActivity"
             android:exported="true" />

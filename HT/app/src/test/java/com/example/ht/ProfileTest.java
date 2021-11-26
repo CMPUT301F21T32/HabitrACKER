@@ -12,7 +12,7 @@ public class ProfileTest{
 
 
     public Profile createUser(){
-                return new Profile("username", "password", "name");
+                return new Profile("username", "password", "name", "[jim]", "[jim, test]");
     }
 
     @Test
@@ -55,5 +55,16 @@ public class ProfileTest{
         testUser.setName(temp);
         assertEquals(testUser.getName(), temp);
         testUser.setName("name");
+    }
+
+    @Test
+    public void isFollowingTest(){
+        String tempTrue = "jim";
+        String tempFalse = "nope";
+        Profile test = createUser();
+
+        assertTrue(test.isFollowing(tempTrue));
+        assertFalse(test.isFollowing(tempFalse));
+
     }
 }

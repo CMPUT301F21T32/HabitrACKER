@@ -35,6 +35,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * this creates the page that allows you to view the details of a habit
+ */
+
 public class ViewHabitActivity extends AppCompatActivity {
     Intent intent;
     Habit habit;
@@ -71,7 +75,7 @@ public class ViewHabitActivity extends AppCompatActivity {
         // get habit ID
         intent = getIntent();
         habit = (Habit) intent.getSerializableExtra("habit");
-        username = intent.getStringExtra("USERNAME");
+
 
 
         // get view objects
@@ -100,7 +104,7 @@ public class ViewHabitActivity extends AppCompatActivity {
 
         // set screen text to detail of given habit
         name.setText(habit.getName());
-        date.setText(habit.getDateString());
+        date.setText(habit.getDate().getMonth() + "/" + habit.getDate().getDay() + "/" + habit.getDate().getYear());
         description.setText(habit.getDescription());
 
 
@@ -189,7 +193,7 @@ public class ViewHabitActivity extends AppCompatActivity {
      */
     public void editHabit(Habit habit) {
         Intent intent = new Intent(this, AddActivity.class);
-        intent.putExtra("USERNAME", habit.getUsername());
+
         intent.putExtra("data", habit);
         startActivity(intent);
         finish();
@@ -208,25 +212,35 @@ public class ViewHabitActivity extends AppCompatActivity {
     }
 
 
-    //starts the profile activity
+    /**
+     * starts profile activity
+     * @param un
+     */
     private void goToProfile(String un){
         Intent intent = new Intent(this, SelfProfile.class);
-        intent.putExtra("USERNAME", un);
+
         startActivity(intent);
         finish();
     }
 
+    /**
+     * starts search activity
+     * @param un u
+     */
     private void goToSearch(String un){
         Intent intent = new Intent(this, Search.class);
-        intent.putExtra("USERNAME", un);
+
         startActivity(intent);
         finish();
     }
 
+    /**
+     * starts home feed activity
+     * @param un
+     */
     private void goToHome(String un){
         Intent intent = new Intent(this, FeedActivity.class);
-        intent.putExtra("USERNAME", un);
-        startActivity(intent);
+        startActivity(intent);;
         finish();
     }
 

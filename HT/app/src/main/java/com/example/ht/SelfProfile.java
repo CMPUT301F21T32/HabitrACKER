@@ -3,7 +3,6 @@ package com.example.ht;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,25 +12,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.ht.AddActivity;
-import com.example.ht.CustomList;
-import com.example.ht.Habit;
-import com.example.ht.R;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SelfProfile extends AppCompatActivity {
 
@@ -42,6 +31,7 @@ public class SelfProfile extends AppCompatActivity {
     ArrayAdapter<Habit> habitAdapter;
     boolean isDeleting = false;
     String username;
+    Profile currentUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     // Declarations for the xml list, list that contains habit items, and the adapter for the array
 
@@ -59,6 +49,15 @@ public class SelfProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.self_profile);
+
+        currentUser = MainUser.getProfile();
+        username = currentUser.getUsername();
+
+        habitList = new ArrayList<Habit>();
+        mainList = findViewById(R.id.habit_list);
+        habitAdapter = new CustomList(this, habitList);
+        mainList.setAdapter(habitAdapter);
+
         populateList();
 
         Button deleteButton = findViewById(R.id.delete_button);
@@ -67,27 +66,47 @@ public class SelfProfile extends AppCompatActivity {
 
 
         // set Username and name to that of current user
-        Intent intent = getIntent();
-        username = intent.getStringExtra("USERNAME");
+
 
         usernameLabel.setText("@"+username);
+        nameLabel.setText(currentUser.getName());
 
-        DocumentReference ref = db.collection("users").document(username);
-        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+        Button request = findViewById(R.id.viewRequests);
+
+        // checks to see if user has un resolved follow requests
+        // if so puts up notification
+        if(!areThereRequests()){
+            request.setCompoundDrawables(null, null, null, null);
+        }
+
+        request.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d("sample: ", "Document exists!");
-                        // GO TO NEXT ACTIVITY
-
-                        nameLabel.setText(document.get("name").toString());
-
-                    }
-                }
+            public void onClick(View view) {
+                viewRequests();
             }
         });
+
+        Button following = findViewById(R.id.following_button);
+
+        following.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewFollowing();
+            }
+        });
+
+        Button followers = findViewById(R.id.followers_button);
+
+        followers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewFollowers();
+            }
+        });
+
+
+
 
         Button homeButton = findViewById(R.id.ProfileHome_button);
 
@@ -182,14 +201,9 @@ public class SelfProfile extends AppCompatActivity {
      */
     public void addHabitToList(Habit habit) {
         habitList.add(habit);
+        habitAdapter.notifyDataSetChanged();
         Log.d("LIST CHECK", habitList.get(0).getName());
 
-        mainList = findViewById(R.id.habit_list);
-        //xml list reference
-
-        habitAdapter = new CustomList(this, habitList);
-        mainList.setAdapter(habitAdapter);
-        habitAdapter.notifyDataSetChanged();
         // update list
     }
 
@@ -208,8 +222,9 @@ public class SelfProfile extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         habitList.clear();
+                        habitAdapter.notifyDataSetChanged();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            if(document.get("username").toString().equals(username)) {
+                            if(document.get("username") != null && document.get("username").toString().equals(currentUser.getUsername())) {
                                 // Get the attributes from each habit in the database
                                 String title = document.getData().get("name").toString();
                                 String description = document.getData().get("description").toString();
@@ -255,6 +270,7 @@ public class SelfProfile extends AppCompatActivity {
 
 
 
+
     /**
      * Given an index, will remove that item
      * from the list, and update the adapter
@@ -280,7 +296,7 @@ public class SelfProfile extends AppCompatActivity {
     //starts the profile activity
     private void goToHome(String un){
         Intent intent = new Intent(this, FeedActivity.class);
-        intent.putExtra("USERNAME", un);
+
         startActivity(intent);
         finish();
 
@@ -289,18 +305,73 @@ public class SelfProfile extends AppCompatActivity {
     //starts the profile activity
     private void goToSearch(String un){
         Intent intent = new Intent(this, Search.class);
-        intent.putExtra("USERNAME", un);
         startActivity(intent);
         finish();
 
     }
 
+    // starts ViewHabit activity for habit
     private void viewHabit(Habit habit, String un){
         Intent intent = new Intent(this, ViewHabitActivity.class);
         intent.putExtra("habit", habit);
-        intent.putExtra("USERNAME", un);
+
 
         startActivity(intent);
         finish();
     }
+
+    // starts ViewHabit activity for habit
+    private void viewRequests(){
+        Intent intent = new Intent(this, FollowRequestActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    // starts view follow activity for following
+    private void viewFollowing(){
+        Intent intent = new Intent(this, ViewFollowActivity.class);
+        intent.putExtra("MODE", "following");
+        startActivity(intent);
+        finish();
+    }
+
+
+    // starts view follow activity for followers
+    private void viewFollowers(){
+        Intent intent = new Intent(this, ViewFollowActivity.class);
+        intent.putExtra("MODE", "followers");
+        startActivity(intent);
+        finish();
+    }
+
+
+
+    /**Checks to see is user has any follow requests
+     *
+     * @return true if the user has follow requests, false otherwise
+     */
+    private Boolean areThereRequests(){
+        AtomicInteger num = new AtomicInteger();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Follow Requests")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if(document.get("to").toString().equals(username)) {
+                                num.getAndIncrement();
+
+                            }
+                        }
+                    } else {
+                        Log.d("ERROR:", "Error getting documents: ", task.getException());
+                    }
+                });
+        return (num.intValue() > 0);
+
+    }
+
+
 }

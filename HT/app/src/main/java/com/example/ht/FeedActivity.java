@@ -25,8 +25,7 @@ public class FeedActivity extends AppCompatActivity {
         profileButton = findViewById(R.id.profile_button);
         searchButton = findViewById(R.id.search_button);
 
-        Intent intent = getIntent();
-        username = intent.getStringExtra("USERNAME");
+
 
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +46,7 @@ public class FeedActivity extends AppCompatActivity {
     //starts the profile activity
     private void goToProfile(String un){
         Intent intent = new Intent(this, SelfProfile.class);
-        intent.putExtra("USERNAME", un);
+
         startActivity(intent);
         finish();
     }
@@ -55,7 +54,7 @@ public class FeedActivity extends AppCompatActivity {
     //starts the profile activity
     private void goToSearch(String un){
         Intent intent = new Intent(this, Search.class);
-        intent.putExtra("USERNAME", un);
+
         startActivity(intent);
         finish();
     }

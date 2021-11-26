@@ -14,9 +14,20 @@
         <entry key="..\:/Users/coler/HabitTracker/HabitrACKER/HT/app/src/main/res/layout/search_list_content.xml" value="0.1796875" />
         <entry key="..\:/Users/coler/HabitTracker/HabitrACKER/HT/app/src/main/res/layout/self_profile.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/coler/HabitTracker/HabitrACKER/HT/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/drawable/ic_launcher_background.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/drawable/notification.xml" value="0.18020833333333333" />
+        <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/layout/activity_follow_request.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/layout/activity_other_user_profile.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/layout/activity_search.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/layout/activity_view_follow.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/layout/activity_view_habit.xml" value="0.22" />
         <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/layout/main_feed.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/layout/profile_cell.xml" value="0.32808155699721964" />
+        <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/layout/request_cell.xml" value="0.1796875" />
         <entry key="..\:/Users/coler/HabitTracker/fix/HabitrACKER/HT/app/src/main/res/layout/self_profile.xml" value="0.24405705229793978" />
         <entry key="..\:/Users/coler/HabitTracker/p1/HabitrACKER/HT/app/src/main/res/layout/activity_add_event.xml" value="0.22" />
         <entry key="..\:/Users/coler/HabitTracker/p1/HabitrACKER/HT/app/src/main/res/layout/activity_edit_habit.xml" value="0.5535390199637024" />
@@ -36,7 +47,7 @@
     <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
     <option name="OTHER_OPTIONS" value="-sourcepath path-to-sdk-jar-file" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
