@@ -276,10 +276,11 @@ public class OtherUserProfile extends AppCompatActivity {
                                 String date = document.getData().get("date").toString();
                                 String selectedDays = document.getData().get("selectedDays").toString();
                                 String username = document.getData().get("username").toString();
+                                String open = document.getData().get("open").toString();
                                 String id = document.getId();
 
                                 // Create new habit and add to the list!
-                                Habit newHabit = new Habit(title, description, selectedDays, date, username, id);
+                                Habit newHabit = new Habit(title, description, selectedDays, date, username, open, id);
                                 addHabitToList(newHabit);
 
                                 Log.d("HABIT:", title);

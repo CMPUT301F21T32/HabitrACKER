@@ -231,4 +231,16 @@
         android:onClick="showDatePickerDialog"
         app:srcCompat="@android:drawable/ic_menu_my_calendar" />
 
+    <ToggleButton
+        android:id="@+id/openSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:textOff="PRIVATE"
+        android:textOn="PUBLIC"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toggleSun"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

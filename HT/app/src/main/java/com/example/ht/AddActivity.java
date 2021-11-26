@@ -1,5 +1,6 @@
 package com.example.ht;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,9 +15,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -44,6 +47,7 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
     Intent intent;
     // Set the default date to today's date
     String date = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+    boolean openHabit = false;
 
     /**
      * Creates the activity
@@ -70,6 +74,16 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
                 }
             });
         }
+
+        // Private/public button
+        ToggleButton openSwitch = findViewById(R.id.openSwitch);
+        openSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Change whether the habit is open to the public or not
+                openHabit = isChecked;
+            }
+        });
+
 
         // Button for finishing
         Button finish = findViewById(R.id.finishAddActivityButton);
@@ -151,6 +165,7 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         data.put("selectedDays", selectedDays.toString());
         // Gets the username of the current user
         data.put("username", MainUser.getProfile().getUsername());
+        data.put("open", Boolean.toString(openHabit));
 
 
         // Put the data into the database

@@ -25,14 +25,16 @@ public class Habit implements Serializable {
     private List<Boolean> selectedDays;
     private Date date;
     private String username;
+    private boolean openHabit;
     private final String habitID;
 
-    public Habit(String name, String description, List<Boolean> selectedDays, Date date, String username, String habitID) {
+    public Habit(String name, String description, List<Boolean> selectedDays, Date date, String username, boolean openHabit, String habitID) {
         this.name = name;
         this.description = description;
         this.selectedDays = selectedDays;
         this.date = date;
         this.username = username;
+        this.openHabit = openHabit;
         this.habitID = habitID;
     }
 
@@ -40,7 +42,7 @@ public class Habit implements Serializable {
      * A constructor which parses variables that are saved as strings
      */
     @SuppressLint("SimpleDateFormat")
-    public Habit(String name, String description, String selectedDays, String date, String username, String habitID) {
+    public Habit(String name, String description, String selectedDays, String date, String username, String openHabit, String habitID) {
         this.name = name;
         this.description = description;
         this.username = username;
@@ -57,6 +59,7 @@ public class Habit implements Serializable {
         for (String s : daysString) {
             this.selectedDays.add(Boolean.parseBoolean(s));
         }
+        this.openHabit = Boolean.parseBoolean(openHabit);
         this.habitID = habitID;
     }
 
@@ -119,6 +122,17 @@ public class Habit implements Serializable {
     }
 
     /**
+     * Gets whether the habit is open to be viewed by the public
+     * true  => viewable by public
+     * false => viewable only by followers
+     *
+     * @return whether the habit is open
+     */
+    public boolean getOpenHabit() {
+        return openHabit;
+    }
+
+    /**
      * Sets the name of a habit
      *
      * @param name The habit's new name
@@ -159,6 +173,17 @@ public class Habit implements Serializable {
      * @param username The new username of the habit creator
      */
     public void setUsername(String username) { this.username = username; }
+
+    /**
+     * Sets whether the habit is open to be viewed by the public
+     * true  => viewable by public
+     * false => viewable only by followers
+     *
+     * @param openHabit new boolean representing whether the habit is open
+     */
+    public void setOpenHabit(boolean openHabit) {
+        this.openHabit = openHabit;
+    }
 
     /**
      * Checks if a habit occurs today by checking if it occurs on the current day of the week and
