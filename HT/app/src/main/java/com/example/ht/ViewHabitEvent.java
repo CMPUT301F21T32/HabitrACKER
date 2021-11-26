@@ -23,16 +23,9 @@ public class ViewHabitEvent extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_event);
+        setContentView(R.layout.view_event_cell);
 
         Intent intent= getIntent();
-
-        //
-        sendComment= findViewById(R.id.addComment);
-        eventPhoto= (ImageView) findViewById(R.id.eventImage);
-        eventDescription= (TextView) findViewById(R.id.eventDescription);
-        eventComments= (ListView) findViewById(R.id.eventCommentList);
-
       }
 
 
