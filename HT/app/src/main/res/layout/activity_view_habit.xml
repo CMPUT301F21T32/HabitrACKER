@@ -54,51 +54,55 @@
 
                     <ToggleButton
                         android:id="@+id/M"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="false"
                         android:clickable="false"
                         android:text="M"
                         android:textOff=" "
-                        android:textOn="M" />
+                        android:textOn="M"
+                        android:textSize="14sp" />
 
                     <ToggleButton
                         android:id="@+id/T"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="false"
                         android:clickable="false"
                         android:text="T"
                         android:textOff=" "
-                        android:textOn="T" />
+                        android:textOn="T"
+                        android:textSize="14sp" />
 
                     <ToggleButton
                         android:id="@+id/W"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="false"
                         android:clickable="false"
                         android:text="W"
                         android:textOff=" "
-                        android:textOn="M" />
+                        android:textOn="M"
+                        android:textSize="14sp" />
 
                     <ToggleButton
                         android:id="@+id/Th"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="false"
                         android:clickable="false"
                         android:text="Th"
                         android:textOff=" "
-                        android:textOn="Th" />
+                        android:textOn="Th"
+                        android:textSize="10sp" />
 
                     <ToggleButton
                         android:id="@+id/F"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="false"
@@ -108,25 +112,27 @@
 
                     <ToggleButton
                         android:id="@+id/Sa"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="false"
                         android:clickable="false"
                         android:text="Sa"
                         android:textOff=" "
-                        android:textOn="Sa" />
+                        android:textOn="Sa"
+                        android:textSize="10sp" />
 
                     <ToggleButton
                         android:id="@+id/Su"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="false"
                         android:clickable="false"
                         android:text="Su"
                         android:textOff=" "
-                        android:textOn="Su" />
+                        android:textOn="Su"
+                        android:textSize="10sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -153,7 +159,7 @@
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
+                android:layout_width="141dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/logo" />
