@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.example.ht.CustomListMain;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,7 +31,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_feed);
+        setContentView(R.layout.activity_feed);
+
+        currentUser = MainUser.getProfile();
+        username = currentUser.getUsername();
 
         habitList = new ArrayList<Habit>();
         mainList = findViewById(R.id.habit_list);
@@ -51,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                             habitList.clear();
                             habitAdapter.notifyDataSetChanged();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                if(MainUser.getProfile().isFollowing(document.get("username").toString())) {
+                                if(currentUser.isFollowing(document.get("username").toString())) {
                                     // Get the attributes from each habit in the database
                                     String title = document.getData().get("name").toString();
                                     String description = document.getData().get("description").toString();
@@ -83,14 +87,8 @@ public class MainActivity extends AppCompatActivity {
         //Log.d("LIST CHECK", habitList.get(0).getName());
 
         habitList.add(habit);
-        Log.d("LIST CHECK", habitList.get(0).getName());
-
-        mainList = findViewById(R.id.habit_list);
-        //xml list reference
-
-        habitAdapter = new CustomList(this, habitList);
-        mainList.setAdapter(habitAdapter);
         habitAdapter.notifyDataSetChanged();
+        Log.d("LIST CHECK", habitList.get(0).getName());
 
         // update list
     }
