@@ -1,29 +1,32 @@
 package com.example.ht;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,9 +35,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 
-public class AddEventActivity extends AppCompatActivity implements LocationListener {
+public class AddEventActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback {
     EditText habitEventDescription;
     Button addHabitEventButton;
     String comment;
@@ -42,10 +47,14 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
     String description;
     String name;
     String username;
-    double latitude;
-    double longitude;
+    double userLat;
+    double userLon;
+    String markerLat;
+    String markerLon;
     LocationManager locationManager;
+    MapView mapView;
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -91,6 +100,8 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
                 data.put("habitID", habitID);
                 data.put("name", name);
                 data.put("comment", comment);
+                data.put("latitude", markerLat);
+                data.put("longitude", markerLon);
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 db.collection("HabitEvents")
                         .document()
@@ -125,16 +136,40 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
         finish();
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onLocationChanged(Location location) {
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
+        userLat = location.getLatitude();
+        userLon = location.getLongitude();
         locationManager.removeUpdates(this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
+    @SuppressLint("MissingPermission")
     @Override
-    protected void onPause() {
-        super.onPause();
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+        googleMap.setMyLocationEnabled(true);
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(8f));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(userLat, userLon)));
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(userLat, userLon))
+                .title("Marker"));
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(@NonNull LatLng latLng) {
+                googleMap.clear();
+                googleMap.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .title("Marker"));
+
+                markerLat = Double.toString(latLng.latitude);
+                markerLon = Double.toString(latLng.longitude);
+            }
+        });
     }
 
 }
