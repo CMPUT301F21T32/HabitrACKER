@@ -35,16 +35,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Profile" />
+
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/placeholder"
-        android:layout_width="286dp"
-        android:layout_height="330dp"
-        android:text="Nothing to share yet come back when you have some friends"
+    <ListView
+        android:id="@+id/habit_list"
+        android:layout_width="409dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/cell_content" />
 </androidx.constraintlayout.widget.ConstraintLayout>
