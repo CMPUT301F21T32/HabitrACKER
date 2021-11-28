@@ -2,7 +2,6 @@ package com.example.ht;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,8 +21,6 @@ public class FeedActivity extends AppCompatActivity {
     Button profileButton;
     Button searchButton;
 
-
-
     TextView usernameLabel;
     TextView nameLabel;
     ListView mainList;
@@ -33,7 +30,6 @@ public class FeedActivity extends AppCompatActivity {
     String username;
     Profile currentUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +129,4 @@ public class FeedActivity extends AppCompatActivity {
 
         // update list
     }
-
 }
-
