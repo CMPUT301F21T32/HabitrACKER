@@ -1,4 +1,12 @@
 // CODE REPURPOSED FROM SELFPROFILE
+/**
+ * this creates a page for profiles that are not the user that
+ * is currently logged in
+ * It resembles that profile page of the main user with the removal of
+ * some buttons. This is where users can request to follow other users
+ *
+ * @author cole
+ */
 package com.example.ht;
 
 import android.content.Intent;

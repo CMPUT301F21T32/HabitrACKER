@@ -20,6 +20,8 @@ import java.util.ArrayList;
 /**
  * This created the page that allows users to see a list of all
  * the users they follow/are following
+ *
+ * @author cole
  */
 
 public class ViewFollowActivity extends AppCompatActivity {

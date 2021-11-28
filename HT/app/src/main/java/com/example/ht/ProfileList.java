@@ -1,5 +1,11 @@
 package com.example.ht;
-
+/**
+ * creates a custom list elements for Profile objects
+ * this is used in the list of followers and following for a profile
+ * and on the search page
+ *
+ * @author cole
+ */
 
 
 import android.content.Context;
