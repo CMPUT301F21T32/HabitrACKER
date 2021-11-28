@@ -26,7 +26,7 @@ public class ViewEventList extends AppCompatActivity {
 
     ListView eventList;
     ArrayList<HabitEvent> habitEvent= new ArrayList<>();
-    ArrayAdapter<HabitEvent> eventAdapter= new PastEventList(this, habitEvent);
+    ArrayAdapter<HabitEvent> eventAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +41,48 @@ public class ViewEventList extends AppCompatActivity {
         // Connect to activity page
         eventList= (ListView) findViewById(R.id.event_list);
 
-        // Connect to HabitEvent object
-        habitEvent= new ArrayList<>();
+        // Set adapter
+        eventAdapter= new PastEventList(this, habitEvent);
+
+        // Connect to HabitEvent object array
+        habitEvent= new ArrayList<HabitEvent>();
+
+        //
+        eventList.setAdapter(eventAdapter);
 
         // Get event list from Firestore
+        db.collection("HabitEvents")
+                .get()
+                .addOnCompleteListener(task -> {
+                   if(task.isSuccessful()){
+                       habitEvent.clear();
+                       eventAdapter.notifyDataSetChanged();
+                       for(QueryDocumentSnapshot doc : task.getResult()) {
+                           if (doc.getData().get("habitID") == HabitID) {
+                               // Get HabitEvent values
+                               String eventID= doc.getData().get("habitID").toString();
+                               String eventName= doc.getData().get("name").toString();
+                               String eventComment= doc.get("comment").toString();
+                               String eventDescription= doc.get("reason").toString();
+                           }
 
+                           // Create new HabitEvent object and add it to the HabitEvent array
+                           HabitEvent newEvent= new HabitEvent(eventID, eventName, eventDescription, eventComment);
+                           habitEvent.add(newEvent);
+                           eventAdapter.notifyDataSetChanged();
+                           Log.d("List check", habitEvent.get(0).gethabitID());
+                       }
+                   }
+                });
+
+
+
+        /**
         db.collection("HabitEvents")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    habitEvent.clear();
+                    eventAdapter.notifyDataSetChanged();
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         // Populate the list
@@ -69,6 +103,7 @@ public class ViewEventList extends AppCompatActivity {
                         }
                     }
                 });
+                    **/
 
         /**
         db.collection("HabitEvents")
