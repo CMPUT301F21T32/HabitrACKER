@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,7 +42,10 @@ import java.util.Locale;
 
 public class AddEventActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback {
     EditText habitEventDescription;
+    TextView latText;
+    TextView lonText;
     Button addHabitEventButton;
+    Button cancelLocation;
     String comment;
     String habitID;
     String description;
@@ -52,7 +56,7 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
     String markerLat;
     String markerLon;
     LocationManager locationManager;
-    MapView mapView;
+    GoogleMap gMap;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -63,6 +67,9 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
 
         habitEventDescription = findViewById(R.id.comment);
         addHabitEventButton = findViewById(R.id.add_habit_event);
+        cancelLocation = findViewById(R.id.cancellocation);
+        latText = findViewById(R.id.lattext);
+        lonText = findViewById(R.id.longtext);
 
         comment = habitEventDescription.getText().toString();
         // also the photograph and location
@@ -92,6 +99,18 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
                 }
             }
         });
+
+        cancelLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                markerLat = null;
+                markerLon = null;
+                gMap.clear();
+                latText.setText("No location selected");
+                lonText.setText("");
+            }
+        });
+
         addHabitEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
@@ -150,24 +169,29 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
-        googleMap.setMyLocationEnabled(true);
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(8f));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(userLat, userLon)));
-        googleMap.addMarker(new MarkerOptions()
+        gMap = googleMap;
+        gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        gMap.getUiSettings().setZoomControlsEnabled(true);
+        gMap.setMyLocationEnabled(true);
+        gMap.animateCamera(CameraUpdateFactory.zoomTo(8f));
+        gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(userLat, userLon)));
+        gMap.addMarker(new MarkerOptions()
                 .position(new LatLng(userLat, userLon))
                 .title("Marker"));
-        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        latText.setText("Latitude: " + userLat);
+        lonText.setText("Longitude: " + userLon);
+        gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(@NonNull LatLng latLng) {
-                googleMap.clear();
-                googleMap.addMarker(new MarkerOptions()
+                gMap.clear();
+                gMap.addMarker(new MarkerOptions()
                         .position(latLng)
                         .title("Marker"));
 
                 markerLat = Double.toString(latLng.latitude);
                 markerLon = Double.toString(latLng.longitude);
+                latText.setText("Latitude: " + markerLat);
+                lonText.setText("Longitude: " + markerLon);
             }
         });
     }
