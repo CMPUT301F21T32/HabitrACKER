@@ -38,6 +38,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * @author Hunter
+ *
+ * This is an activity for creating a new habit
+ * A habit can have a name, description, optional days of the week it occurs,
+ * a date, and the option of it being public or private
+ *
+ */
 public class AddActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     EditText habitName;
@@ -140,6 +148,7 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         boolean isRequirementsMet = true;
         TextView nameRequirementsTextView = ((TextView) findViewById(R.id.textView4));
         TextView descRequirementsTextView = ((TextView) findViewById(R.id.textView5));
+        // Change the color if requirements are not met
         if ((name.length() > 20) || (name.length() < 1)) {
             nameRequirementsTextView.setTextColor(Color.RED);
             isRequirementsMet = false;
@@ -154,7 +163,7 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         else {
             descRequirementsTextView.setTextColor(Color.GRAY);
         }
-        if (!isRequirementsMet) return;
+        if (!isRequirementsMet) return; // Do not continue unless requirements are met
         habitName.getText().clear();
         habitDesc.getText().clear();
         // Put the data into a hashmap
@@ -166,7 +175,6 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
         // Gets the username of the current user
         data.put("username", MainUser.getProfile().getUsername());
         data.put("open", Boolean.toString(openHabit));
-
 
         // Put the data into the database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -188,8 +196,6 @@ public class AddActivity extends AppCompatActivity implements DatePickerDialog.O
                     }
                 });
         // Go to the previous activity
-//        SelfProfile sp = new SelfProfile();
-//        sp.removeItemInList(intent.getIntExtra("index", -1));
         Intent i = new Intent(this, SelfProfile.class);
         i.putExtra("USERNAME", intent.getStringExtra("USERNAME"));
         startActivity(i);
