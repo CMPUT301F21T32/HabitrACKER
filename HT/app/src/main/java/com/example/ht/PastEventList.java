@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -35,7 +36,7 @@ public class PastEventList extends ArrayAdapter<HabitEvent> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
         View view= convertView;
         if (view==null){
             view= LayoutInflater.from(context).inflate(R.layout.event_cell, parent, false);
