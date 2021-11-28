@@ -1,5 +1,10 @@
 package com.example.ht;
-
+/**
+ * creates a custom list element for Follow request
+ * this is used on the follow request page
+ *
+ * @author cole
+ */
 
 import android.content.Context;
 import android.text.Layout;
@@ -103,7 +108,7 @@ public class RequestList extends ArrayAdapter<String> {
 
     /**
      * this function updates the following list in the firebase of the profile
-     * wiht the username stored in user, to include the username of the profile
+     * with the username stored in user, to include the username of the profile
      * that is currently logged in
      *
      * @param user the username of the profile to be updated

@@ -1,3 +1,5 @@
+package com.example.ht;
+
 /**
  * START ACTIVITY
  * @author cole
@@ -7,9 +9,6 @@
  * They can then choose to either create an account or
  * log in to an existing one
  */
-
-
-package com.example.ht;
 
 import androidx.appcompat.app.AppCompatActivity;
 

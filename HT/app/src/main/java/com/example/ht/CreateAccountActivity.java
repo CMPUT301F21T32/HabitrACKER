@@ -164,9 +164,10 @@ public class CreateAccountActivity extends AppCompatActivity {
         });
     }
 
-    //starts the next activity
-    // currently set to return to start, will be changed when activity is added
 
+    /**
+     * starts a new profile page activity
+     */
     private void goToAccount(){
         Intent intent = new Intent(this, FeedActivity.class);
 

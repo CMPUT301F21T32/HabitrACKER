@@ -46,7 +46,7 @@ public class CustomListMain extends ArrayAdapter<Habit> {
         TextView username = view.findViewById(R.id.username);
         habitTitle.setText(habit.getName());
         habitDescription.setText(habit.getDescription());
-        username.setText("defaultUser");
+        username.setText(habit.getUsername());
 
         return view;
     }

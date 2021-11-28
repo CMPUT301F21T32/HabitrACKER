@@ -37,6 +37,8 @@ import java.util.List;
 
 /**
  * this creates the page that allows you to view the details of a habit
+ *
+ * @aurhor cole
  */
 
 public class ViewHabitActivity extends AppCompatActivity {
