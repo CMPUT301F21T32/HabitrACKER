@@ -105,9 +105,10 @@ public class FeedActivity extends AppCompatActivity {
 
                                 // Create new habit and add to the list!
                                 Habit newHabit = new Habit(title, description, selectedDays, date, username, openHabit, id);
-                                addHabitToList(newHabit);
-
-                                Log.d("HABIT:", title);
+                                if (newHabit.getOpenHabit()) {
+                                    addHabitToList(newHabit);
+                                    Log.d("HABIT:", title);
+                                }
                             }
                         }
                     } else {
