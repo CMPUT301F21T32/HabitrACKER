@@ -3,13 +3,13 @@ package com.example.ht;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -22,11 +22,9 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -36,9 +34,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class AddEventActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback {
     EditText habitEventDescription;
@@ -71,12 +67,16 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
         latText = findViewById(R.id.lattext);
         lonText = findViewById(R.id.longtext);
 
-        comment = habitEventDescription.getText().toString();
         // also the photograph and location
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+        int permissionCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        if(permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            // ask permissions here using below code
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    123);
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
@@ -114,6 +114,7 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
         addHabitEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+                comment = habitEventDescription.getText().toString();
                 habitEventDescription.getText().clear();
                 HashMap<String, String> data = new HashMap<>();
                 data.put("habitID", habitID);
@@ -173,13 +174,15 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
         gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         gMap.getUiSettings().setZoomControlsEnabled(true);
         gMap.setMyLocationEnabled(true);
-        gMap.animateCamera(CameraUpdateFactory.zoomTo(8f));
-        gMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(userLat, userLon)));
+        //gMap.animateCamera(CameraUpdateFactory.zoomTo(4f));
+        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(userLat, userLon), 12.0f));
         gMap.addMarker(new MarkerOptions()
                 .position(new LatLng(userLat, userLon))
                 .title("Marker"));
-        latText.setText("Latitude: " + userLat);
-        lonText.setText("Longitude: " + userLon);
+        markerLat = Double.toString(userLat);
+        markerLon = Double.toString(userLon);
+        latText.setText("Latitude: " + markerLat);
+        lonText.setText("Longitude: " + markerLon);
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(@NonNull LatLng latLng) {
