@@ -1,7 +1,5 @@
 package com.example.ht;
 
-//import android.annotation.SuppressLint;
-
 import android.annotation.SuppressLint;
 
 import java.io.Serializable;
@@ -20,15 +18,16 @@ import java.util.List;
  */
 public class Habit implements Serializable {
 
-    private String name;
-    private String description;
-    private List<Boolean> selectedDays;
-    private Date date;
-    private String username;
-    private boolean openHabit;
-    private final String habitID;
+    private String name; // name of the habit
+    private String description; // description of the habit
+    private List<Boolean> selectedDays; // stores which days the habit occurs
+    private Date date; // The start date of the habit
+    private String username; // Username of the habit's creator
+    private boolean openHabit; // Whether the habit is open to the public or not
+    private final String habitID; // unique id of the habit
 
-    public Habit(String name, String description, List<Boolean> selectedDays, Date date, String username, boolean openHabit, String habitID) {
+    public Habit(String name, String description, List<Boolean> selectedDays, Date date,
+                 String username, boolean openHabit, String habitID) {
         this.name = name;
         this.description = description;
         this.selectedDays = selectedDays;
@@ -42,7 +41,8 @@ public class Habit implements Serializable {
      * A constructor which parses variables that are saved as strings
      */
     @SuppressLint("SimpleDateFormat")
-    public Habit(String name, String description, String selectedDays, String date, String username, String openHabit, String habitID) {
+    public Habit(String name, String description, String selectedDays, String date,
+                 String username, String openHabit, String habitID) {
         this.name = name;
         this.description = description;
         this.username = username;
@@ -188,7 +188,7 @@ public class Habit implements Serializable {
     /**
      * Checks if a habit occurs today by checking if it occurs on the current day of the week and
      * if the start date is not after today.
-     * @return true if the habit occurs today, false otherwise
+     * @return boolean true if the habit occurs today, false otherwise
      */
     public boolean isToday() {
         Date today = new Date();

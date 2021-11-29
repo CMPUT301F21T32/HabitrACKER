@@ -1,16 +1,11 @@
 package com.example.ht;
 
-import static org.junit.Assert.*;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.widget.EditText;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
@@ -22,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ViewHabitTest {
+public class FollowRequestTest {
     private Solo solo;
 
     @Rule
@@ -57,10 +52,10 @@ public class ViewHabitTest {
     }
 
     /**
-     * test if the Add Event button works
+     * test if the accept request button works
      */
     @Test
-    public void testAddButton() throws InterruptedException {
+    public void testAcceptButton() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", ViewHabitActivity.class);
         solo.clickOnView(solo.getView(R.id.addEvent_button));
         solo.wait(3000);
@@ -70,10 +65,10 @@ public class ViewHabitTest {
     }
 
     /**
-     * test if the Add Event button works
+     * test if the deny request button works
      */
     @Test
-    public void testEditButton() throws InterruptedException {
+    public void testDenyButton() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", ViewHabitActivity.class);
         solo.clickOnView(solo.getView(R.id.edit_button));
         solo.wait(3000);
@@ -91,5 +86,5 @@ public class ViewHabitTest {
         solo.finishOpenedActivities();
 
     }
-}
 
+}

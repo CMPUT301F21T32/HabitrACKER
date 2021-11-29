@@ -2,7 +2,6 @@ package com.example.ht;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,8 +21,6 @@ public class FeedActivity extends AppCompatActivity {
     Button profileButton;
     Button searchButton;
 
-
-
     TextView usernameLabel;
     TextView nameLabel;
     ListView mainList;
@@ -33,7 +30,6 @@ public class FeedActivity extends AppCompatActivity {
     String username;
     Profile currentUser;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,24 +97,21 @@ public class FeedActivity extends AppCompatActivity {
                                 // Get the attributes from each habit in the database
                                 String title = document.getData().get("name").toString();
                                 String description = document.getData().get("description").toString();
-
                                 String date = document.getData().get("date").toString();
                                 String selectedDays = document.getData().get("selectedDays").toString();
                                 String username = document.getData().get("username").toString();
+                                String openHabit = document.getData().get("open").toString();
                                 String id = document.getId();
-                                String openHabit=document.getData().get("open").toString();
 
                                 // Create new habit and add to the list!
-
                                 Habit newHabit = new Habit(title, description, selectedDays, date, username, openHabit, id);
-                                if(newHabit.getOpenHabit()==true) {
+                                if (newHabit.getOpenHabit()) {
                                     addHabitToList(newHabit);
+                                    Log.d("HABIT:", title);
                                 }
-
-                                Log.d("HABIT:", title);}
                             }
                         }
-                     else {
+                    } else {
                         Log.d("ERROR:", "Error getting documents: ", task.getException());
                     }
                 });
@@ -137,6 +130,4 @@ public class FeedActivity extends AppCompatActivity {
 
         // update list
     }
-
 }
-

@@ -1,4 +1,12 @@
 // CODE REPURPOSED FROM SELFPROFILE
+/**
+ * this creates a page for profiles that are not the user that
+ * is currently logged in
+ * It resembles that profile page of the main user with the removal of
+ * some buttons. This is where users can request to follow other users
+ *
+ * @author cole
+ */
 package com.example.ht;
 
 import android.content.Intent;
@@ -269,8 +277,10 @@ public class OtherUserProfile extends AppCompatActivity {
                     if (task.isSuccessful() && MainUser.getProfile().isFollowing(username)) {
                         habitList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            if(document.get("username") != null &&
-                                    document.get("username").toString().equals(otherUser.getUsername())) {
+                            if(document.get("username") != null
+                                    &&document.get("username").toString().equals(otherUser.getUsername())
+                                    && document.get("open") != null
+                                    && document.get("open").toString().equals("true")) {
                                 // Get the attributes from each habit in the database
                                 String title = document.getData().get("name").toString();
                                 String description = document.getData().get("description").toString();

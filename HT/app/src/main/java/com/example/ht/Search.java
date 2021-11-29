@@ -1,5 +1,12 @@
 package com.example.ht;
 
+/**
+ * creates a search page where users cn search for other users
+ * to follow
+ *
+ * @author cole
+ */
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -21,7 +28,7 @@ import java.util.ArrayList;
 
 
 public class Search extends AppCompatActivity {
-    String username;
+
     Button profileButton;
     Button homeButton;
 
