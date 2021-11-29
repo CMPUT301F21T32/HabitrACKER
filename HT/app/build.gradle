@@ -15,7 +15,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        manifestPlaceholders = [appAuthRedirectScheme: 'com.redirectScheme.comm']
     }
 
     testOptions{
@@ -67,7 +66,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation "io.grpc:grpc-okhttp:1.32.2"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 }
-

@@ -27,6 +27,7 @@ public class Habit implements Serializable {
     private String username; // Username of the habit's creator
     private boolean openHabit; // Whether the habit is open to the public or not
     private final String habitID; // unique id of the habit
+    private int timesCompleted;
 
     public Habit(String name, String description, List<Boolean> selectedDays, Date date,
                  String username, boolean openHabit, String habitID) {
@@ -61,11 +62,8 @@ public class Habit implements Serializable {
         for (String s : daysString) {
             this.selectedDays.add(Boolean.parseBoolean(s));
         }
-<<<<<<< HEAD
         Log.d("PARSING:", this.selectedDays.toString());
-=======
         this.openHabit = Boolean.parseBoolean(openHabit);
->>>>>>> 0e9c4178371dfb0590b41bb926a3f1ed560916e8
         this.habitID = habitID;
     }
 
@@ -181,6 +179,22 @@ public class Habit implements Serializable {
     public void setUsername(String username) { this.username = username; }
 
     /**
+     * Sets the number of times a habit has been completed
+     *
+     * @param timesCompleted The new username of the habit creator
+     */
+    public void setTimesCompleted(int timesCompleted) {
+        this.timesCompleted = timesCompleted;
+    }
+
+    /**
+     * Returns the number of habit events
+     */
+    public int getTimesCompleted() {
+        return timesCompleted;
+    }
+
+    /**
      * Sets whether the habit is open to be viewed by the public
      * true  => viewable by public
      * false => viewable only by followers
@@ -216,6 +230,9 @@ public class Habit implements Serializable {
             }
         }
         Log.d("DATE FINAL", String.valueOf(total));
+        if (total == 0) {
+            return 1;
+        }
         return total;
     }
 }

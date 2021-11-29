@@ -13,11 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-
 import org.xmlpull.v1.XmlPullParser;
 
 import java.text.ParseException;
@@ -29,9 +24,6 @@ public class CustomList extends ArrayAdapter<Habit> {
     private ArrayList<Habit> habitList;
     private Context context;
     private int content;
-
-    PieChart pieChart;
-    ArrayList<PieEntry> pieEntryList = new ArrayList<>();
 
     public CustomList(Context context, ArrayList habitList) {
         super(context, 0, habitList);
@@ -59,7 +51,7 @@ public class CustomList extends ArrayAdapter<Habit> {
         username.setText(habit.getUsername());
 
         ProgressBar progressBar = view.findViewById(R.id.progress);
-        progressBar.setProgress(25);
+        progressBar.setProgress((habit.getTimesCompleted()/habit.getTimesPassed())*100);
 
         return view;
     }
