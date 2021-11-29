@@ -52,6 +52,8 @@ public class ViewHabitActivity extends AppCompatActivity {
     TextView date;
     TextView description;
 
+    ListView events;
+
     ToggleButton monday;
     ToggleButton tuesday;
     ToggleButton wednesday;
@@ -96,7 +98,6 @@ public class ViewHabitActivity extends AppCompatActivity {
         sunday = findViewById(R.id.Su);
 
 
-
         mainList = findViewById(R.id.event_list);
         editButton = findViewById(R.id.edit_button);
         addButton = findViewById(R.id.addEvent_button);
@@ -128,6 +129,8 @@ public class ViewHabitActivity extends AppCompatActivity {
         friday.setChecked(temp.get(4));
         saturday.setChecked(temp.get(5));
         sunday.setChecked(temp.get(6));
+
+        viewList();
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,8 +191,6 @@ public class ViewHabitActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
 
 
@@ -222,6 +223,12 @@ public class ViewHabitActivity extends AppCompatActivity {
         finish();
     }
 
+    private void viewList(){
+        Intent intent= new Intent(this, ViewEventList.class);
+        intent.putExtra("HabitID",habit.getHabitID().toString());
+        startActivity(intent);
+        finish();
+    }
 
     /**
      * starts profile activity

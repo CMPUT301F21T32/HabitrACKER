@@ -67,10 +67,6 @@
         android:layout_height="wrap_content"
         android:text="Cancel"
         app:layout_constraintBottom_toBottomOf="parent"
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> c604b8f603669ee7c0033be81b91744acccd3399
         app:layout_constraintStart_toStartOf="@+id/map"
         app:layout_constraintTop_toBottomOf="@+id/map"
         tools:ignore="MissingConstraints" />
@@ -93,55 +89,6 @@
         android:text="0"
         app:layout_constraintStart_toEndOf="@+id/cancellocation"
         app:layout_constraintTop_toBottomOf="@+id/lattext" />
-<<<<<<< HEAD
-=======
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26">
-
-        <ImageView
-            android:id="@+id/eventImage"
-            android:layout_width="match_parent"
-            android:layout_height="210dp"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <EditText
-            android:id="@+id/comment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Add a comment"
-            android:inputType="textPersonName"
-            tools:ignore="MissingConstraints" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="258dp"
-            android:layout_height="29dp"
-            tools:text="Add a location" />
-
-    </LinearLayout>
->>>>>>> b39f6f76ff005f938828bde3683392df7955692c
-
-    <Button
-        android:id="@+id/upload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Capture Image"
-        android:onClick="uploadImage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="423dp"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/upload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Capture Image"
-        android:onClick="uploadImage"
-=======
 
     <fragment
         android:id="@+id/map"
@@ -150,7 +97,6 @@
         android:layout_height="168dp"
         android:layout_marginBottom="56dp"
         app:layout_constraintBottom_toBottomOf="parent"
->>>>>>> c604b8f603669ee7c0033be81b91744acccd3399
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />

@@ -22,6 +22,12 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+/**
+ * allows the event list to be displayed in the view
+ *
+ * @aurhor jacqueline
+ */
+
 public class PastEventList extends ArrayAdapter<HabitEvent> {
     private ConstraintLayout layout;
     private ArrayList<HabitEvent> eventList;

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -16,6 +17,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+/**
+ * gets the information from the firestore database so it can be stored in the app
+ *
+ * @aurhor jacqueline
+ */
 
 public class ViewEventList extends AppCompatActivity {
     String HabitID;
@@ -57,11 +65,11 @@ public class ViewEventList extends AppCompatActivity {
                        habitEvent.clear();
                        eventAdapter.notifyDataSetChanged();
                        for(QueryDocumentSnapshot doc : task.getResult()) {
-                           if (doc.getData().get("habitID") == HabitID) {
+                           if (doc.get("habitID").equals(HabitID)) {
                                // Get HabitEvent values
-                               String eventID= doc.getData().get("habitID").toString();
-                               String eventName= doc.getData().get("name").toString();
-                               String eventComment= doc.get("comment").toString();
+                               String eventID= Objects.requireNonNull(doc.getData().get("habitID")).toString();
+                               String eventName= Objects.requireNonNull(doc.getData().get("name")).toString();
+                               String eventComment= Objects.requireNonNull(doc.get("comment")).toString();
                            }
 
                            // Create new HabitEvent object and add it to the HabitEvent array
@@ -73,13 +81,10 @@ public class ViewEventList extends AppCompatActivity {
                    }
                 });
 
-
-
         // When user clicks on event, go to details to edit/delete
-        eventList.setOnClickListener(new View.OnClickListener() {
+        eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                // Go to EditDeleteEvent class
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 goToEditDelete();
             }
         });

@@ -28,14 +28,18 @@ import org.w3c.dom.Document;
 import java.io.File;
 import java.util.HashMap;
 
+/**
+ * this creates the page where user can edit/delete the event
+ *
+ * @aurhor jacqueline
+ */
+
 public class EditDeleteEvent extends AppCompatActivity {
     String HabitEventID;
     Button deleteButton;
     Button saveButton;
-    Button editPhoto;
     EditText habitName;
     EditText seeComments;
-    EditText location;
     ImageView image;
 
     @Override
@@ -48,10 +52,8 @@ public class EditDeleteEvent extends AppCompatActivity {
 
         saveButton= findViewById(R.id.save_button);
         deleteButton= findViewById(R.id.delete_button);
-        editPhoto= findViewById(R.id.editPhoto);
         habitName= (EditText) findViewById(R.id.habit_name);
         seeComments= (EditText) findViewById(R.id.habit_comment);
-        location= (EditText) findViewById(R.id.event_location);
         image= (ImageView) findViewById(R.id.imageView);
 
         // delete button
