@@ -12,6 +12,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -26,12 +27,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 >>>>>>> b39f6f76ff005f938828bde3683392df7955692c
+=======
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+>>>>>>> b39f6f76ff005f938828bde3683392df7955692c
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+<<<<<<< HEAD
 <<<<<<< HEAD
 import android.widget.TextView;
 
@@ -42,6 +50,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 =======
+=======
+>>>>>>> b39f6f76ff005f938828bde3683392df7955692c
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -56,9 +66,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+<<<<<<< HEAD
 
 import org.w3c.dom.Document;
 
+=======
+
+import org.w3c.dom.Document;
+
+>>>>>>> b39f6f76ff005f938828bde3683392df7955692c
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
@@ -68,7 +84,12 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
     TextView lonText;
     Button addHabitEventButton;
 <<<<<<< HEAD
+<<<<<<< HEAD
     Button cancelLocation;
+=======
+    Button uploadButton;
+    ImageView imageView;
+>>>>>>> b39f6f76ff005f938828bde3683392df7955692c
 =======
     Button uploadButton;
     ImageView imageView;
@@ -79,12 +100,17 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
     String name;
     String username;
 <<<<<<< HEAD
+<<<<<<< HEAD
     double userLat;
     double userLon;
     String markerLat;
     String markerLon;
     LocationManager locationManager;
     GoogleMap gMap;
+=======
+    private StorageReference mStorageRef;
+    int CAMERA_REQUEST_CODE = 1;
+>>>>>>> b39f6f76ff005f938828bde3683392df7955692c
 
     @SuppressLint("MissingPermission")
 =======
@@ -100,6 +126,7 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
 
         habitEventDescription = findViewById(R.id.comment);
         addHabitEventButton = findViewById(R.id.add_habit_event);
+<<<<<<< HEAD
 <<<<<<< HEAD
         cancelLocation = findViewById(R.id.cancellocation);
         latText = findViewById(R.id.lattext);
@@ -127,6 +154,14 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
 >>>>>>> b39f6f76ff005f938828bde3683392df7955692c
+=======
+        uploadButton = findViewById(R.id.upload);
+        imageView = findViewById(R.id.eventImage);
+
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
+>>>>>>> b39f6f76ff005f938828bde3683392df7955692c
 
         Intent intent = getIntent();
         habitID = intent.getStringExtra("HABITID");
@@ -139,6 +174,7 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
             }
         });
+<<<<<<< HEAD
 <<<<<<< HEAD
 
         cancelLocation.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +208,8 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
                             public void onSuccess(Void avoid){
                                 Log.d("AddHabitEvent", "HabitEventAddedSuccessfully");
                                 goToProfile();
+=======
+>>>>>>> b39f6f76ff005f938828bde3683392df7955692c
 =======
 >>>>>>> b39f6f76ff005f938828bde3683392df7955692c
 
@@ -236,12 +274,21 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
                                             goToProfile();
                                         }
                                     });
+<<<<<<< HEAD
 
                         }
                     });
                 }
             });
 
+=======
+
+                        }
+                    });
+                }
+            });
+
+>>>>>>> b39f6f76ff005f938828bde3683392df7955692c
         }
     }
 

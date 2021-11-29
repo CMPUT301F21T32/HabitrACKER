@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.ht">
     <uses-permission android:name="android.permission.INTERNET"/>
+<<<<<<< HEAD
+=======
+
+>>>>>>> b39f6f76ff005f938828bde3683392df7955692c
 
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

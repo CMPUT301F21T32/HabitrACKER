@@ -59,7 +59,11 @@ dependencies {
     implementation 'androidx.room:room-compiler:2.2.6'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 <<<<<<< HEAD
+<<<<<<< HEAD
     implementation 'com.google.android.gms:play-services-maps:18.0.0'
+=======
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+>>>>>>> b39f6f76ff005f938828bde3683392df7955692c
 =======
     implementation 'com.google.firebase:firebase-storage:19.1.1'
 >>>>>>> b39f6f76ff005f938828bde3683392df7955692c
