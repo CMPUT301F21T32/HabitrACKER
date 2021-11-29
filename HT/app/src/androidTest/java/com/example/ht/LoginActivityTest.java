@@ -71,7 +71,7 @@ public class LoginActivityTest {
         solo.enterText((EditText) solo.getView(R.id.loginPassword_editText), "123456788");
         solo.hideSoftKeyboard();
         solo.clickOnButton("Log In");
-        assertTrue(solo.waitForText("friends", 1, 10000));
+        assertTrue(solo.waitForText("Hunt", 1, 10000));
     }
 
 

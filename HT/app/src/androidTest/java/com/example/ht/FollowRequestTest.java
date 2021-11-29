@@ -1,11 +1,22 @@
 package com.example.ht;
 
+import static org.junit.Assert.assertTrue;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
@@ -21,26 +32,44 @@ public class FollowRequestTest {
     private Solo solo;
 
     @Rule
-    public ActivityTestRule<ViewHabitActivity> rule =
-            new ActivityTestRule<ViewHabitActivity>(ViewHabitActivity.class, true, true) {
+    public ActivityTestRule<Search> rule =
+            new ActivityTestRule<>(Search.class, true, true);
 
-                @Override
-                protected Intent getActivityIntent() {
-                    Intent intent = new Intent();
-                    List<Boolean> temp = new ArrayList<Boolean>();
-                    Date d = new Date();
-                    intent.putExtra("habit", new Habit("test", "test","test", temp.toString(), "4", "4", "test"));
-                    return intent;
-                }
-            };
 
     /**
-     * Runs before all tests and creates solo instance.
+     * Runs before all tests and creates solo instance and sets up main user
      * @throws Exception
      */
     @Before
     public void setUp() throws Exception{
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference ref = db.collection("users").document("cole");
+        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("sample: ", "Document exists!");
+                        // GO TO NEXT ACTIVITY
+                        String usernameText = "cole";
+                        String password = "123456788";
+                        String name = document.get("name").toString();
+                        String following = document.get("following").toString();
+                        String followers = document.get("followers").toString();
+
+                        Profile temp = new Profile(usernameText, password, name, following, followers);
+
+                        MainUser.setProfile(temp);
+
+                    }
+                }
+            }
+        });
+
     }
     /**
      * Gets the Activity
@@ -56,10 +85,14 @@ public class FollowRequestTest {
      */
     @Test
     public void testAcceptButton() throws InterruptedException {
-        solo.assertCurrentActivity("Wrong Activity", ViewHabitActivity.class);
-        solo.clickOnView(solo.getView(R.id.addEvent_button));
-        solo.wait(3000);
-        solo.assertCurrentActivity("Wrong Activity", AddEventActivity.class);
+        solo.assertCurrentActivity("Wrong Activity", Search.class);
+        solo.waitForText("Search", 1, 5000);
+
+        solo.enterText((EditText) solo.getView(R.id.searchTextBox), "cole");
+        solo.hideSoftKeyboard();
+        solo.clickOnView((ImageButton) solo.getView(R.id.searchGoButton));
+
+        assertTrue(solo.waitForText("cole12", 1, 5000));
 
 
     }
@@ -69,10 +102,14 @@ public class FollowRequestTest {
      */
     @Test
     public void testDenyButton() throws InterruptedException {
-        solo.assertCurrentActivity("Wrong Activity", ViewHabitActivity.class);
-        solo.clickOnView(solo.getView(R.id.edit_button));
-        solo.wait(3000);
-        solo.assertCurrentActivity("Wrong Activity", AddActivity.class);
+        solo.assertCurrentActivity("Wrong Activity", Search.class);
+        solo.waitForText("Search", 1, 5000);
+
+        solo.enterText((EditText) solo.getView(R.id.searchTextBox), "jim");
+        solo.hideSoftKeyboard();
+        solo.clickOnView((ImageButton) solo.getView(R.id.searchGoButton));
+
+        assertTrue(solo.waitForText("jim", 1, 5000));
 
 
     }
