@@ -1,6 +1,7 @@
 package com.example.ht;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Hunter
@@ -25,6 +27,7 @@ public class Habit implements Serializable {
     private String username; // Username of the habit's creator
     private boolean openHabit; // Whether the habit is open to the public or not
     private final String habitID; // unique id of the habit
+    private int timesCompleted = 0;
 
     public Habit(String name, String description, List<Boolean> selectedDays, Date date,
                  String username, boolean openHabit, String habitID) {
@@ -59,6 +62,7 @@ public class Habit implements Serializable {
         for (String s : daysString) {
             this.selectedDays.add(Boolean.parseBoolean(s));
         }
+        Log.d("PARSING:", this.selectedDays.toString());
         this.openHabit = Boolean.parseBoolean(openHabit);
         this.habitID = habitID;
     }
@@ -175,6 +179,22 @@ public class Habit implements Serializable {
     public void setUsername(String username) { this.username = username; }
 
     /**
+     * Sets the number of times a habit has been completed
+     *
+     * @param timesCompleted The new username of the habit creator
+     */
+    public void setTimesCompleted(int timesCompleted) {
+        this.timesCompleted = timesCompleted;
+    }
+
+    /**
+     * Returns the number of habit events
+     */
+    public int getTimesCompleted() {
+        return this.timesCompleted;
+    }
+
+    /**
      * Sets whether the habit is open to be viewed by the public
      * true  => viewable by public
      * false => viewable only by followers
@@ -198,4 +218,21 @@ public class Habit implements Serializable {
                 this.selectedDays.get(dayOfWeek)); // Checks that the habit occurs today
     }
 
+    public int getTimesPassed() {
+        int total = 0;
+        Date today = new Date(); // 1637305200000 1637797212967
+        Log.d("DATE CHECK", String.valueOf(today.getTime()));
+        for (int i = 0; i < 7; i++) {
+            if(selectedDays.get(i) == true) {
+                long diffInMills = today.getTime() - date.getTime();
+                int daysTotal = (int) (diffInMills/86400000)/7; // THIS IS MILLISECONDS TO DAYS
+                total += daysTotal;
+            }
+        }
+        Log.d("DATE FINAL", String.valueOf(total));
+        if (total == 0) {
+            return 1;
+        }
+        return total;
+    }
 }

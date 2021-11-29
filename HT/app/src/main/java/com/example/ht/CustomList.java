@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomList extends ArrayAdapter<Habit> {
     private ConstraintLayout layout;
@@ -45,7 +48,10 @@ public class CustomList extends ArrayAdapter<Habit> {
         TextView username = view.findViewById(R.id.username);
         habitTitle.setText(habit.getName());
         habitDescription.setText(habit.getDescription());
-        username.setText("defaultUser");
+        username.setText(habit.getUsername());
+
+        ProgressBar progressBar = view.findViewById(R.id.progress);
+        progressBar.setProgress((habit.getTimesCompleted()/habit.getTimesPassed())*100);
 
         return view;
     }
