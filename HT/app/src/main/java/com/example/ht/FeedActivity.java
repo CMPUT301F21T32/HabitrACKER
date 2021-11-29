@@ -16,7 +16,16 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * this is an activity which creates the page where users
+ * can see the public habits of the users that they follow
+ *
+ * @Author Anahita
+ */
+
 public class FeedActivity extends AppCompatActivity {
+
+    //initializes variables
 
     Button profileButton;
     Button searchButton;
@@ -68,7 +77,10 @@ public class FeedActivity extends AppCompatActivity {
 
     }
 
-    //starts the profile activity
+    /**
+     * starts profile activity
+     * @param un
+     */
     private void goToProfile(String un){
         Intent intent = new Intent(this, SelfProfile.class);
 
@@ -76,7 +88,10 @@ public class FeedActivity extends AppCompatActivity {
         finish();
     }
 
-    //starts the profile activity
+    /**
+     * starts search activity
+     * @param un u
+     */
     private void goToSearch(String un){
         Intent intent = new Intent(this, Search.class);
 
@@ -84,6 +99,11 @@ public class FeedActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * This function looks inside the database,
+     * and gets the public habits from users that
+     * the current user follows
+     */
     public void populateList(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Habits")
@@ -119,15 +139,21 @@ public class FeedActivity extends AppCompatActivity {
 
     }
 
+
+
+    /**
+     * This function takes a habit, and adds it
+     * to the list, updating the adapter.
+     * @param habit
+     */
+
     public void addHabitToList(Habit habit) {
-        //habitList.add(habit);
-        //habitAdapter.notifyDataSetChanged();
-        //Log.d("LIST CHECK", habitList.get(0).getName());
+        //update the list
 
         habitList.add(habit);
         habitAdapter.notifyDataSetChanged();
         Log.d("LIST CHECK", habitList.get(0).getName());
 
-        // update list
+
     }
 }
