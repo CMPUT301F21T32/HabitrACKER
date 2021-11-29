@@ -88,13 +88,15 @@ public class ViewHabitTest {
     }
 
     /**
-     * test if the Add Event button works
+     * Habit can be viewed correctly and all the correct info shows up
      */
     @Test
     public void testCorrectView() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", ViewHabitActivity.class);
         assertTrue(solo.waitForText("M", 1, 5000));
         assertTrue(solo.waitForText("test", 1, 5000));
+        assertTrue(solo.waitForText("Add Event", 1, 5000));
+        assertTrue(solo.waitForText("Edit Habit", 1, 5000));
 
 
 
