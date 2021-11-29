@@ -34,7 +34,7 @@ public class ViewHabitTest {
                     Intent intent = new Intent();
                     List<Boolean> temp = new ArrayList<Boolean>();
                     Date d = new Date();
-                    intent.putExtra("habit", new Habit("test", "test", temp, 4, 4, d, "test", "test"));
+                    intent.putExtra("habit", new Habit("test", "test","test", temp.toString(), "4", "4", "test"));
                     return intent;
                 }
             };

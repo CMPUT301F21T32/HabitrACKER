@@ -22,14 +22,14 @@ public class HabitTest {
 
     // Create a habit with a start date in the future
     public Habit createLaterHabit(){
-        return new Habit("Running", "cardio", "[true, false, false, true, false, false, true]", "2050/01/01", "Test", "TestID");
+        return new Habit("Running", "cardio", "[true, false, false, true, false, false, true]", "2050/01/01", "Test", "true", "TestID");
     }
 
     // Create a habit with a start date today that does not occur today
     public Habit createOtherDayHabit() {
         List<Boolean> days = new ArrayList<>(Collections.nCopies(7, false));
         Date today = new Date();
-        return new Habit("Running", "cardio", days, today, "Test", "TestID");
+        return new Habit("Running", "cardio", days.toString(), today.toString(), "Test", "true", "TestID");
     }
 
     // Create a habit that occurs today
@@ -38,7 +38,7 @@ public class HabitTest {
         int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         days.set((dayOfWeek-1)%7, true);
         Date today = new Date();
-        return new Habit("Running", "cardio", days, today, "Test", "TestID");
+        return new Habit("Running", "cardio", days.toString(), today.toString(), "Test","true", "TestID");
     }
 
     /**
