@@ -1,12 +1,24 @@
 package com.example.ht;
 
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -17,12 +29,19 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
+
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import android.widget.ImageView;
+import android.widget.Toast;
+
 import android.widget.TextView;
+
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,8 +56,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import org.w3c.dom.Document;
+
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+
+
+
 
 /**
  * @author Cole
@@ -48,6 +76,7 @@ import java.util.HashMap;
  * Here you can write a comment and add a location to a habit event
  *
  */
+
 
 public class AddEventActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback {
     EditText habitEventDescription; // Text box for the description
@@ -65,6 +94,14 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
     String markerLon; // The longitude of the marker on the map
     LocationManager locationManager; // Used for getting the users location
     GoogleMap gMap; // The map where the user selects their location
+    Button uploadButton;
+    ImageView imageView;
+    String description;
+    String hour;
+    String minute;
+
+    private StorageReference mStorageRef;
+    int CAMERA_REQUEST_CODE = 1;
 
     /**
      * creates the activity
@@ -79,6 +116,13 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
 
         habitEventDescription = findViewById(R.id.comment);
         addHabitEventButton = findViewById(R.id.add_habit_event);
+
+        uploadButton = findViewById(R.id.upload);
+        imageView = findViewById(R.id.eventImage);
+
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
         cancelLocation = findViewById(R.id.cancellocation);
         latText = findViewById(R.id.lattext);
         lonText = findViewById(R.id.longtext);
@@ -99,6 +143,7 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
                             }
                         }
                 );
+
 
 
         locationPermissionRequest.launch(new String[] {
@@ -123,6 +168,61 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
         habitID = intent.getStringExtra("HABITID");
+
+
+
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, CAMERA_REQUEST_CODE);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==CAMERA_REQUEST_CODE && resultCode == RESULT_OK){
+            Bundle extras = data.getExtras();
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] dataBAOS = baos.toByteArray();
+
+            imageView.setImageBitmap(bitmap);
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+            StorageReference filepath = mStorageRef.child("Photos").child("somename");
+
+            UploadTask uploadTask = filepath.putBytes(dataBAOS);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    DocumentReference ref = db.collection("Habits").document(habitID);
+                    ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    description = document.get("description").toString();
+                                    name = document.get("name").toString();
+                                    username = document.get("username").toString();
+                                }
+                            }
+                        }
+                    });
+                }
+            });
 
         // Get relevant information about the habit
         DocumentReference ref = db.collection("Habits").document(habitID);
@@ -169,22 +269,89 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
                         .set(data)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onSuccess(Void avoid){
+                            public void onSuccess(Void avoid) {
                                 Log.d("AddHabitEvent", "HabitEventAddedSuccessfully");
                                 // Exit the activity
                                 goToProfile();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("AddHabitEvent", "Couldn't be added");
-                            }
-                        });
-            }
 
-        });
+                            }
+                    });
+                    addHabitEventButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            comment = habitEventDescription.getText().toString();
+                            habitEventDescription.getText().clear();
+                            HashMap<String, String> data = new HashMap<>();
+                            data.put("habitID", habitID);
+                            data.put("name", name);
+                            data.put("comment", comment);
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            db.collection("HabitEvents")
+                                    .document()
+                                    .set(data)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            goToProfile();
+                                        }
+                                    });
+
+                        }
+                    });
+                }
+            });
+
+        }
     }
+
+    //        DocumentReference ref = db.collection("Habits").document(habitID);
+//        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if(task.isSuccessful()){
+//                    DocumentSnapshot document = task.getResult();
+//                    if(document.exists()){
+//                        description = document.get("description").toString();
+//                        name = document.get("name").toString();
+//                        username = document.get("username").toString();
+//                    }
+//                }
+//            }
+//        });
+//
+//        addHabitEventButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view){
+//                comment = habitEventDescription.getText().toString();
+//                habitEventDescription.getText().clear();
+//                HashMap<String, String> data = new HashMap<>();
+//                Log.d("comment", comment);
+//                data.put("habitID", habitID);
+//                data.put("name", name);
+//                data.put("comment", comment);
+//                // Log.d("Comment", comment);
+//                FirebaseFirestore db = FirebaseFirestore.getInstance();
+//                db.collection("HabitEvents")
+//                        .document()
+//                        .set(data)
+//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void avoid){
+//                                Log.d("AddHabitEvent", "HabitEventAddedSuccessfully");
+//                                goToProfile();
+//
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Log.d("AddHabitEvent", "Couldn't be added");
+//                            }
+//                        });
+//            }
+//
+//        });
+//    }
 
     /**
      * returns app to profile activity
