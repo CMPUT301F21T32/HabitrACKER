@@ -9,100 +9,83 @@
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="176dp"
+        android:layout_marginBottom="141dp"
         android:text="SAVE"
         android:textSize="14sp"
-        tools:layout_editor_absoluteX="76dp"
-        tools:layout_editor_absoluteY="542dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comment_label"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/delete_button"
         android:layout_width="92dp"
         android:layout_height="48dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="85dp"
+        android:layout_marginBottom="141dp"
         android:text="DELETE"
         android:textSize="14sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="234dp"
-        tools:layout_editor_absoluteY="542dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/save_button"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="199dp"
+        android:layout_marginEnd="39dp"
         android:text="Habit Name:"
         android:textSize="18sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="199dp" />
-
-    <TextView
-        android:id="@+id/reason_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Habit Reason:"
-        android:textSize="18sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="274dp" />
+        app:layout_constraintEnd_toStartOf="@+id/habit_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/comment_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="119dp"
+        android:layout_marginEnd="55dp"
         android:text="Comment:"
         android:textSize="18sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="342dp" />
-
-    <TextView
-        android:id="@+id/location_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Location:"
-        android:textSize="18sp"
-        tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="406dp"
+        app:layout_constraintEnd_toStartOf="@+id/habit_comment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_label"
         tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/habit_name"
         android:layout_width="189dp"
         android:layout_height="48dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="39dp"
+        android:layout_marginBottom="95dp"
         android:text="Name"
         android:textSize="18sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="183dp"
-        tools:layout_editor_absoluteY="189dp" />
-
-    <EditText
-        android:id="@+id/habit_reason"
-        android:layout_width="189dp"
-        android:layout_height="48dp"
-        android:text="Reason"
-        android:textSize="18sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="183dp"
-        tools:layout_editor_absoluteY="261dp" />
+        app:layout_constraintBottom_toTopOf="@+id/habit_comment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/habit_comment"
         android:layout_width="193dp"
         android:layout_height="50dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="160dp"
         android:text="Comment"
         android:textSize="18sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="183dp"
-        tools:layout_editor_absoluteY="332dp" />
-
-    <EditText
-        android:id="@+id/event_location"
-        android:layout_width="192dp"
-        android:layout_height="48dp"
-        android:text="Location"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="183dp"
-        tools:layout_editor_absoluteY="406dp" />
+        app:layout_constraintBottom_toTopOf="@+id/delete_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -114,15 +97,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
-
-    <Button
-        android:id="@+id/editPhoto"
-        android:layout_width="79dp"
-        android:layout_height="44dp"
-        android:text="Edit Photo"
-        android:textSize="10sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="305dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,7 +21,6 @@ public class ViewEventList extends AppCompatActivity {
     String HabitID;
     String eventID;
     String eventName;
-    String eventDescription;
     String eventComment;
 
     ListView eventList;
@@ -63,74 +62,17 @@ public class ViewEventList extends AppCompatActivity {
                                String eventID= doc.getData().get("habitID").toString();
                                String eventName= doc.getData().get("name").toString();
                                String eventComment= doc.get("comment").toString();
-                               String eventDescription= doc.get("reason").toString();
                            }
 
                            // Create new HabitEvent object and add it to the HabitEvent array
-                           HabitEvent newEvent= new HabitEvent(eventID, eventName, eventDescription, eventComment);
+                           HabitEvent newEvent= new HabitEvent(eventID, eventName, eventComment);
                            habitEvent.add(newEvent);
                            eventAdapter.notifyDataSetChanged();
-                           Log.d("List check", habitEvent.get(0).gethabitID());
+                           Log.d("List check", "check");
                        }
                    }
                 });
 
-
-
-        /**
-        db.collection("HabitEvents")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    habitEvent.clear();
-                    eventAdapter.notifyDataSetChanged();
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        // Populate the list
-                        if(!queryDocumentSnapshots.isEmpty()){
-                            for(QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                                if (doc.getData().get("habitID") == HabitID) {
-                                    doc.getData().get("habitID");
-                                    HabitEvent newEvent = doc.toObject(HabitEvent.class);        // convert doc to HabitEvent object
-                                    habitEvent.add(newEvent);                                   // add to list
-                                }
-                            }
-
-                            // Connect to list to display in app
-                            ArrayAdapter<HabitEvent> eventAdapter= new ArrayAdapter<HabitEvent>(getApplicationContext(), R.layout.event_cell, habitEvent);
-                            eventAdapter.notifyDataSetChanged();
-                            eventList.setAdapter(eventAdapter);
-
-                        }
-                    }
-                });
-                    **/
-
-        /**
-        db.collection("HabitEvents")
-                .get()
-                .addOnCompleteListener(task -> {
-                    habitEvent.clear();
-                    eventAdapter.notifyDataSetChanged();
-                    for(QueryDocumentSnapshot doc : task.getResult()){
-                        if (HabitID==doc.get("habitID").toString()){
-                            // Get HabitEvent values
-                            String eventID= doc.getData().get("habitID").toString();
-                            String eventName= doc.getData().get("name").toString();
-                            String eventComment= doc.get("comment").toString();
-                            String eventDescription= doc.get("reason").toString();
-                        }
-
-                        // Create new HabitEvent object and add it to the HabitEvent array
-                        HabitEvent newEvent= new HabitEvent(eventID, eventName, eventDescription, eventComment);
-                        habitEvent.add(newEvent);
-                    }
-
-                    // Connect to list to display in app
-                    eventAdapter.notifyDataSetChanged();
-                    Log.d("LIST CHECK", habitEvent.get(0).getName());
-
-                });
-        **/
 
 
         // When user clicks on event, go to details to edit/delete
@@ -146,7 +88,8 @@ public class ViewEventList extends AppCompatActivity {
 
     public void goToEditDelete(){
         // Allow user to edit or delete the habit event
-        Intent intent = new Intent(this, FeedActivity.class);
+        Intent intent = new Intent(this, EditDeleteEvent.class);
         startActivity(intent);
+        finish();
     }
 }

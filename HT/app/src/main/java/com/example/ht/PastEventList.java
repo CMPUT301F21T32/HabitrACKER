@@ -39,17 +39,17 @@ public class PastEventList extends ArrayAdapter<HabitEvent> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
         View view= convertView;
         if (view==null){
-            view= LayoutInflater.from(context).inflate(R.layout.event_cell, parent, false);
+            view= LayoutInflater.from(context).inflate(R.layout.cell_content, parent, false);
         }
         HabitEvent event= eventList.get(position);
 
-        TextView eventTitle= view.findViewById(R.id.habit_event);
+        TextView eventTitle= view.findViewById(R.id.habit_title);
         TextView eventDescription= view.findViewById(R.id.habit_description);
         TextView eventUser= view.findViewById(R.id.username);
 
         eventTitle.setText(event.getName());
         eventDescription.setText(event.getDescription());
-        eventUser.setText(event.getComment());
+        eventUser.setText("defaultUser");
 
         return view;
     }

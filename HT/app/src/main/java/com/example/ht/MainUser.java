@@ -6,7 +6,8 @@ package com.example.ht;
  */
 
 public class MainUser {
-    private static MainUser instance = null;
+    private static Profile temp = new Profile("test", "test", "test", "[]", "[]");
+    private static MainUser instance = new MainUser(temp);
     Profile profile;
     protected MainUser(Profile p) {
         // Exists only to defeat instantiation.
@@ -21,9 +22,9 @@ public class MainUser {
      * @return the instance of the mainUser class
      */
     public static MainUser setProfile(Profile p) {
-        if(instance == null) {
+        //if(instance == null) {
             instance = new MainUser(p);
-        }
+        //}
         return instance;
     }
 

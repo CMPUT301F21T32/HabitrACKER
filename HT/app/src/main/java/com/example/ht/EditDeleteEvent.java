@@ -34,7 +34,6 @@ public class EditDeleteEvent extends AppCompatActivity {
     Button saveButton;
     Button editPhoto;
     EditText habitName;
-    EditText habitReason;
     EditText seeComments;
     EditText location;
     ImageView image;
@@ -51,7 +50,6 @@ public class EditDeleteEvent extends AppCompatActivity {
         deleteButton= findViewById(R.id.delete_button);
         editPhoto= findViewById(R.id.editPhoto);
         habitName= (EditText) findViewById(R.id.habit_name);
-        habitReason= (EditText) findViewById(R.id.habit_reason);
         seeComments= (EditText) findViewById(R.id.habit_comment);
         location= (EditText) findViewById(R.id.event_location);
         image= (ImageView) findViewById(R.id.imageView);
@@ -70,31 +68,6 @@ public class EditDeleteEvent extends AppCompatActivity {
             }
         });
 
-        //Edit Image for Habit Event
-        final int REQUEST_IMAGE_CAPTURE= 1;
-        editPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //selectImage();
-                /**
-                 // Get camera
-                 Intent camera= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                 startActivityForResult(camera, REQUEST_IMAGE_CAPTURE);
-                 try {
-                 startActivityForResult(camera, REQUEST_IMAGE_CAPTURE);
-                 } catch (ActivityNotFoundException e) {
-                 // display error state to the user
-                 // Just don't do anything
-                 }
-
-                 // Set photo in event
-                 // editPhoto.setBackgroundResource(R.drawable.ic_launcher_background);
-                 **/
-            }
-
-
-
-        });
 
     }
 
@@ -127,7 +100,6 @@ public class EditDeleteEvent extends AppCompatActivity {
     private void saveEvent() {
         // get values currently in EditText fields
         String textName= habitName.getText().toString();
-        String textReason= habitReason.getText().toString();
         String textComment= seeComments.getText().toString();
 
         if (seeComments.length() > 20){
@@ -140,7 +112,6 @@ public class EditDeleteEvent extends AppCompatActivity {
         HashMap<String, String> data = new HashMap<>();
         data.put("HabitID", HabitEventID);
         data.put("HabitName", textName);
-        data.put("Reason", textReason);
         data.put("Comment", textComment);
 
         // Get description from Habits collection
@@ -166,38 +137,6 @@ public class EditDeleteEvent extends AppCompatActivity {
                     }
                 });
     }
-
-    /**
-     private void selectImage(){
-     CharSequence[] options = {"Take Photo", "Select existing photo"};
-
-     Intent camera= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-     File image= new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-     camera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
-     startActivityForResult(camera, 1);
-     }
-
-     @Override
-     protected void onActivityResult(int requestCode, int requestCode, Intent data) {
-     super.onActivityResult(requestCode, requestCode, data);
-
-     File camera= new File(Environment.getExternalStorageState().toString());
-     for (File temp : camera.listFiles()){
-     if (temp.getName().equals("temp.jpg")){
-     camera= temp;
-     File photo= new File(Environment.getExternalStorageDirectory(), "temp.jpg");
-     break;
-     }
-     }
-
-     Bitmap bitmap;
-     BitmapFactory.Options bitmapOptions= new BitmapFactory.Options();
-     bitmap= BitmapFactory.decodeFile(camera.getAbsolutePath(), bitmapOptions);
-
-     image.setImageBitmap(bitmap);
-
-     }
-     **/
 
 }
 
