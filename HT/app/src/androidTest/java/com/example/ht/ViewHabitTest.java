@@ -4,12 +4,17 @@ import static org.junit.Assert.*;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
 
@@ -32,9 +37,9 @@ public class ViewHabitTest {
                 @Override
                 protected Intent getActivityIntent() {
                     Intent intent = new Intent();
-                    List<Boolean> temp = new ArrayList<Boolean>();
                     Date d = new Date();
-                    intent.putExtra("habit", new Habit("test", "test","test", temp.toString(), "4", "4", "test"));
+                    intent.putExtra("habit", new Habit("test", "test","[true, true, true, true, true, true, true, true]", d.toString(), "test", "true", "test"));
+
                     return intent;
                 }
             };
@@ -46,6 +51,32 @@ public class ViewHabitTest {
     @Before
     public void setUp() throws Exception{
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference ref = db.collection("users").document("cole");
+        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("sample: ", "Document exists!");
+                        // GO TO NEXT ACTIVITY
+                        String usernameText = "cole";
+                        String password = "123456788";
+                        String name = document.get("name").toString();
+                        String following = document.get("following").toString();
+                        String followers = document.get("followers").toString();
+
+                        Profile temp = new Profile(usernameText, password, name, following, followers);
+
+                        MainUser.setProfile(temp);
+
+                    }
+                }
+            }
+        });
     }
     /**
      * Gets the Activity
@@ -60,27 +91,16 @@ public class ViewHabitTest {
      * test if the Add Event button works
      */
     @Test
-    public void testAddButton() throws InterruptedException {
+    public void testCorrectView() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", ViewHabitActivity.class);
-        solo.clickOnView(solo.getView(R.id.addEvent_button));
-        solo.wait(3000);
-        solo.assertCurrentActivity("Wrong Activity", AddEventActivity.class);
+        assertTrue(solo.waitForText("M", 1, 5000));
+        assertTrue(solo.waitForText("test", 1, 5000));
+
+
 
 
     }
 
-    /**
-     * test if the Add Event button works
-     */
-    @Test
-    public void testEditButton() throws InterruptedException {
-        solo.assertCurrentActivity("Wrong Activity", ViewHabitActivity.class);
-        solo.clickOnView(solo.getView(R.id.edit_button));
-        solo.wait(3000);
-        solo.assertCurrentActivity("Wrong Activity", AddActivity.class);
-
-
-    }
 
     /**
      * Closes the activity after each test

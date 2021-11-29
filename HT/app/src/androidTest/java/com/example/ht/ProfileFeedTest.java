@@ -5,9 +5,15 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
 
 import org.junit.Before;
@@ -36,6 +42,34 @@ public class ProfileFeedTest {
      */
     @Before
     public void setUp() throws Exception {
+
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference ref = db.collection("users").document("cole");
+        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("sample: ", "Document exists!");
+                        // GO TO NEXT ACTIVITY
+                        String usernameText = "cole";
+                        String password = "123456788";
+                        String name = document.get("name").toString();
+                        String following = document.get("following").toString();
+                        String followers = document.get("followers").toString();
+
+                        Profile temp = new Profile(usernameText, password, name, following, followers);
+
+                        MainUser.setProfile(temp);
+
+                    }
+                }
+            }
+        });
+
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
     }
 
@@ -45,6 +79,7 @@ public class ProfileFeedTest {
      */
     @Test
     public void start() throws Exception {
+        setUp();
         Activity activity = rule.getActivity();
     }
 
@@ -54,7 +89,7 @@ public class ProfileFeedTest {
         solo.assertCurrentActivity("Wrong Activity", AddActivity.class);
         solo.enterText((EditText) solo.getView(R.id.editText_name), "New Title");
         solo.enterText((EditText) solo.getView(R.id.editText_desc), "New Description");
-        solo.clickOnButton("FINISH");
+        solo.clickOnView(solo.getView(R.id.finishAddActivityButton));
     }
 
     @Test
