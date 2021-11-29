@@ -60,6 +60,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     implementation 'com.google.android.gms:play-services-maps:18.0.0'
 =======
     implementation 'com.google.firebase:firebase-storage:19.1.1'
@@ -67,6 +68,14 @@ dependencies {
 =======
     implementation 'com.google.firebase:firebase-storage:19.1.1'
 >>>>>>> b39f6f76ff005f938828bde3683392df7955692c
+=======
+
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+
+    implementation 'com.google.android.gms:play-services-maps:18.0.0'
+
+    implementation 'com.google.android.gms:play-services-maps:18.0.0'
+>>>>>>> c604b8f603669ee7c0033be81b91744acccd3399
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     testImplementation 'org.junit.platform:junit-platform-commons:1.5.2'

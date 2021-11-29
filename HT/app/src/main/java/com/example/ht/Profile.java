@@ -50,7 +50,7 @@ public class Profile implements Serializable {
         following = following.substring(1, following.length()-1);
 
         if(following.length() > 0){
-            this.following = new ArrayList<String>(Arrays.asList(following.split(",")));
+            this.following = new ArrayList<String>(Arrays.asList(following.split(", ")));
         }else{
             this.following = new ArrayList<>();
         }
@@ -64,7 +64,7 @@ public class Profile implements Serializable {
             this.followers = new ArrayList<>();
         }
 
-        Log.d("FOLLOWING: ", this.following.toString());
+        //Log.d("FOLLOWING: ", this.following.toString());
 
     }
 
@@ -186,13 +186,13 @@ public class Profile implements Serializable {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d("ADD FOLLOWER", "DocumentSnapshot successfully updated!");
+                       // Log.d("ADD FOLLOWER", "DocumentSnapshot successfully updated!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w("ADD FOLLOWER", "Error updating document", e);
+                       // Log.w("ADD FOLLOWER", "Error updating document", e);
                     }
                 });
     }
@@ -215,13 +215,13 @@ public class Profile implements Serializable {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d("ADD FOLLOWER", "DocumentSnapshot successfully updated!");
+                        //Log.d("ADD FOLLOWER", "DocumentSnapshot successfully updated!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w("ADD FOLLOWER", "Error updating document", e);
+                      //  Log.w("ADD FOLLOWER", "Error updating document", e);
                     }
                 });
     }
@@ -245,13 +245,13 @@ public class Profile implements Serializable {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d("ADD FOLLOWER", "DocumentSnapshot successfully updated!");
+                       // Log.d("ADD FOLLOWER", "DocumentSnapshot successfully updated!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w("ADD FOLLOWER", "Error updating document", e);
+                        //Log.w("ADD FOLLOWER", "Error updating document", e);
                     }
                 });
     }
@@ -275,13 +275,13 @@ public class Profile implements Serializable {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d("ADD FOLLOWER", "DocumentSnapshot successfully updated!");
+                       // Log.d("ADD FOLLOWER", "DocumentSnapshot successfully updated!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w("ADD FOLLOWER", "Error updating document", e);
+                      //  Log.w("ADD FOLLOWER", "Error updating document", e);
                     }
                 });
     }

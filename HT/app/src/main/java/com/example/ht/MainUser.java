@@ -14,7 +14,12 @@ public class MainUser {
     }
 
 
-    //sets the logged in profile to p
+    /**
+     * sets the profile of the main user to the Profile p
+     *
+     * @param p the profile to me set to be the main user
+     * @return the instance of the mainUser class
+     */
     public static MainUser setProfile(Profile p) {
         if(instance == null) {
             instance = new MainUser(p);
@@ -22,8 +27,11 @@ public class MainUser {
         return instance;
     }
 
-    //gets the profile of the user currently
-    //logged into the app
+    /**
+     * returns the profile of the main user
+     *
+     * @return the Profile class for the main user
+     */
     public static Profile getProfile() {
 
         return instance.profile;

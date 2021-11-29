@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 
 public class Search extends AppCompatActivity {
-    String username;
+
     Button profileButton;
     Button homeButton;
 
