@@ -55,16 +55,14 @@
 
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/details_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:backgroundTint="#00FFFFFF"
-        android:rotation="180"
-        android:src="@drawable/abc_vector_test"
-        android:text="Button"
-
-        android:layout_marginRight="10dp"/>
+    <ProgressBar
+        android:paddingVertical="50dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:max="100"
+        android:progress="50"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:id="@+id/progress"/>
 
 </LinearLayout>

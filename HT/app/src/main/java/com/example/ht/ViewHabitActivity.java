@@ -119,6 +119,7 @@ public class ViewHabitActivity extends AppCompatActivity {
 
 
         List<Boolean> temp = habit.getSelectedDays();
+        Log.d("LOGGING", temp.toString());
 
         monday.setChecked(temp.get(0));
         tuesday.setChecked(temp.get(1));

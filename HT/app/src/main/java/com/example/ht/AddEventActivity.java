@@ -65,9 +65,6 @@ import org.w3c.dom.Document;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
-
-
-
 /**
  * @author Cole
  * @author Hunter
@@ -161,15 +158,12 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     123);
         }
-        // Saves the location of the user then uses it to create the map
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
-        // Set up the connection to the firebase
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         Intent intent = getIntent();
         habitID = intent.getStringExtra("HABITID");
-
-
 
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,6 +226,7 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
                 if(task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
                     if(document.exists()){
+                        description = document.get("description").toString();
                         name = document.get("name").toString();
                         username = document.get("username").toString();
                     }
@@ -239,7 +234,6 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
             }
         });
 
-        // Sets the cancel button to clear the selected location on the map
         cancelLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -251,7 +245,6 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
             }
         });
 
-        // Adds the habit event to the firebase upon completion
         addHabitEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
@@ -271,7 +264,6 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
                             @Override
                             public void onSuccess(Void avoid) {
                                 Log.d("AddHabitEvent", "HabitEventAddedSuccessfully");
-                                // Exit the activity
                                 goToProfile();
 
                             }
@@ -364,21 +356,12 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
         finish();
     }
 
-    /**
-     * Recieves the users location and updates userLat and userLon
-     * Then it creates the map using this information
-     * Creating the map here guarantees that we have received a location before
-     * it is created
-     * @param location
-     */
     @SuppressLint("MissingPermission")
     @Override
     public void onLocationChanged(Location location) {
         userLat = location.getLatitude();
         userLon = location.getLongitude();
-        // Stop the location from constantly updating
         locationManager.removeUpdates(this);
-        // Create the map
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -388,30 +371,26 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
-        // Set the relevent settings of the map
         gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         gMap.getUiSettings().setZoomControlsEnabled(true);
         gMap.setMyLocationEnabled(true);
+        //gMap.animateCamera(CameraUpdateFactory.zoomTo(4f));
         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(userLat, userLon), 12.0f));
-        // Add a marker to the users location by default
         gMap.addMarker(new MarkerOptions()
                 .position(new LatLng(userLat, userLon))
                 .title("Marker"));
         markerLat = Double.toString(userLat);
         markerLon = Double.toString(userLon);
-        // Set the text below the map
         latText.setText("Latitude: " + markerLat);
         lonText.setText("Longitude: " + markerLon);
-        // Update the location of the marker when a user clicks somewhere on the map
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(@NonNull LatLng latLng) {
-                gMap.clear(); // Clear markers already on the map
+                gMap.clear();
                 gMap.addMarker(new MarkerOptions()
                         .position(latLng)
                         .title("Marker"));
 
-                // Update the text
                 markerLat = Double.toString(latLng.latitude);
                 markerLon = Double.toString(latLng.longitude);
                 latText.setText("Latitude: " + markerLat);
@@ -419,5 +398,4 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
             }
         });
     }
-
 }

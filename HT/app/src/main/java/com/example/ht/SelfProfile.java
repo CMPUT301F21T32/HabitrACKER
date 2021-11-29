@@ -2,6 +2,7 @@
 package com.example.ht;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,14 +23,27 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Collections;
 
 public class SelfProfile extends AppCompatActivity {
 
     TextView usernameLabel;
     TextView nameLabel;
+
     ListView mainList;
+    ListView otherList;
+
+    ArrayList<Integer> swapListMain = new ArrayList<>();
+    ArrayList<Integer> swapListOther = new ArrayList<>();
+
+    View tempView;
+
     ArrayList<Habit> habitList = new ArrayList<>();
+    ArrayList<Habit> otherHabitList = new ArrayList<>();
+
     ArrayAdapter<Habit> habitAdapter;
+    ArrayAdapter<Habit> otherAdapter;
+
     boolean isDeleting = false;
     String username;
     Profile currentUser;
@@ -54,9 +69,16 @@ public class SelfProfile extends AppCompatActivity {
         username = currentUser.getUsername();
 
         habitList = new ArrayList<Habit>();
-        mainList = findViewById(R.id.habit_list);
+        otherHabitList = new ArrayList<Habit>();
+
+        mainList = findViewById(R.id.todays_habits);
+        otherList = findViewById(R.id.other_habits);
+
         habitAdapter = new CustomList(this, habitList);
+        otherAdapter = new CustomList(this, otherHabitList);
+
         mainList.setAdapter(habitAdapter);
+        otherList.setAdapter(otherAdapter);
 
         populateList();
 
@@ -64,13 +86,10 @@ public class SelfProfile extends AppCompatActivity {
         usernameLabel = findViewById(R.id.username);
         nameLabel = findViewById(R.id.full_name);
 
-
         // set Username and name to that of current user
-
 
         usernameLabel.setText("@"+username);
         nameLabel.setText(currentUser.getName());
-
 
         Button request = findViewById(R.id.viewRequests);
 
@@ -80,6 +99,10 @@ public class SelfProfile extends AppCompatActivity {
             request.setCompoundDrawables(null, null, null, null);
         }
 
+        /**
+         * Sets click listener for the requests button,
+         * where if clicked, will inflate the viewRequests activity
+         */
         request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,6 +112,10 @@ public class SelfProfile extends AppCompatActivity {
 
         Button following = findViewById(R.id.following_button);
 
+        /**
+         * Sets click listener for the following button,
+         * where if clicked, will inflate the viewFollowing activity
+         */
         following.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,6 +125,10 @@ public class SelfProfile extends AppCompatActivity {
 
         Button followers = findViewById(R.id.followers_button);
 
+        /**
+         * Sets click listener for the followers button,
+         * where if clicked, will inflate the viewFollowers activity
+         */
         followers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,11 +136,12 @@ public class SelfProfile extends AppCompatActivity {
             }
         });
 
-
-
-
         Button homeButton = findViewById(R.id.ProfileHome_button);
 
+        /**
+         * Sets click listener for the home button,
+         * where if clicked, will inflate the goToHome activity
+         */
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,6 +151,10 @@ public class SelfProfile extends AppCompatActivity {
 
         Button searchButton = findViewById(R.id.profileSearch_button);
 
+        /**
+         * Sets click listener for the search button,
+         * where if clicked, will inflate the goToSearch activity
+         */
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,9 +162,39 @@ public class SelfProfile extends AppCompatActivity {
             }
         });
 
-
-        // Setting up list item click
-        mainList = findViewById(R.id.habit_list);
+        // Setting up today list item click
+        mainList = findViewById(R.id.todays_habits);
+        /**
+         * This first click listener is the on item long click, which
+         * is used for swapping items in a list. The user long clicks
+         * two items in the list, and will swap those two items.
+         * Selected items have their background changed to light grey.
+         */
+        mainList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(swapListMain.contains(i)) {
+                    swapListMain.remove(i);
+                    view.setBackgroundColor(Color.parseColor("white"));
+                    habitAdapter.notifyDataSetChanged();
+                }
+                else {
+                    swapListMain.add(i);
+                    view.setBackgroundColor(Color.parseColor("lightgrey"));
+                    if (swapListMain.size() == 2) {
+                        view.setBackgroundColor(Color.parseColor("white"));
+                        tempView.setBackgroundColor(Color.parseColor("white"));
+                        Collections.swap(habitList, swapListMain.get(0), swapListMain.get(1));
+                        habitAdapter.notifyDataSetChanged();
+                        swapListMain.clear();
+                    }
+                    else {
+                        tempView = view;
+                    }
+                }
+                return true;
+            }
+        });
         mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             /**
              * This function sets an onItemClickAdapter for the listview
@@ -149,7 +215,7 @@ public class SelfProfile extends AppCompatActivity {
                 if(isDeleting) {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     String v_deletehabit = habitList.get(i).getHabitID();
-                    Log.d("TEST!", v_deletehabit);
+//                    Log.d("TEST!", v_deletehabit);
                     db.collection("Habits")
                             .document(v_deletehabit)
                             .delete()
@@ -165,11 +231,88 @@ public class SelfProfile extends AppCompatActivity {
                                     Log.w("TAG", "Error deleting document", e);
                                 }
                             });
-                    removeItemInList(i);
+                    removeItemInList(i, "habitList");
                 }
                 else {
-//
                     viewHabit(habitList.get(i), username);
+                }
+            }
+        });
+
+        // Setting up other list item click
+        otherList = findViewById(R.id.other_habits);
+        /**
+         * This click listener is the on item long click, which
+         * is used for swapping items in a list. The user long clicks
+         * two items in the list, and will swap those two items.
+         * Selected items have their background changed to light grey.
+         */
+        otherList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(swapListOther.contains(i)) {
+                    swapListOther.remove(i);
+                    view.setBackgroundColor(Color.parseColor("white"));
+                    otherAdapter.notifyDataSetChanged();
+                }
+                else {
+                    swapListOther.add(i);
+                    view.setBackgroundColor(Color.parseColor("lightgrey"));
+                    if (swapListOther.size() == 2) {
+                        view.setBackgroundColor(Color.parseColor("white"));
+                        tempView.setBackgroundColor(Color.parseColor("white"));
+                        Collections.swap(otherHabitList, swapListOther.get(0), swapListOther.get(1));
+                        otherAdapter.notifyDataSetChanged();
+                        swapListOther.clear();
+                    }
+                    else {
+                        tempView = view;
+                    }
+                }
+                return true;
+            }
+        });
+        otherList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /**
+             * This function sets an onItemClickAdapter for the listview
+             * NOTE: THIS ONLY WORKS WHEN THE LINERAR LAYOUT OF THE CELL
+             * CONTENT HAS android:descendantFocusability = "blocksDescendants"
+             * After the button (FOLLOW REQUESTS FOR NOW) is clicked, you
+             * are in deletion mode. You can now click on any list item to
+             * delete it. After it is deleted from the database, it is removed
+             * from the list, and we update the adapter accordingly.
+             * This is all inside a condition
+             * @param adapterView
+             * @param view
+             * @param i
+             * @param l
+             */
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(isDeleting) {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    String v_deletehabit = otherHabitList.get(i).getHabitID();
+//                    Log.d("TEST!", v_deletehabit);
+                    db.collection("Habits")
+                            .document(v_deletehabit)
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("TAG", "City successfully deleted!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("TAG", "Error deleting document", e);
+                                }
+                            });
+                    removeItemInList(i, "otherList");
+                }
+                else {
+                    Log.d("ITEM SCHEDULE", otherHabitList.get(i).getSelectedDays().toString());
+                    viewHabit(otherHabitList.get(i), username);
                 }
             }
         });
@@ -200,11 +343,16 @@ public class SelfProfile extends AppCompatActivity {
      * @param habit
      */
     public void addHabitToList(Habit habit) {
-        habitList.add(habit);
-        habitAdapter.notifyDataSetChanged();
-        Log.d("LIST CHECK", habitList.get(0).getName());
-
-        // update list
+        if (habit.isToday()) {
+            habitList.add(habit);
+            habitAdapter.notifyDataSetChanged();
+            Log.d("HABIT CHECK", habitList.get(0).getName());
+        }
+        else {
+            otherHabitList.add(habit);
+            otherAdapter.notifyDataSetChanged();
+//            Log.d("OTHER CHECK", otherHabitList.get(0).getName());
+        }
     }
 
     /**
@@ -216,13 +364,18 @@ public class SelfProfile extends AppCompatActivity {
      * which then adds to the habitList
      */
     public void populateList() {
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Habits")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         habitList.clear();
+                        otherHabitList.clear();
+
                         habitAdapter.notifyDataSetChanged();
+                        otherAdapter.notifyDataSetChanged();
+
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             if(document.get("username") != null && document.get("username").toString().equals(currentUser.getUsername())) {
                                 // Get the attributes from each habit in the database
@@ -245,8 +398,6 @@ public class SelfProfile extends AppCompatActivity {
                         Log.d("ERROR:", "Error getting documents: ", task.getException());
                     }
                 });
-
-
     }
 
     /**
@@ -263,22 +414,25 @@ public class SelfProfile extends AppCompatActivity {
         intent.putExtra("USERNAME", username);
         startActivity(intent);
         finish();
-
-        Log.d("POPULATING:", "\n");
     }
-
-
-
 
     /**
      * Given an index, will remove that item
      * from the list, and update the adapter
      * @param index
      */
-    public void removeItemInList(int index) {
-        if (index >= 0) {
-            habitList.remove(index);
-            habitAdapter.notifyDataSetChanged();
+    public void removeItemInList(int index, String listName) {
+        if(listName == "habitList") {
+            if (index >= 0) {
+                habitList.remove(index);
+                habitAdapter.notifyDataSetChanged();
+            }
+        }
+        else {
+            if (index >= 0) {
+                otherHabitList.remove(index);
+                otherAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -291,14 +445,12 @@ public class SelfProfile extends AppCompatActivity {
         populateList();
     }
 
-
     //starts the profile activity
     private void goToHome(String un){
         Intent intent = new Intent(this, FeedActivity.class);
 
         startActivity(intent);
         finish();
-
     }
 
     //starts the profile activity
@@ -313,7 +465,6 @@ public class SelfProfile extends AppCompatActivity {
     private void viewHabit(Habit habit, String un){
         Intent intent = new Intent(this, ViewHabitActivity.class);
         intent.putExtra("habit", habit);
-
 
         startActivity(intent);
         finish();
@@ -369,8 +520,5 @@ public class SelfProfile extends AppCompatActivity {
                     }
                 });
         return (num.intValue() > 0);
-
     }
-
-
 }
