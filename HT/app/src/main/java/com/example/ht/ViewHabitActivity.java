@@ -130,7 +130,7 @@ public class ViewHabitActivity extends AppCompatActivity {
         saturday.setChecked(temp.get(5));
         sunday.setChecked(temp.get(6));
 
-        viewList();
+        //viewList(habit);
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,7 +223,7 @@ public class ViewHabitActivity extends AppCompatActivity {
         finish();
     }
 
-    private void viewList(){
+    private void viewList(Habit habit){
         Intent intent= new Intent(this, ViewEventList.class);
         intent.putExtra("HabitID",habit.getHabitID().toString());
         startActivity(intent);

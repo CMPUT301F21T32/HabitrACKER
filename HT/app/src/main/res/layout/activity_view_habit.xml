@@ -176,7 +176,7 @@
         <ListView
             android:id="@+id/event_list"
             android:layout_width="match_parent"
-            android:layout_height="372dp" />
+            android:layout_height="374dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
