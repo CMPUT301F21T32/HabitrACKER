@@ -167,16 +167,7 @@ public class Profile implements Serializable {
             return false;
         }
     }
-
-
-
-    public void setFollowers(ArrayList<String> followers) {
-        this.followers = followers;
-    }
-
-    public void setFollowing(ArrayList<String> following) {
-        this.following = following;
-    }
+    
 
     /**
      * adds user to the list of usernames that is

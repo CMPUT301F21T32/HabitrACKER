@@ -302,6 +302,7 @@ public class SelfProfile extends AppCompatActivity {
                         otherAdapter.notifyDataSetChanged();
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
+<<<<<<< HEAD
                             if (document.get("username") != null) {
                                 if (document.get("username").toString().equals(currentUser.getUsername())) {
                                     // Get the attributes from each habit in the database
@@ -318,6 +319,23 @@ public class SelfProfile extends AppCompatActivity {
                                     Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username, id);
                                     addHabitToList(newHabit);
                                 }
+=======
+                            if(document.get("username") != null && document.get("username").toString().equals(currentUser.getUsername())) {
+                                // Get the attributes from each habit in the database
+                                String title = document.getData().get("name").toString();
+                                String description = document.getData().get("description").toString();
+                                String date = document.getData().get("date").toString();
+                                String selectedDays = document.getData().get("selectedDays").toString();
+                                String username = document.getData().get("username").toString();
+                                String open = document.getData().get("open").toString();
+                                String id = document.getId();
+
+                                // Create new habit and add to the list!
+                                Habit newHabit = new Habit(title, description, selectedDays, date, username, open, id);
+                                addHabitToList(newHabit);
+
+                                Log.d("HABIT:", title);
+>>>>>>> 0e9c4178371dfb0590b41bb926a3f1ed560916e8
                             }
                         }
                     } else {

@@ -1,5 +1,10 @@
 package com.example.ht;
-
+/**
+ * creates a custom list element for Follow request
+ * this is used on the follow request page
+ *
+ * @author cole
+ */
 
 import android.content.Context;
 import android.text.Layout;
@@ -57,7 +62,7 @@ public class RequestList extends ArrayAdapter<String> {
         Button deny = view.findViewById(R.id.denyButton);
 
 
-        requestLabel.setText("Follow Request from @" + request);
+        requestLabel.setText("@" + request + " want to follow you");
 
         deny.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +105,14 @@ public class RequestList extends ArrayAdapter<String> {
         return view;
     }
 
+
+    /**
+     * this function updates the following list in the firebase of the profile
+     * with the username stored in user, to include the username of the profile
+     * that is currently logged in
+     *
+     * @param user the username of the profile to be updated
+     */
     private void updateFollowing(String user){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 

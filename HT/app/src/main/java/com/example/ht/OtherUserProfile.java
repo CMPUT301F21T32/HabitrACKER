@@ -1,4 +1,12 @@
 // CODE REPURPOSED FROM SELFPROFILE
+/**
+ * this creates a page for profiles that are not the user that
+ * is currently logged in
+ * It resembles that profile page of the main user with the removal of
+ * some buttons. This is where users can request to follow other users
+ *
+ * @author cole
+ */
 package com.example.ht;
 
 import android.content.Intent;
@@ -18,7 +26,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ht.AddActivity;
-import com.example.ht.CustomList;
+
+
 import com.example.ht.Habit;
 import com.example.ht.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -265,22 +274,22 @@ public class OtherUserProfile extends AppCompatActivity {
         db.collection("Habits")
                 .get()
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
+                    if (task.isSuccessful() && MainUser.getProfile().isFollowing(username)) {
                         habitList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            if(document.get("username").toString().equals(otherUser.getUsername())) {
+                            if(document.get("username") != null &&
+                                    document.get("username").toString().equals(otherUser.getUsername())) {
                                 // Get the attributes from each habit in the database
                                 String title = document.getData().get("name").toString();
                                 String description = document.getData().get("description").toString();
-                                String hour = document.getData().get("hour").toString();
-                                String minute = document.getData().get("minute").toString();
                                 String date = document.getData().get("date").toString();
                                 String selectedDays = document.getData().get("selectedDays").toString();
                                 String username = document.getData().get("username").toString();
+                                String open = document.getData().get("open").toString();
                                 String id = document.getId();
 
                                 // Create new habit and add to the list!
-                                Habit newHabit = new Habit(title, description, selectedDays, hour, minute, date, username, id);
+                                Habit newHabit = new Habit(title, description, selectedDays, date, username, open, id);
                                 addHabitToList(newHabit);
 
                                 Log.d("HABIT:", title);
