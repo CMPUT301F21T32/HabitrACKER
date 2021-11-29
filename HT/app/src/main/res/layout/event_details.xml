@@ -97,6 +97,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
+<<<<<<< HEAD
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+=======
+>>>>>>> 6b91c6edf0568e0d8f17c86a7d8c6b3adce22d4b

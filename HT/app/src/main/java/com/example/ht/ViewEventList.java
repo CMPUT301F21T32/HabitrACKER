@@ -67,9 +67,15 @@ public class ViewEventList extends AppCompatActivity {
                        for(QueryDocumentSnapshot doc : task.getResult()) {
                            if (doc.get("habitID").equals(HabitID)) {
                                // Get HabitEvent values
+<<<<<<< HEAD
                                String eventID= Objects.requireNonNull(doc.getData().get("habitID")).toString();
                                String eventName= Objects.requireNonNull(doc.getData().get("name")).toString();
                                String eventComment= Objects.requireNonNull(doc.get("comment")).toString();
+=======
+                               String eventID= doc.getData().get("habitID").toString();
+                               String eventName= doc.getData().get("name").toString();
+                               String eventComment= doc.get("comment").toString();
+>>>>>>> 6b91c6edf0568e0d8f17c86a7d8c6b3adce22d4b
                            }
 
                            // Create new HabitEvent object and add it to the HabitEvent array
@@ -81,6 +87,11 @@ public class ViewEventList extends AppCompatActivity {
                    }
                 });
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 6b91c6edf0568e0d8f17c86a7d8c6b3adce22d4b
         // When user clicks on event, go to details to edit/delete
         eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

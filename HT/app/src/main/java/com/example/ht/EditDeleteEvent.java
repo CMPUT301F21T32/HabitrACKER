@@ -69,7 +69,11 @@ public class EditDeleteEvent extends AppCompatActivity {
                 saveEvent();
             }
         });
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 6b91c6edf0568e0d8f17c86a7d8c6b3adce22d4b
 
     }
 
