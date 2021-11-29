@@ -78,7 +78,11 @@ public class SearchTest {
     }
 
     /**
-     * Checks if error occurs if login is wrong
+     * Tests if the search function works correctly
+     *
+     * NOTE: this assumes that the test profile that have been
+     *       placed in the database are still there, if they have
+     *       been removed or altered this test might fail
      */
     @Test
     public void testSearchBar(){
@@ -93,7 +97,12 @@ public class SearchTest {
     }
 
     /**
-     * tests if logged in when password and user name are correct
+     * tests the other users profile opens up and
+     * works correctly when clicked on
+     *
+     * NOTE: this assumes that the test profile that have been
+     *      *       placed in the database are still there, if they have
+     *      *       been removed or altered this test might fail
      */
     @Test
     public void testOtherUser(){
