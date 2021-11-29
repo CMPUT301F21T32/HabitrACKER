@@ -33,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,7 +44,8 @@ import java.util.List;
 
 public class ViewHabitActivity extends AppCompatActivity {
     Intent intent;
-    Habit habit;
+    // adds temporary string for testing, will be replaced in real run
+    Habit habit = new Habit("test", "test","[true, true, true, true, true, true, true, true]", "2011/12/2", "test", "true", "test");
     String username;
 
     TextView name;
@@ -106,7 +108,13 @@ public class ViewHabitActivity extends AppCompatActivity {
 
         // set screen text to detail of given habit
         name.setText(habit.getName());
-        date.setText(habit.getDate().getMonth() + "/" + habit.getDate().getDay() + "/" + habit.getDate().getYear());
+
+        if(habit.getDate() != null) {
+            date.setText(habit.getDate().getMonth() + "/" + habit.getDate().getDay() + "/" + habit.getDate().getYear());
+        }else{
+            date.setText("2012/12/12");
+        }
+
         description.setText(habit.getDescription());
 
 

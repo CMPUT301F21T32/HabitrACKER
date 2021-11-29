@@ -1,9 +1,12 @@
 package com.example.ht;
 
+import static org.junit.Assert.assertTrue;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -16,33 +19,30 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class ProfileFeedTest {
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class FollowRequestTest {
     private Solo solo;
 
-    // Derived from https://stackoverflow.com/a/45502924
     @Rule
-    public ActivityTestRule<SelfProfile> rule =
-            new ActivityTestRule<SelfProfile>(SelfProfile.class, true, true) {
+    public ActivityTestRule<Search> rule =
+            new ActivityTestRule<>(Search.class, true, true);
 
-                @Override
-                protected Intent getActivityIntent() {
-                    Intent intent = new Intent();
-                    intent.putExtra("USERNAME", "Test");
-                    return intent;
-                }
-            };
 
     /**
-     * Runs before all tests and creates solo instance.
+     * Runs before all tests and creates solo instance and sets up main user
      * @throws Exception
      */
     @Before
-    public void setUp() throws Exception {
-
+    public void setUp() throws Exception{
+        solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -70,41 +70,58 @@ public class ProfileFeedTest {
             }
         });
 
-        solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
     }
-
     /**
      * Gets the Activity
      * @throws Exception
      */
     @Test
-    public void start() throws Exception {
-        setUp();
+    public void start() throws Exception{
         Activity activity = rule.getActivity();
     }
 
+    /**
+     * test if the accept request button works
+     */
     @Test
-    public void addActivity() throws Exception {
-        solo.clickOnButton("Add Habit");
-        solo.assertCurrentActivity("Wrong Activity", AddActivity.class);
-        solo.enterText((EditText) solo.getView(R.id.editText_name), "New Title");
-        solo.enterText((EditText) solo.getView(R.id.editText_desc), "New Description");
-        solo.clickOnView(solo.getView(R.id.finishAddActivityButton));
+    public void testAcceptButton() throws InterruptedException {
+        solo.assertCurrentActivity("Wrong Activity", Search.class);
+        solo.waitForText("Search", 1, 5000);
+
+        solo.enterText((EditText) solo.getView(R.id.searchTextBox), "cole");
+        solo.hideSoftKeyboard();
+        solo.clickOnView((ImageButton) solo.getView(R.id.searchGoButton));
+
+        assertTrue(solo.waitForText("cole12", 1, 5000));
+
+
     }
 
+    /**
+     * test if the deny request button works
+     */
     @Test
-    public void editHabit() throws Exception {
-        addActivity();
-        solo.clickInList(1);
-        solo.clickOnButton("Edit Habit");
-        solo.assertCurrentActivity("Wrong Activity", ViewHabitActivity.class);
-        solo.enterText((EditText) solo.getView(R.id.editText_desc), "I changed the description");
+    public void testDenyButton() throws InterruptedException {
+        solo.assertCurrentActivity("Wrong Activity", Search.class);
+        solo.waitForText("Search", 1, 5000);
+
+        solo.enterText((EditText) solo.getView(R.id.searchTextBox), "jim");
+        solo.hideSoftKeyboard();
+        solo.clickOnView((ImageButton) solo.getView(R.id.searchGoButton));
+
+        assertTrue(solo.waitForText("jim", 1, 5000));
+
+
     }
 
-    @Test
-    public void deleteHabit() throws Exception {
-        addActivity();
-        solo.clickOnButton("Delete Habit");
-        solo.clickInList(0);
+    /**
+     * Closes the activity after each test
+     * @throws Exception
+     */
+    @After
+    public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
+
     }
+
 }

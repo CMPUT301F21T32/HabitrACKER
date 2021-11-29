@@ -108,7 +108,7 @@ public class ViewFollowActivity extends AppCompatActivity {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        followList.clear();
+
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             if(mode.equals("following")) {
                                 if (MainUser.getProfile().isFollowing(document.get("username").toString())) {

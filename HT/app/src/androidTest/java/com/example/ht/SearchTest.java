@@ -1,11 +1,12 @@
 package com.example.ht;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -23,29 +24,16 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-public class ViewHabitTest {
+public class SearchTest {
     private Solo solo;
+    private Profile testUser;
 
     @Rule
-    public ActivityTestRule<ViewHabitActivity> rule =
-            new ActivityTestRule<ViewHabitActivity>(ViewHabitActivity.class, true, true) {
-
-                @Override
-                protected Intent getActivityIntent() {
-                    Intent intent = new Intent();
-                    Date d = new Date();
-                    intent.putExtra("habit", new Habit("test", "test","[true, true, true, true, true, true, true, true]", d.toString(), "test", "true", "test"));
-
-                    return intent;
-                }
-            };
+    public ActivityTestRule<Search> rule =
+            new ActivityTestRule<>(Search.class, true, true);
 
     /**
-     * Runs before all tests and creates solo instance.
+     * Runs before all tests and creates solo instance and sets up main user
      * @throws Exception
      */
     @Before
@@ -77,7 +65,9 @@ public class ViewHabitTest {
                 }
             }
         });
+
     }
+
     /**
      * Gets the Activity
      * @throws Exception
@@ -88,20 +78,62 @@ public class ViewHabitTest {
     }
 
     /**
-     * Habit can be viewed correctly and all the correct info shows up
+     * Tests if the search function works correctly
+     *
+     * NOTE: this assumes that the test profile that have been
+     *       placed in the database are still there, if they have
+     *       been removed or altered this test might fail
      */
     @Test
-    public void testCorrectView() throws InterruptedException {
-        solo.assertCurrentActivity("Wrong Activity", ViewHabitActivity.class);
-        assertTrue(solo.waitForText("M", 1, 5000));
-        assertTrue(solo.waitForText("test", 1, 5000));
-        assertTrue(solo.waitForText("Add Event", 1, 5000));
-        assertTrue(solo.waitForText("Edit Habit", 1, 5000));
+    public void testSearchBar(){
+        solo.assertCurrentActivity("Wrong Activity", Search.class);
+        solo.waitForText("Search", 1, 5000);
+
+        solo.enterText((EditText) solo.getView(R.id.searchTextBox), "cole");
+        solo.hideSoftKeyboard();
+        solo.clickOnView((ImageButton) solo.getView(R.id.searchGoButton));
+
+        assertTrue(solo.waitForText("cole12", 1, 5000));
+    }
+
+    /**
+     * tests the other users profile opens up and
+     * works correctly when clicked on
+     *
+     * NOTE: this assumes that the test profile that have been
+     *      *       placed in the database are still there, if they have
+     *      *       been removed or altered this test might fail
+     */
+    @Test
+    public void testOtherUser(){
+
+        solo.assertCurrentActivity("Wrong Activity", Search.class);
+
+        solo.enterText((EditText) solo.getView(R.id.searchTextBox), "cole");
+        solo.hideSoftKeyboard();
+        solo.clickOnView((ImageButton) solo.getView(R.id.searchGoButton));
+
+        solo.waitForText("cole12", 1, 5000);
+
+        solo.clickOnText("cole12");
+
+        assertTrue(solo.waitForText("Request Follow", 1, 5000));
+
+        solo.clickOnButton("Request Follow");
+
+        assertTrue(solo.waitForText("Cancel Request", 1, 5000));
+
+        solo.clickOnText("Cancel Request");
+
+        assertTrue(solo.waitForText("Request Follow", 1, 5000));
 
 
 
 
     }
+
+
+
 
 
     /**
@@ -114,4 +146,3 @@ public class ViewHabitTest {
 
     }
 }
-
