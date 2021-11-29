@@ -2,6 +2,7 @@
 package com.example.ht;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,8 +22,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Collections;
 
 public class SelfProfile extends AppCompatActivity {
 
@@ -30,6 +32,11 @@ public class SelfProfile extends AppCompatActivity {
 
     ListView mainList;
     ListView otherList;
+
+    ArrayList<Integer> swapListMain = new ArrayList<>();
+    ArrayList<Integer> swapListOther = new ArrayList<>();
+
+    View tempView;
 
     ArrayList<Habit> habitList = new ArrayList<>();
     ArrayList<Habit> otherHabitList = new ArrayList<>();
@@ -144,6 +151,32 @@ public class SelfProfile extends AppCompatActivity {
 
         // Setting up list item click
         mainList = findViewById(R.id.todays_habits);
+        otherList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("LONG LCICK!", "TJEKJTRJKEHKJHEEKJTE");
+                if(swapListMain.contains(i)) {
+                    swapListMain.remove(i);
+                    view.setBackgroundColor(Color.parseColor("white"));
+                    otherAdapter.notifyDataSetChanged();
+                }
+                else {
+                    swapListMain.add(i);
+                    view.setBackgroundColor(Color.parseColor("lightgrey"));
+                    if (swapListMain.size() == 2) {
+                        view.setBackgroundColor(Color.parseColor("white"));
+                        tempView.setBackgroundColor(Color.parseColor("white"));
+                        Collections.swap(otherHabitList, swapListMain.get(0), swapListMain.get(1));
+                        otherAdapter.notifyDataSetChanged();
+                        swapListMain.clear();
+                    }
+                    else {
+                        tempView = view;
+                    }
+                }
+                return true;
+            }
+        });
         mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             /**
              * This function sets an onItemClickAdapter for the listview

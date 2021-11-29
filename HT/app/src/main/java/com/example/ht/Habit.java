@@ -27,7 +27,7 @@ public class Habit implements Serializable {
     private String username; // Username of the habit's creator
     private boolean openHabit; // Whether the habit is open to the public or not
     private final String habitID; // unique id of the habit
-    private int timesCompleted;
+    private int timesCompleted = 0;
 
     public Habit(String name, String description, List<Boolean> selectedDays, Date date,
                  String username, boolean openHabit, String habitID) {
@@ -191,7 +191,7 @@ public class Habit implements Serializable {
      * Returns the number of habit events
      */
     public int getTimesCompleted() {
-        return timesCompleted;
+        return this.timesCompleted;
     }
 
     /**
