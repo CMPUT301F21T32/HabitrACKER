@@ -113,7 +113,7 @@ public class FeedActivity extends AppCompatActivity {
                         habitList.clear();
                         habitAdapter.notifyDataSetChanged();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            if(currentUser.isFollowing(document.get("username").toString())) {
+                            if(document.get("username") != null && currentUser.isFollowing(document.get("username").toString())) {
                                 // Get the attributes from each habit in the database
                                 String title = document.getData().get("name").toString();
                                 String description = document.getData().get("description").toString();
