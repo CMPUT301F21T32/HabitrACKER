@@ -86,13 +86,10 @@ public class SelfProfile extends AppCompatActivity {
         usernameLabel = findViewById(R.id.username);
         nameLabel = findViewById(R.id.full_name);
 
-
         // set Username and name to that of current user
-
 
         usernameLabel.setText("@"+username);
         nameLabel.setText(currentUser.getName());
-
 
         Button request = findViewById(R.id.viewRequests);
 
@@ -102,6 +99,10 @@ public class SelfProfile extends AppCompatActivity {
             request.setCompoundDrawables(null, null, null, null);
         }
 
+        /**
+         * Sets click listener for the requests button,
+         * where if clicked, will inflate the viewRequests activity
+         */
         request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,6 +112,10 @@ public class SelfProfile extends AppCompatActivity {
 
         Button following = findViewById(R.id.following_button);
 
+        /**
+         * Sets click listener for the following button,
+         * where if clicked, will inflate the viewFollowing activity
+         */
         following.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,6 +125,10 @@ public class SelfProfile extends AppCompatActivity {
 
         Button followers = findViewById(R.id.followers_button);
 
+        /**
+         * Sets click listener for the followers button,
+         * where if clicked, will inflate the viewFollowers activity
+         */
         followers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,11 +136,12 @@ public class SelfProfile extends AppCompatActivity {
             }
         });
 
-
-
-
         Button homeButton = findViewById(R.id.ProfileHome_button);
 
+        /**
+         * Sets click listener for the home button,
+         * where if clicked, will inflate the goToHome activity
+         */
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,6 +151,10 @@ public class SelfProfile extends AppCompatActivity {
 
         Button searchButton = findViewById(R.id.profileSearch_button);
 
+        /**
+         * Sets click listener for the search button,
+         * where if clicked, will inflate the goToSearch activity
+         */
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,17 +162,21 @@ public class SelfProfile extends AppCompatActivity {
             }
         });
 
-
-        // Setting up list item click
+        // Setting up today list item click
         mainList = findViewById(R.id.todays_habits);
-        otherList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /**
+         * This first click listener is the on item long click, which
+         * is used for swapping items in a list. The user long clicks
+         * two items in the list, and will swap those two items.
+         * Selected items have their background changed to light grey.
+         */
+        mainList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("LONG LCICK!", "TJEKJTRJKEHKJHEEKJTE");
                 if(swapListMain.contains(i)) {
                     swapListMain.remove(i);
                     view.setBackgroundColor(Color.parseColor("white"));
-                    otherAdapter.notifyDataSetChanged();
+                    habitAdapter.notifyDataSetChanged();
                 }
                 else {
                     swapListMain.add(i);
@@ -166,8 +184,8 @@ public class SelfProfile extends AppCompatActivity {
                     if (swapListMain.size() == 2) {
                         view.setBackgroundColor(Color.parseColor("white"));
                         tempView.setBackgroundColor(Color.parseColor("white"));
-                        Collections.swap(otherHabitList, swapListMain.get(0), swapListMain.get(1));
-                        otherAdapter.notifyDataSetChanged();
+                        Collections.swap(habitList, swapListMain.get(0), swapListMain.get(1));
+                        habitAdapter.notifyDataSetChanged();
                         swapListMain.clear();
                     }
                     else {
@@ -221,8 +239,39 @@ public class SelfProfile extends AppCompatActivity {
             }
         });
 
-        // Setting up list item click
+        // Setting up other list item click
         otherList = findViewById(R.id.other_habits);
+        /**
+         * This click listener is the on item long click, which
+         * is used for swapping items in a list. The user long clicks
+         * two items in the list, and will swap those two items.
+         * Selected items have their background changed to light grey.
+         */
+        otherList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(swapListOther.contains(i)) {
+                    swapListOther.remove(i);
+                    view.setBackgroundColor(Color.parseColor("white"));
+                    otherAdapter.notifyDataSetChanged();
+                }
+                else {
+                    swapListOther.add(i);
+                    view.setBackgroundColor(Color.parseColor("lightgrey"));
+                    if (swapListOther.size() == 2) {
+                        view.setBackgroundColor(Color.parseColor("white"));
+                        tempView.setBackgroundColor(Color.parseColor("white"));
+                        Collections.swap(otherHabitList, swapListOther.get(0), swapListOther.get(1));
+                        otherAdapter.notifyDataSetChanged();
+                        swapListOther.clear();
+                    }
+                    else {
+                        tempView = view;
+                    }
+                }
+                return true;
+            }
+        });
         otherList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             /**
              * This function sets an onItemClickAdapter for the listview
@@ -304,8 +353,6 @@ public class SelfProfile extends AppCompatActivity {
             otherAdapter.notifyDataSetChanged();
 //            Log.d("OTHER CHECK", otherHabitList.get(0).getName());
         }
-
-        // update list
     }
 
     /**
@@ -398,14 +445,12 @@ public class SelfProfile extends AppCompatActivity {
         populateList();
     }
 
-
     //starts the profile activity
     private void goToHome(String un){
         Intent intent = new Intent(this, FeedActivity.class);
 
         startActivity(intent);
         finish();
-
     }
 
     //starts the profile activity
@@ -420,7 +465,6 @@ public class SelfProfile extends AppCompatActivity {
     private void viewHabit(Habit habit, String un){
         Intent intent = new Intent(this, ViewHabitActivity.class);
         intent.putExtra("habit", habit);
-
 
         startActivity(intent);
         finish();
@@ -476,8 +520,5 @@ public class SelfProfile extends AppCompatActivity {
                     }
                 });
         return (num.intValue() > 0);
-
     }
-
-
 }
