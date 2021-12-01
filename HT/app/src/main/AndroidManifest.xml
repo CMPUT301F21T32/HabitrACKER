@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.ht">
     <uses-permission android:name="android.permission.INTERNET"/>
+
+
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
@@ -36,8 +38,7 @@
             android:exported="true" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true"
-            android:parentActivityName=".StartActivity" />
+            android:exported="true" />
         <activity
             android:name=".StartActivity"
             android:exported="true">
@@ -49,8 +50,8 @@
         </activity>
         <activity
             android:name=".CreateAccountActivity"
-            android:exported="true"
-            android:parentActivityName=".StartActivity" />
+            android:exported="true"/>
+
         <activity
             android:name=".AddActivity"
             android:exported="true" />
@@ -60,15 +61,6 @@
         <activity
             android:name=".FeedActivity"
             android:exported="true" />
-        <activity
-            android:name=".ViewEventList"
-            android:exported="true"/>
-<<<<<<< HEAD
-        <activity
-            android:name=".EditDeleteEvent"
-            android:exported="true"/>
-=======
->>>>>>> 6b91c6edf0568e0d8f17c86a7d8c6b3adce22d4b
     </application>
 
 </manifest>
