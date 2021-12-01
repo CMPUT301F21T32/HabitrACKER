@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,8 +51,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         TextView passwordError;
         EditText confirmPassword;
         TextView confirmPasswordError;
+        ImageButton back;
 
-
+        back = findViewById(R.id.createBack);
         name = findViewById(R.id.name_editText);
         nameError = findViewById(R.id.name_error);
         username = findViewById(R.id.username_editText);
@@ -62,7 +64,12 @@ public class CreateAccountActivity extends AppCompatActivity {
         confirmPasswordError = findViewById(R.id.confirmPassword_error);
 
 
-
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToStart();
+            }
+        });
 
         createButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -170,6 +177,17 @@ public class CreateAccountActivity extends AppCompatActivity {
      */
     private void goToAccount(){
         Intent intent = new Intent(this, FeedActivity.class);
+
+
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     * starts a new profile page activity
+     */
+    private void goToStart(){
+        Intent intent = new Intent(this, StartActivity.class);
 
 
         startActivity(intent);
