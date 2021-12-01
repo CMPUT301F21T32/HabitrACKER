@@ -18,17 +18,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 /**
- * allows the event list to be displayed in the view
+ * Allows the event list to be displayed in the view
  *
- * @aurhor jacqueline
+ * @aurhor Jacqueline
  */
 
-public class PastEventList extends ArrayAdapter<HabitEvent> {
+public class PastEventList extends ArrayAdapter<HabitEvent>{
     private ConstraintLayout layout;
     private ArrayList<HabitEvent> eventList;
     private Context context;
@@ -53,8 +58,17 @@ public class PastEventList extends ArrayAdapter<HabitEvent> {
         TextView eventDescription= view.findViewById(R.id.habit_description);
         TextView eventUser= view.findViewById(R.id.username);
 
-        eventTitle.setText(event.getName());
-        eventDescription.setText(event.getDescription());
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String getName= db.collection("HabitEvents")
+                .get(Source.valueOf("name"))
+                .toString();
+
+        String getComment= db.collection("HabitEvents")
+                .get(Source.valueOf("comment"))
+                .toString();
+
+        eventTitle.setText(getName);
+        eventDescription.setText(getComment);
         eventUser.setText("defaultUser");
 
         return view;
