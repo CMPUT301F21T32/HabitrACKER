@@ -20,6 +20,8 @@ public abstract class HabitEvent {
 
 
     public HabitEvent(String habitID) {
+        this.habitID = habitID;
+        fetchEventDetails();
     }
 
 
@@ -33,15 +35,59 @@ public abstract class HabitEvent {
                 if(task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
                     if(document.exists()){
-                        description = document.get("description").toString();
-                        hour = document.get("hour").toString();
-                        minute = document.get("minute").toString();
-                        name = document.get("name").toString();
-                        username = document.get("username").toString();
+                        description = document.get("comment").toString();
+
                     }
                 }
             }
         });
     }
 
+    public String getHabitID() {
+        return habitID;
+    }
+
+    public void setHabitID(String habitID) {
+        this.habitID = habitID;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
+
+    public String getMinute() {
+        return minute;
+    }
+
+    public void setMinute(String minute) {
+        this.minute = minute;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

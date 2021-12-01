@@ -106,6 +106,12 @@ public class ViewHabitActivity extends AppCompatActivity {
         search = findViewById(R.id.eventSearch);
 
 
+        if(!habit.getUsername().equals(MainUser.getProfile().getUsername())){
+            editButton.setVisibility(View.GONE);
+            addButton.setVisibility(View.GONE);
+        }
+
+
         // set screen text to detail of given habit
         name.setText(habit.getName());
 
