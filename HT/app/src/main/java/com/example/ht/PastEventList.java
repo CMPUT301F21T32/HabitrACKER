@@ -75,3 +75,4 @@ public class PastEventList extends ArrayAdapter<HabitEvent>{
     }
 
 }
+
