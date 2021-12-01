@@ -61,6 +61,9 @@
         <activity
             android:name=".FeedActivity"
             android:exported="true" />
+        <activity
+            android:name=".EditDeleteEvent"
+            android:exported="true"/>
     </application>
 
 </manifest>

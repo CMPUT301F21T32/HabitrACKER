@@ -306,13 +306,6 @@ public class ViewHabitActivity extends AppCompatActivity {
         finish();
     }
 
-    private void viewList(Habit habit){
-        Intent intent= new Intent(this, ViewEventList.class);
-        intent.putExtra("HabitID",habit.getHabitID().toString());
-        startActivity(intent);
-        finish();
-    }
-
     /**
      * starts profile activity
      * @param un
