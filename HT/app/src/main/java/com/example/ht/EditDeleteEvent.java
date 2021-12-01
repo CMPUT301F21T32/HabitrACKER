@@ -31,7 +31,7 @@ import java.util.HashMap;
 /**
  * this creates the page where user can edit/delete the event
  *
- * @aurhor jacqueline
+ * @aurhor Jacqueline
  */
 
 public class EditDeleteEvent extends AppCompatActivity {
@@ -95,6 +95,8 @@ public class EditDeleteEvent extends AppCompatActivity {
                         Log.d("DeleteActivity", "Error deleting Document");
                     }
                 });
+
+        finishChanges();
     }
 
     private void saveEvent() {
@@ -114,10 +116,6 @@ public class EditDeleteEvent extends AppCompatActivity {
         data.put("HabitName", textName);
         data.put("Comment", textComment);
 
-        // Get description from Habits collection
-        DocumentReference fromHabits = db.collection("Habits").document(HabitEventID);
-        String description= fromHabits.get().toString();
-
         // Put into Firestore
         db.collection("HabitEvents")
                 .document(HabitEventID)
@@ -136,6 +134,14 @@ public class EditDeleteEvent extends AppCompatActivity {
                         Log.d("AddActivitySample", "Error saving Habit Event" + e.toString());
                     }
                 });
+
+        finishChanges();
+    }
+
+    private void finishChanges() {
+        Intent intent = new Intent(this, SelfProfile.class);
+        startActivity(intent);
+        finish();
     }
 
 }

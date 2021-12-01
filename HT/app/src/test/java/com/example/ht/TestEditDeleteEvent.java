@@ -11,12 +11,12 @@ public class TestEditDeleteEvent {
     // Note: when editing Event, in the AddEvent, the description is the comment
     //@Before
     public HabitEvent passedTest(){
-        return new HabitEvent("habitID", "description that's also comments must be under 20, is not", "hour");
+        return new HabitEvent("habitID");
     }
     //@Before
     public HabitEvent failedTest(){
 
-        return new HabitEvent("habitID", "is under 20", "hour");
+        return new HabitEvent("habitID");
     }
 
     // Tests for HabitEvent Objects

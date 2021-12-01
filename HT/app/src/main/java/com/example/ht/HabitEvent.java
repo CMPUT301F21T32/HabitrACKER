@@ -12,36 +12,57 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HabitEvent {
     String habitID;
-    String description;
-    String hour;
-    String minute;
-    String name;
-    String username;
+    String eventID;
+    String comment;
 
 
-    public HabitEvent(String habitID) {
+
+
+    public HabitEvent(String eventID) {
+        this.comment = eventID;
+
     }
 
 
     public void fetchEventDetails(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference ref = db.collection("Habits").document(habitID);
+        DocumentReference ref = db.collection("HabitEvents").document(eventID);
         ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
                     if(document.exists()){
-                        description = document.get("description").toString();
-                        hour = document.get("hour").toString();
-                        minute = document.get("minute").toString();
-                        name = document.get("name").toString();
-                        username = document.get("username").toString();
+                        comment = document.get("comment").toString();
+                        habitID = document.get("habitID").toString();
                     }
                 }
             }
         });
     }
 
+    public String getHabitID() {
+        return habitID;
+    }
+
+    public void setHabitID(String habitID) {
+        this.habitID = habitID;
+    }
+
+    public String getEventID() {
+        return eventID;
+    }
+
+    public void setEventID(String eventID) {
+        this.eventID = eventID;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }

@@ -9,28 +9,24 @@
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="176dp"
-        android:layout_marginBottom="141dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="140dp"
         android:text="SAVE"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comment_label"
+        app:layout_constraintEnd_toStartOf="@+id/delete_button"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/delete_button"
         android:layout_width="92dp"
         android:layout_height="48dp"
-        android:layout_marginStart="70dp"
         android:layout_marginEnd="85dp"
         android:layout_marginBottom="141dp"
         android:text="DELETE"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/save_button"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -53,10 +49,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginTop="119dp"
-        android:layout_marginEnd="55dp"
         android:text="Comment:"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/habit_comment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_label"
         tools:ignore="MissingConstraints" />
@@ -65,14 +59,12 @@
         android:id="@+id/habit_name"
         android:layout_width="189dp"
         android:layout_height="48dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="39dp"
-        android:layout_marginBottom="95dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="84dp"
         android:text="Name"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/habit_comment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
         tools:ignore="MissingConstraints" />
 
     <EditText

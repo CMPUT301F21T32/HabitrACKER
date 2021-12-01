@@ -73,7 +73,9 @@ public class ViewHabitActivity extends AppCompatActivity {
     Button profile;
 
     ArrayList<Habit> eventList = new ArrayList<>();
-    ArrayAdapter<Habit> eventAdapter;
+    ArrayAdapter<HabitEvent> eventAdapter;
+    ArrayList<HabitEvent> finalHabitEvent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +122,17 @@ public class ViewHabitActivity extends AppCompatActivity {
 
         description.setText(habit.getDescription());
 
+        finalHabitEvent = new ArrayList<>();
+
+
+
+
+        // Create adapter
+        eventAdapter= new PastEventList(this, finalHabitEvent);
+
+        // Set adapter
+        mainList.setAdapter(eventAdapter);
+
 
         List<Boolean> temp = habit.getSelectedDays();
         Log.d("LOGGING", temp.toString());
@@ -133,7 +146,8 @@ public class ViewHabitActivity extends AppCompatActivity {
         sunday.setChecked(temp.get(6));
 
 
-        seeEvents(habit, mainList);
+
+        populateList();
         /**
          ViewEventList seeList= new ViewEventList();
          seeList.makeList(habit, mainList);
@@ -228,53 +242,41 @@ public class ViewHabitActivity extends AppCompatActivity {
      * @param habit
      * @param mainList
      */
-    private void seeEvents(Habit habit, ListView mainList) {
-        final String HabitID;
-        final String[] eventID = new String[1];
-
-        ArrayList<HabitEvent> habitEvent= new ArrayList<>();
-        ArrayAdapter<HabitEvent> eventAdapter;
-
-        // Create adapter
-        eventAdapter= new PastEventList(this, habitEvent);
-
-        // Connect to HabitEvent object array
-        //habitEvent= new ArrayList<HabitEvent>();
-
-        // Set adapter
-        mainList.setAdapter(eventAdapter);
-
-        // Connect to Firestore database
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Intent intent = getIntent();
-        HabitID = intent.getStringExtra("habitID");     // get habitID
-
-        Log.d("TAG", "Not in ViewEventList");
-        // Get event list from Firestore
-        ArrayList<HabitEvent> finalHabitEvent = habitEvent;
-        db.collection("HabitEvents")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        finalHabitEvent.clear();
-                        eventAdapter.notifyDataSetChanged();
-                        for(QueryDocumentSnapshot doc : task.getResult()) {
-                            Log.d("TAG", "Compare HabitID");
-                            if (doc.getData().containsValue(HabitID) ) {
-                                // Get HabitEvent values
-                                eventID[0] = Objects.requireNonNull(doc.getData().get("habitID")).toString();
-                            }
-
-                            // Create new HabitEvent object and add it to the HabitEvent array
-                            HabitEvent newEvent= new HabitEvent(eventID[0]);
-                            finalHabitEvent.add(newEvent);
-                            eventAdapter.notifyDataSetChanged();
-                            Log.d("List check", "check");
-                        }
-                    }
-                });
-
-    }
+//    private void seeEvents(Habit habit, ListView mainList) {
+//        final String HabitID;
+//        final String[] eventID = new String[1];
+//
+//
+//
+//        // Connect to Firestore database
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        Intent intent = getIntent();
+//        HabitID = intent.getStringExtra("habitID");     // get habitID
+//
+////        db.collection("HabitEvents")
+////                .get()
+////                .addOnCompleteListener(task -> {
+////                    if(task.isSuccessful()){
+////                        finalHabitEvent.clear();
+////                        eventAdapter.notifyDataSetChanged();
+////                        for(QueryDocumentSnapshot doc : task.getResult()) {
+////                            Log.d("TAG", "Compare HabitID");
+////                            if (doc.get("habitID").equals(HabitID) ) {
+////                                // Get HabitEvent values
+////                                eventID[0] = Objects.requireNonNull(doc.getId()).toString();
+////                            }
+////
+////                            // Create new HabitEvent object and add it to the HabitEvent array
+////                            HabitEvent newEvent= new HabitEvent(eventID[0]);
+////                            finalHabitEvent.add(newEvent);
+////                            eventAdapter.notifyDataSetChanged();
+////                            Log.d("List check", "check");
+////                        }
+////                    }
+////                });
+//
+//
+//    }
 
 
 
@@ -336,6 +338,60 @@ public class ViewHabitActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FeedActivity.class);
         startActivity(intent);;
         finish();
+    }
+
+
+    /**
+     * This function takes a Profile, and adds it
+     * to the list, updating the adapter.
+     * Unfortunately I could not just add the item in
+     * populateList() because it wont work.
+     * REUSED FROM SELF PROFILE
+     * @param user
+     */
+    public void addRequestToList(HabitEvent user) {
+        finalHabitEvent.add(user);
+
+
+
+        // update list
+        eventAdapter.notifyDataSetChanged();
+    }
+
+
+    /**
+     * This function looks inside the database,
+     * and gets the data related to users that match
+     * the current search and then
+     * stores those values into a Profile object
+     * which then adds to the searchList
+     * REUSED FROM SELF PROFILE
+     */
+    public void populateList() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Follow Requests")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        finalHabitEvent.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if(document.get("habitID") != null && document.get("habitID").toString().equals(habit.getHabitID())) {
+
+
+
+                                HabitEvent e = new HabitEvent(document.get("comment").toString()) ;
+
+
+                                addRequestToList(e);
+
+                            }
+                        }
+                    } else {
+                        Log.d("ERROR:", "Error getting documents: ", task.getException());
+                    }
+                });
+
+
     }
 
 }

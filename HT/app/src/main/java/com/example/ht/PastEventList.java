@@ -18,7 +18,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -27,6 +29,7 @@ import com.google.firebase.firestore.Source;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Allows the event list to be displayed in the view
@@ -40,6 +43,9 @@ public class PastEventList extends ArrayAdapter<HabitEvent>{
     private Context context;
     private int content;
     private Object DocumentSnapshot;
+    String getName;
+
+    String getComment;
 
     public PastEventList(@NonNull Context context, ArrayList eventList) {
         super(context, 0, eventList);
@@ -61,15 +67,22 @@ public class PastEventList extends ArrayAdapter<HabitEvent>{
         TextView eventUser= view.findViewById(R.id.username);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String getName= db.collection("HabitEvents")
-                .document(event.habitID)
-                .get(Source.valueOf("name"))
-                .toString();
 
-        String getComment= db.collection("HabitEvents")
-                .document(event.habitID)
-                .get(Source.valueOf("comment"))
-                .toString();
+
+        DocumentReference ref = db.collection("HabitEvents").document(event.getEventID());
+        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+                        getName = document.get("name").toString();
+                        getComment = document.get("comment").toString();
+                    }
+                }
+            }
+        });
+
 
         eventTitle.setText(getName);
         eventDescription.setText(getComment);
