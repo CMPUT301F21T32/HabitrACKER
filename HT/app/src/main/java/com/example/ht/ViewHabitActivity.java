@@ -239,7 +239,7 @@ public class ViewHabitActivity extends AppCompatActivity {
         eventAdapter= new PastEventList(this, habitEvent);
 
         // Connect to HabitEvent object array
-        habitEvent= new ArrayList<HabitEvent>();
+        //habitEvent= new ArrayList<HabitEvent>();
 
         // Set adapter
         mainList.setAdapter(eventAdapter);

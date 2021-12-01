@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
@@ -38,6 +39,7 @@ public class PastEventList extends ArrayAdapter<HabitEvent>{
     private ArrayList<HabitEvent> eventList;
     private Context context;
     private int content;
+    private Object DocumentSnapshot;
 
     public PastEventList(@NonNull Context context, ArrayList eventList) {
         super(context, 0, eventList);
@@ -60,10 +62,12 @@ public class PastEventList extends ArrayAdapter<HabitEvent>{
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String getName= db.collection("HabitEvents")
+                .document(event.habitID)
                 .get(Source.valueOf("name"))
                 .toString();
 
         String getComment= db.collection("HabitEvents")
+                .document(event.habitID)
                 .get(Source.valueOf("comment"))
                 .toString();
 

@@ -162,8 +162,7 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        Intent intent = getIntent();
-        habitID = intent.getStringExtra("HABITID");
+
 
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,8 +188,9 @@ public class AddEventActivity extends AppCompatActivity implements LocationListe
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-
-            StorageReference filepath = mStorageRef.child("Photos").child("somename");
+            Intent intent = getIntent();
+            habitID = intent.getStringExtra("HABITID");
+            StorageReference filepath = mStorageRef.child("Photos").child("habitID");
 
             UploadTask uploadTask = filepath.putBytes(dataBAOS);
             uploadTask.addOnFailureListener(new OnFailureListener() {
