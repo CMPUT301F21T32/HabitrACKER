@@ -19,33 +19,9 @@ public class HabitEvent {
     String username;
 
 
-    public HabitEvent(String habitID, String name, String description) {
-        this.habitID= habitID;
-        this.name= name;
-        this.description= description;
+    public HabitEvent(String habitID) {
     }
 
-    public String getHabitID() { return habitID; }
-
-    public void setHabitID(String habitID) {
-        this.habitID = habitID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public void fetchEventDetails(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
