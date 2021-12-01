@@ -445,7 +445,10 @@ public class SelfProfile extends AppCompatActivity {
         populateList();
     }
 
-    //starts the profile activity
+    /**
+     * starts the profile activity
+     * @param un the username of the main user
+     */
     private void goToHome(String un){
         Intent intent = new Intent(this, FeedActivity.class);
 
@@ -453,7 +456,10 @@ public class SelfProfile extends AppCompatActivity {
         finish();
     }
 
-    //starts the profile activity
+    /**
+     * starts the Search activity
+     * @param un the username of the main user
+     */
     private void goToSearch(String un){
         Intent intent = new Intent(this, Search.class);
         startActivity(intent);
@@ -461,7 +467,11 @@ public class SelfProfile extends AppCompatActivity {
 
     }
 
-    // starts ViewHabit activity for habit
+    /**
+     * starts the profile activity
+     * @param un the username of the main user
+     * @param habit the name of the habit to view
+     */
     private void viewHabit(Habit habit, String un){
         Intent intent = new Intent(this, ViewHabitActivity.class);
         intent.putExtra("habit", habit);
@@ -470,14 +480,18 @@ public class SelfProfile extends AppCompatActivity {
         finish();
     }
 
-    // starts ViewHabit activity for habit
+    /**
+     * opens page to view follow requests
+     */
     private void viewRequests(){
         Intent intent = new Intent(this, FollowRequestActivity.class);
         startActivity(intent);
         finish();
     }
 
-    // starts view follow activity for following
+    /**
+     * view list of following
+     */
     private void viewFollowing(){
         Intent intent = new Intent(this, ViewFollowActivity.class);
         intent.putExtra("MODE", "following");
@@ -486,7 +500,9 @@ public class SelfProfile extends AppCompatActivity {
     }
 
 
-    // starts view follow activity for followers
+    /**
+     * View list of followers
+     */
     private void viewFollowers(){
         Intent intent = new Intent(this, ViewFollowActivity.class);
         intent.putExtra("MODE", "followers");

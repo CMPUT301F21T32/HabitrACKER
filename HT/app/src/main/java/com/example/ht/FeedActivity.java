@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -29,6 +30,8 @@ public class FeedActivity extends AppCompatActivity {
 
     Button profileButton;
     Button searchButton;
+
+
 
     TextView usernameLabel;
     TextView nameLabel;
@@ -72,6 +75,13 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 goToSearch(username);
+            }
+        });
+
+        mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                viewHabit(habitList.get(i));
             }
         });
 
@@ -155,5 +165,18 @@ public class FeedActivity extends AppCompatActivity {
         Log.d("LIST CHECK", habitList.get(0).getName());
 
 
+    }
+
+
+    /**
+     * starts the profile activity
+     * @param habit the name of the habit to view
+     */
+    private void viewHabit(Habit habit){
+        Intent intent = new Intent(this, ViewHabitActivity.class);
+        intent.putExtra("habit", habit);
+
+        startActivity(intent);
+        finish();
     }
 }
