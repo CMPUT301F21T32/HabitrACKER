@@ -1,42 +1,4 @@
 /**
- * ViewHabitActivity
- * @author cole
- *
- * creates a screen that allows you to view the details of a habit
- *
- * This activity should be passed as habitID from the previous activity
- */
-
-package com.example.ht;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.ToggleButton;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-/**
  * this creates the page that allows you to view the details of a habit
  *
  * @aurhor cole
@@ -130,7 +92,25 @@ public class ViewHabitActivity extends AppCompatActivity {
         saturday.setChecked(temp.get(5));
         sunday.setChecked(temp.get(6));
 
-        //viewList(habit);
+
+        seeEvents(habit, mainList);
+        /**
+         ViewEventList seeList= new ViewEventList();
+         seeList.makeList(habit, mainList);
+         mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        seeList.goToEditDelete();
+        }
+        });
+         **/
+
+        mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                goToEditDelete();
+            }
+        });
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,6 +170,69 @@ public class ViewHabitActivity extends AppCompatActivity {
                 goToSearch(username);
             }
         });
+
+    }
+
+    private void goToEditDelete() {
+        Intent intent= new Intent(this, EditDeleteEvent.class);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     *  This function allows the user to see a list of related habit events
+     *  That is, events with the same habitID as said habit
+     *
+     * @author Jacqueline
+     *
+     * @param habit
+     * @param mainList
+     */
+    private void seeEvents(Habit habit, ListView mainList) {
+        final String HabitID;
+        final String[] eventID = new String[1];
+
+        ArrayList<HabitEvent> habitEvent= new ArrayList<>();
+        ArrayAdapter<HabitEvent> eventAdapter;
+
+        // Create adapter
+        eventAdapter= new PastEventList(this, habitEvent);
+
+        // Connect to HabitEvent object array
+        habitEvent= new ArrayList<HabitEvent>();
+
+        // Set adapter
+        mainList.setAdapter(eventAdapter);
+
+        // Connect to Firestore database
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Intent intent = getIntent();
+        HabitID = intent.getStringExtra("habitID");     // get habitID
+
+        Log.d("TAG", "Not in ViewEventList");
+        // Get event list from Firestore
+        ArrayList<HabitEvent> finalHabitEvent = habitEvent;
+        db.collection("HabitEvents")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        finalHabitEvent.clear();
+                        eventAdapter.notifyDataSetChanged();
+                        for(QueryDocumentSnapshot doc : task.getResult()) {
+                            Log.d("TAG", "Compare HabitID");
+                            if (doc.getData().containsValue(HabitID) ) {
+                                // Get HabitEvent values
+                                eventID[0] = Objects.requireNonNull(doc.getData().get("habitID")).toString();
+                            }
+
+                            // Create new HabitEvent object and add it to the HabitEvent array
+                            HabitEvent newEvent= new HabitEvent(eventID[0]);
+                            finalHabitEvent.add(newEvent);
+                            eventAdapter.notifyDataSetChanged();
+                            Log.d("List check", "check");
+                        }
+                    }
+                });
 
     }
 
