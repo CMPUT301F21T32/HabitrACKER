@@ -122,23 +122,28 @@
         </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Today's Habits:"
+            android:background="@color/green"
             android:paddingTop="10dp"
-            android:textStyle="bold"/>
+            android:text="   Today's Habits:"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
         <ListView
             android:id="@+id/todays_habits"
             android:layout_width="match_parent"
             android:layout_height="404dp"
             android:layout_weight="1"
             tools:listitem="@layout/cell_content" />
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Habits Later this Week:"
+            android:background="@color/green"
             android:paddingTop="10dp"
-            android:textStyle="bold"/>
+            android:text="    Habits Later this Week:"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
         <ListView
             android:id="@+id/other_habits"
             android:layout_width="match_parent"
